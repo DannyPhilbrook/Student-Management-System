@@ -64,6 +64,34 @@ namespace Testing_Project
                 }
             }
             // If 'No', simply do nothing (stay on the page)
+
+        }
+
+        private void stdFNametb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow control characters (like backspace), letters, and whitespace
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true; // Ignore the input
+            }
+        }
+
+        private void stdLNametb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow control characters (like backspace), letters, and whitespace
+            if (!char.IsControl(e.KeyChar) && !char.IsLetter(e.KeyChar) && !char.IsWhiteSpace(e.KeyChar))
+            {
+                e.Handled = true; // Ignore the input
+            }
+        }
+
+        private void stdIdtb_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Allow control characters (like backspace), letters, and whitespace
+            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
+            {
+                e.Handled = true; // Ignore the input
+            }
         }
     }
 }

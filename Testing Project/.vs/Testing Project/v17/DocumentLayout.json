@@ -11,16 +11,16 @@
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|c:\\users\\oddtr\\onedrive\\documents\\github\\student-management-system\\testing project\\newstudent.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newstudent.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|c:\\users\\oddtr\\onedrive\\documents\\github\\student-management-system\\testing project\\mainpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:mainpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|c:\\users\\oddtr\\onedrive\\documents\\github\\student-management-system\\testing project\\newstudent.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newstudent.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\mainpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
@@ -44,27 +44,27 @@
               "RelativeDocumentMoniker": "NewStudent.cs",
               "ToolTip": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\NewStudent.cs",
               "RelativeToolTip": "NewStudent.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAA8wDQAAAAqAAAAAAAAAA==",
+              "ViewState": "AgIAAEEAAAAAAAAAAAAkwFUAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-15T19:22:17.335Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "NewStudent.Designer.cs",
               "DocumentMoniker": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\NewStudent.Designer.cs",
               "RelativeDocumentMoniker": "NewStudent.Designer.cs",
               "ToolTip": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\NewStudent.Designer.cs",
               "RelativeToolTip": "NewStudent.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-15T19:04:10.916Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "MainPage.Designer.cs",
               "DocumentMoniker": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\MainPage.Designer.cs",
               "RelativeDocumentMoniker": "MainPage.Designer.cs",
@@ -77,7 +77,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "SearchStudent.cs [Design]",
               "DocumentMoniker": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\SearchStudent.cs",
               "RelativeDocumentMoniker": "SearchStudent.cs",
