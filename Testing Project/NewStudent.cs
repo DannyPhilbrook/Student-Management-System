@@ -20,11 +20,50 @@ namespace Testing_Project
 
         private void button1_Click(object sender, EventArgs e)
         {
-            var mainMenu = this.FindForm() as MainMenu;
-            if (mainMenu != null)
+            // Display a confirmation dialog
+            DialogResult result = MessageBox.Show(
+                "Are you sure you wish to create this Student?",
+                "Confirmation",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
+
+            // If the user clicks 'Yes', proceed
+            if (result == DialogResult.Yes)
             {
-                mainMenu.LoadPage(new MainPage());
+                // SQL WILL GO HERE TO ADD STUDENT TO DATABASE LATER.
+
+                // After adding the student, navigate back to the MainPage
+                var mainMenu = this.FindForm() as MainMenu;
+                if (mainMenu != null)
+                {
+                    mainMenu.LoadPage(new MainPage());
+                }
             }
+            // If 'No', simply do nothing (stay on the page)
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            // Display a confirmation dialog
+            DialogResult result = MessageBox.Show(
+                "Are you sure you wish to cancel creation?",
+                "Warning",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Exclamation
+            );
+
+            // If the user clicks 'Yes', proceed
+            if (result == DialogResult.Yes)
+            {
+                // Quit out of the NewStudent page and return to MainPage
+                var mainMenu = this.FindForm() as MainMenu;
+                if (mainMenu != null)
+                {
+                    mainMenu.LoadPage(new MainPage());
+                }
+            }
+            // If 'No', simply do nothing (stay on the page)
         }
     }
 }
