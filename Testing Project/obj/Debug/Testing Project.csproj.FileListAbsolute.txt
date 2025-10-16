@@ -28,3 +28,18 @@ C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Proje
 C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.CoreCompileInputs.cache
 C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing Project.exe
 C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing Project.pdb
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\bin\Debug\Testing Project.exe.config
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\bin\Debug\Testing Project.exe
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\bin\Debug\Testing Project.pdb
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.AssemblyReference.cache
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.ResolveComReference.cache
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.MainMenu.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.MainPage.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.Properties.Resources.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.NewStudent.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SearchStudent.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.GenerateResource.cache
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.CoreCompileInputs.cache
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.exe
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.pdb
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SearchClasses.resources
