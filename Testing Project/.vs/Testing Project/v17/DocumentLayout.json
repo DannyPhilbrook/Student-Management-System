@@ -3,48 +3,52 @@
   "WorkspaceRootPath": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|c:\\users\\oddtr\\cardgame\\student-management-system\\testing project\\searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\newstudent.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newstudent.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|c:\\users\\oddtr\\cardgame\\student-management-system\\testing project\\newclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\newstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|c:\\users\\oddtr\\cardgame\\student-management-system\\testing project\\searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\newstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\mainpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:mainpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\mainpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:mainpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:mainmenu.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\mainpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:mainpage.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\mainpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:mainpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\newstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\newstudent.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newstudent.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -67,12 +71,24 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "NewClass.cs [Design]",
+              "DocumentMoniker": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\NewClass.cs",
+              "RelativeDocumentMoniker": "NewClass.cs",
+              "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\NewClass.cs [Design]",
+              "RelativeToolTip": "NewClass.cs [Design]",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-20T16:55:26.433Z",
+              "EditorCaption": " [Design]"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "SearchClasses.cs",
               "DocumentMoniker": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\SearchClasses.cs",
               "RelativeDocumentMoniker": "SearchClasses.cs",
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\SearchClasses.cs",
               "RelativeToolTip": "SearchClasses.cs",
-              "ViewState": "AgIAAAQAAAAAAAAAAADgvxkAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAArwCIAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-16T17:33:25.661Z",
               "EditorCaption": ""
@@ -86,7 +102,8 @@
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\SearchClasses.cs [Design]",
               "RelativeToolTip": "SearchClasses.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T17:32:04.976Z"
+              "WhenOpened": "2025-10-16T17:32:04.976Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
@@ -97,100 +114,109 @@
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\MainMenu.cs [Design]",
               "RelativeToolTip": "MainMenu.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T17:29:27.449Z"
+              "WhenOpened": "2025-10-16T17:29:27.449Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 5,
               "Title": "MainPage.cs",
               "DocumentMoniker": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\MainPage.cs",
               "RelativeDocumentMoniker": "MainPage.cs",
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\MainPage.cs",
               "RelativeToolTip": "MainPage.cs",
-              "ViewState": "AQIAABcAAAAAAAAAAAArwCoAAAAtAAAA",
+              "ViewState": "AgIAABcAAAAAAAAAAAArwCoAAAAtAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T17:20:10.701Z"
+              "WhenOpened": "2025-10-16T17:20:10.701Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 10,
               "Title": "SearchStudent.cs",
               "DocumentMoniker": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\SearchStudent.cs",
               "RelativeDocumentMoniker": "SearchStudent.cs",
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\SearchStudent.cs",
               "RelativeToolTip": "SearchStudent.cs",
-              "ViewState": "AQIAAAwAAAAAAAAAAAA1wB4AAAAMAAAA",
+              "ViewState": "AgIAAAwAAAAAAAAAAAA1wB4AAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-16T17:15:57.826Z"
+              "WhenOpened": "2025-10-16T17:15:57.826Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 11,
               "Title": "NewStudent.Designer.cs",
               "DocumentMoniker": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\NewStudent.Designer.cs",
               "RelativeDocumentMoniker": "NewStudent.Designer.cs",
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\NewStudent.Designer.cs",
               "RelativeToolTip": "NewStudent.Designer.cs",
-              "ViewState": "AQIAAAQAAAAAAAAAAAAwwLsAAAA3AAAA",
+              "ViewState": "AgIAAAQAAAAAAAAAAAAwwLsAAAA3AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T19:04:10.916Z"
+              "WhenOpened": "2025-10-15T19:04:10.916Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 8,
               "Title": "MainPage.Designer.cs",
               "DocumentMoniker": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\MainPage.Designer.cs",
               "RelativeDocumentMoniker": "MainPage.Designer.cs",
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\MainPage.Designer.cs",
               "RelativeToolTip": "MainPage.Designer.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T19:04:01.774Z"
+              "WhenOpened": "2025-10-15T19:04:01.774Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "SearchStudent.cs [Design]",
               "DocumentMoniker": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\SearchStudent.cs",
               "RelativeDocumentMoniker": "SearchStudent.cs",
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\SearchStudent.cs [Design]",
               "RelativeToolTip": "SearchStudent.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-13T18:12:22.591Z"
+              "WhenOpened": "2025-10-13T18:12:22.591Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 9,
               "Title": "NewStudent.cs",
               "DocumentMoniker": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\NewStudent.cs",
               "RelativeDocumentMoniker": "NewStudent.cs",
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\NewStudent.cs",
               "RelativeToolTip": "NewStudent.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAABwAAAAOAAAA",
+              "ViewState": "AgIAAAMAAAAAAAAAAAAAABwAAAAOAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-15T19:22:17.335Z"
+              "WhenOpened": "2025-10-15T19:22:17.335Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "NewStudent.cs [Design]",
               "DocumentMoniker": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\NewStudent.cs",
               "RelativeDocumentMoniker": "NewStudent.cs",
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\NewStudent.cs [Design]",
               "RelativeToolTip": "NewStudent.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T20:02:10.694Z"
+              "WhenOpened": "2025-10-06T20:02:10.694Z",
+              "EditorCaption": " [Design]"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 7,
               "Title": "MainPage.cs [Design]",
               "DocumentMoniker": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\MainPage.cs",
               "RelativeDocumentMoniker": "MainPage.cs",
               "ToolTip": "C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\MainPage.cs [Design]",
               "RelativeToolTip": "MainPage.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T20:07:40.87Z"
+              "WhenOpened": "2025-10-06T20:07:40.87Z",
+              "EditorCaption": " [Design]"
             }
           ]
         }

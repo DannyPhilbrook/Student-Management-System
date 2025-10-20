@@ -25,5 +25,14 @@ namespace Testing_Project
                 mainMenu.LoadPage(new MainPage());
             }
         }
+
+        private void btnMkClass_Click(object sender, EventArgs e)
+        {
+            MainMenu mainMenu = this.FindForm() as MainMenu;
+            if (mainMenu != null)
+            {
+                mainMenu.LoadPage(new NewClass());
+            }
+        }
     }
 }
