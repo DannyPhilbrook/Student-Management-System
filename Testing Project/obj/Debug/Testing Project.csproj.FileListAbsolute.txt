@@ -43,3 +43,4 @@ C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Test
 C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.exe
 C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.pdb
 C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SearchClasses.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.exe.config
