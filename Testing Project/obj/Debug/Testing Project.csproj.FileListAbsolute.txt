@@ -28,3 +28,54 @@ C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Proje
 C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.CoreCompileInputs.cache
 C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing Project.exe
 C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing Project.pdb
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\bin\Debug\Testing Project.exe.config
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\bin\Debug\Testing Project.exe
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\bin\Debug\Testing Project.pdb
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.AssemblyReference.cache
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.ResolveComReference.cache
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.MainMenu.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.MainPage.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.Properties.Resources.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.NewStudent.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SearchStudent.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.GenerateResource.cache
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.CoreCompileInputs.cache
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.exe
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.pdb
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SearchClasses.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.exe.config
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.NewClass.resources
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\Testing Project.exe.config
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\Testing Project.exe
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\Testing Project.pdb
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.AssemblyReference.cache
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing Project.exe.config
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.ResolveComReference.cache
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing_Project.MainMenu.resources
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing_Project.MainPage.resources
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing_Project.NewClass.resources
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing_Project.Properties.Resources.resources
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing_Project.NewStudent.resources
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SearchClasses.resources
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SearchStudent.resources
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.GenerateResource.cache
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing Project.csproj.CoreCompileInputs.cache
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing Project.exe
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing Project.pdb
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\EPPlus.dll
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\EPPlus.Interfaces.dll
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\Microsoft.IO.RecyclableMemoryStream.dll
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Buffers.dll
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.ComponentModel.Annotations.dll
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Memory.dll
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Numerics.Vectors.dll
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Runtime.CompilerServices.Unsafe.dll
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Security.Cryptography.Xml.dll
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\EPPlus.xml
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\Microsoft.IO.RecyclableMemoryStream.xml
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Buffers.xml
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Memory.xml
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Numerics.Vectors.xml
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Runtime.CompilerServices.Unsafe.xml
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Security.Cryptography.Xml.xml
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing .38839BFA.Up2Date
