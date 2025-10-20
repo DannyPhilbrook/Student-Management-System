@@ -87,7 +87,7 @@ namespace Testing_Project
 
         private void stdIdtb_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Allow control characters (like backspace), letters, and whitespace
+            // Allow control characters (like backspace) and numbers
             if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
             {
                 e.Handled = true; // Ignore the input
