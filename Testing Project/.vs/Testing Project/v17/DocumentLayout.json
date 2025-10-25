@@ -15,12 +15,28 @@
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\newstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+=======
+=======
+>>>>>>> Stashed changes
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\newstudent.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newstudent.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\mainpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:mainpage.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+>>>>>>> Stashed changes
     },
     {
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\CardGame\\Student-Management-System\\Testing Project\\searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -54,6 +70,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
           "SelectedChildIndex": 2,
           "Children": [
             {
@@ -62,6 +80,18 @@
             },
             {
               "$type": "Bookmark",
+=======
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+>>>>>>> Stashed changes
+=======
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+>>>>>>> Stashed changes
               "Name": "ST:0:0:{cce594b6-0c39-4442-ba28-10c64ac7e89f}"
             },
             {
