@@ -1,15 +1,16 @@
-﻿using OfficeOpenXml;
+﻿using System.Data.SQLite;
 using System;
 using System.ComponentModel;
 using System.Data;
 using System.IO;
 using System.Windows.Forms;
-using LicenseContext = OfficeOpenXml.LicenseContext;
+using System.Collections.Generic;
 
 namespace Testing_Project
 {
     public partial class SearchClasses : UserControl
     {
+        private string dbPath = "Data Source=Database/stdmngsys.db;Version=3;";
         public SearchClasses()
         {
             InitializeComponent();
@@ -64,37 +65,93 @@ namespace Testing_Project
         {
             try
             {
-                // Set the ExcelPackage.LicenseContext for EPPlus
-                ExcelPackage.LicenseContext = LicenseContext.NonCommercial; // or Commercial if applicable
-
-                using (var package = new ExcelPackage(new FileInfo("packages/DegreePlan.xlsx")))
+                using (SQLiteConnection conn = new SQLiteConnection(dbPath))
                 {
-                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // Get the first worksheet
+                    conn.Open();
 
-                    DataTable dt = new DataTable();
+                    // Base query
+                    string query = "SELECT ClassID, CourseNumber, ClassName, Label, " +
+                                   "CASE WHEN Semester = 1 THEN 'Spring' ELSE 'Fall' END AS Semester " +
+                                   "FROM Classes WHERE 1=1";
 
-                    // Add columns to the DataTable based on Excel headers
-                    for (int col = 1; col <= worksheet.Dimension.End.Column; col++)
+
+
+                    // Build filters dynamically
+                    List<SQLiteParameter> parameters = new List<SQLiteParameter>();
+
+                    if (!string.IsNullOrWhiteSpace(NameTextBox.Text))
                     {
-                        dt.Columns.Add(worksheet.Cells[1, col].Text);
+                        query += " AND LOWER(ClassName) LIKE @name";
+                        parameters.Add(new SQLiteParameter("@name", "%" + NameTextBox.Text.Trim().ToLower() + "%"));
                     }
 
-                    // Populate the DataTable with data from Excel
-                    for (int row = 2; row <= worksheet.Dimension.End.Row; row++) // Start from row 2 to skip headers
+                    if (!string.IsNullOrWhiteSpace(LabelTextBox.Text))
                     {
-                        DataRow newRow = dt.Rows.Add();
-                        for (int col = 1; col <= worksheet.Dimension.End.Column; col++)
+                        query += " AND LOWER(Label) LIKE @label";
+                        parameters.Add(new SQLiteParameter("@label", "%" + LabelTextBox.Text.Trim().ToLower() + "%"));
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(NumberTextBox.Text))
+                    {
+                        query += " AND CourseNumber LIKE @number";
+                        parameters.Add(new SQLiteParameter("@number", "%" + NumberTextBox.Text.Trim() + "%"));
+                    }
+
+                    using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                    {
+                        cmd.Parameters.AddRange(parameters.ToArray());
+
+                        SQLiteDataAdapter adapter = new SQLiteDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        dataGridView1.DataSource = dt;
+                        // Hide the ClassID column but keep it accessible in code
+                        if (dataGridView1.Columns.Contains("ClassID"))
                         {
-                            newRow[col - 1] = worksheet.Cells[row, col].Text;
+                            dataGridView1.Columns["ClassID"].Visible = false;
                         }
+
                     }
 
-                    dataGridView1.DataSource = dt; // Set the DataTable as the DataGridView's data source
+                    conn.Close();
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error loading Excel data: " + ex.Message);
+                MessageBox.Show("Error searching classes: " + ex.Message, "Database Error",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void dataGridView1_CellMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // Ensure user clicked a valid row (not header)
+            if (e.RowIndex >= 0)
+            {
+                DialogResult result = MessageBox.Show(
+                    "Are you sure you wish to edit this class?",
+                    "Confirm Edit",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (result == DialogResult.Yes)
+                {
+                    // Get selected row
+                    DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+                    // Navigate to EditClass
+                    var mainMenu = this.FindForm() as MainMenu;
+                    if (mainMenu != null)
+                    {
+                        mainMenu.LoadPage(new EditClass(Convert.ToInt32(row.Cells["ClassID"].Value),
+                        row.Cells["CourseNumber"].Value.ToString(),
+                        row.Cells["ClassName"].Value.ToString(),
+                        row.Cells["Label"].Value.ToString(),
+                        row.Cells["Semester"].Value.ToString()));
+                    }
+                }
             }
         }
     }

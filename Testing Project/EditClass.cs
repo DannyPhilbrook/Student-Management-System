@@ -2,25 +2,39 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SQLite;
 
 namespace Testing_Project
 {
-    public partial class NewClass : UserControl
+    public partial class EditClass : UserControl
     {
+        private int classId;
         private string dbPath = "Data Source=Database/stdmngsys.db;Version=3;";
-
-        public NewClass()
+        public EditClass(int id, string courseNumber, string className, string label, string semester)
         {
             InitializeComponent();
             LoadCourseLabels();
-        }
 
+            classId = id;
+            tbCourseNum.Text = courseNumber;
+            tbClassName.Text = className;
+
+            // Load Label combo
+            if (!cmbCourseLabel.Items.Contains(label))
+                cmbCourseLabel.Items.Add(label);
+            cmbCourseLabel.SelectedItem = label;
+
+            // Semester conversion
+            if (semester.Equals("Spring", StringComparison.OrdinalIgnoreCase))
+                cmbSemester.SelectedIndex = 1;
+            else
+                cmbSemester.SelectedIndex = 0;
+        }
         private void LoadCourseLabels()
         {
             try
@@ -49,25 +63,16 @@ namespace Testing_Project
                 MessageBox.Show($"Error loading course labels: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
-
-        private void tbCourseNum_KeyPress(object sender, KeyPressEventArgs e)
-        {
-            if (!char.IsControl(e.KeyChar) && !char.IsDigit(e.KeyChar))
-            {
-                e.Handled = true; // Ignore the input
-            }
-        }
-
         private void btnSubmit_Click(object sender, EventArgs e)
         {
             // Display a confirmation dialog
             DialogResult result = MessageBox.Show(
-                "Are you sure you wish to create this Course?",
+                "Are you sure you wish to update this Course?",
                 "Confirmation",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question
             );
-            
+
 
             // If the user clicks 'Yes', proceed
             if (result == DialogResult.Yes)
@@ -82,41 +87,38 @@ namespace Testing_Project
                     return;
                 }
 
-                // SQL WILL GO HERE TO ADD STUDENT TO DATABASE LATER.
+                // SQL WILL GO HERE TO UPDATE CLASS
                 try
                 {
-                    // SQLite connection string
                     using (SQLiteConnection conn = new SQLiteConnection(dbPath))
                     {
                         conn.Open();
+                        string query = @"UPDATE Classes 
+                             SET CourseNumber = @CourseNumber, 
+                                 ClassName = @ClassName, 
+                                 Label = @Label, 
+                                 Semester = @Semester 
+                             WHERE ClassID = @ClassID";
 
-                        string insertQuery = @"INSERT INTO Classes (CourseNumber, ClassName, Label, Semester)
-                                   VALUES (@CourseNumber, @ClassName, @Label, @Semester)";
-
-                        using (SQLiteCommand cmd = new SQLiteCommand(insertQuery, conn))
+                        using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                         {
                             cmd.Parameters.AddWithValue("@CourseNumber", tbCourseNum.Text);
                             cmd.Parameters.AddWithValue("@ClassName", tbClassName.Text);
-                            cmd.Parameters.AddWithValue("@Label", cmbCourseLabel.Text);
-                            // Determine boolean value based on selected index
-                            // 0 = Fall (false), 1 = Spring (true)
+                            cmd.Parameters.AddWithValue("@Label", cmbCourseLabel.SelectedItem.ToString());
                             bool semesterValue = cmbSemester.SelectedIndex == 1;
-
                             cmd.Parameters.AddWithValue("@Semester", semesterValue);
-
+                            cmd.Parameters.AddWithValue("@ClassID", classId);
 
                             cmd.ExecuteNonQuery();
                         }
-
-                        conn.Close();
                     }
 
-                    MessageBox.Show("Course added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    // After adding the class, navigate back to the MainPage
+                    MessageBox.Show("Class updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    
                     var mainMenu = this.FindForm() as MainMenu;
                     if (mainMenu != null)
                     {
-                        mainMenu.LoadPage(new MainPage());
+                        mainMenu.LoadPage(new SearchClasses());
                     }
                 }
                 catch (Exception ex)
@@ -125,6 +127,45 @@ namespace Testing_Project
                 }
             }
             // If 'No', simply do nothing (stay on the page)
+        }
+
+        private void delBtn_Click(object sender, EventArgs e)
+        {
+            DialogResult confirm = MessageBox.Show(
+                "Are you sure you want to delete this class?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm == DialogResult.Yes)
+            {
+                try
+                {
+                    using (SQLiteConnection conn = new SQLiteConnection(dbPath))
+                    {
+                        conn.Open();
+                        string query = "DELETE FROM Classes WHERE ClassID = @ClassID";
+                        using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@ClassID", classId);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show("Class deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting class: {ex.Message}", "Database Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                var mainMenu = this.FindForm() as MainMenu;
+                if (mainMenu != null)
+                {
+                    mainMenu.LoadPage(new SearchClasses());
+                }
+            }
         }
 
         private void btnCancel_Click(object sender, EventArgs e)
