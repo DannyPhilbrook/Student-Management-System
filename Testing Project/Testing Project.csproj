@@ -59,6 +59,18 @@
     <Compile Include="EditClass.Designer.cs">
       <DependentUpon>EditClass.cs</DependentUpon>
     </Compile>
+    <Compile Include="EditDegreePlan.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditDegreePlan.Designer.cs">
+      <DependentUpon>EditDegreePlan.cs</DependentUpon>
+    </Compile>
+    <Compile Include="EditStudent.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="EditStudent.Designer.cs">
+      <DependentUpon>EditStudent.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +111,12 @@
     </Compile>
     <EmbeddedResource Include="EditClass.resx">
       <DependentUpon>EditClass.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditDegreePlan.resx">
+      <DependentUpon>EditDegreePlan.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="EditStudent.resx">
+      <DependentUpon>EditStudent.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
