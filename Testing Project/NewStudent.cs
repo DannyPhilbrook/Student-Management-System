@@ -12,7 +12,7 @@ using System.Windows.Forms.VisualStyles;
 namespace Testing_Project
 {
     public partial class NewStudent : UserControl
-    {
+    { 
         public NewStudent()
         {
             InitializeComponent();

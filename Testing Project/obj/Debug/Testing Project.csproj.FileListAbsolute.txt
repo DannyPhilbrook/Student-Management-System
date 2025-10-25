@@ -45,3 +45,11 @@ C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Test
 C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SearchClasses.resources
 C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing Project.exe.config
 C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.NewClass.resources
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\bin\Debug\x86\sqlite3.dll
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\bin\Debug\x64\sqlite3.dll
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\bin\Debug\System.Data.SQLite.dll
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.NewClass.resources
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SearchClasses.resources
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing .38839BFA.Up2Date
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\bin\Debug\System.Data.SQLite.xml
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.EditClass.resources
