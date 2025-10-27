@@ -137,7 +137,7 @@ namespace Testing_Project
                     // Get selected row
                     DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
 
-                    // Navigate to EditClass
+                    // Navigate to EditStudent
                     var mainMenu = this.FindForm() as MainMenu;
                     if (mainMenu != null)
                     {
