@@ -3,20 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|c:\\users\\brand\\onedrive - stephen f. austin state university\\college\\senior design\\finalproject\\student-management-system\\testing project\\searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\editstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:editstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
     },
     {
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\editstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:editstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|c:\\users\\brand\\onedrive - stephen f. austin state university\\college\\senior design\\finalproject\\student-management-system\\testing project\\editstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:editstudent.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -87,7 +87,7 @@
               "RelativeDocumentMoniker": "SearchStudent.cs",
               "ToolTip": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\SearchStudent.cs",
               "RelativeToolTip": "SearchStudent.cs",
-              "ViewState": "AgIAAIMAAAAAAAAAAAAgwJEAAABBAAAAAAAAAA==",
+              "ViewState": "AgIAAIMAAAAAAAAAAAAgwJEAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-27T15:54:12.181Z",
               "IsPinned": true,
@@ -103,7 +103,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 1,
               "Title": "EditStudent.cs [Design]",
               "DocumentMoniker": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\EditStudent.cs",
               "RelativeDocumentMoniker": "EditStudent.cs",
@@ -121,20 +121,20 @@
               "RelativeDocumentMoniker": "EditStudent.cs",
               "ToolTip": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\EditStudent.cs",
               "RelativeToolTip": "EditStudent.cs",
-              "ViewState": "AgIAAAoAAAAAAAAAAAAowBcAAAAVAAAAAAAAAA==",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAxwBUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-27T17:20:20.14Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
               "Title": "EditClass.cs",
               "DocumentMoniker": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\EditClass.cs",
               "RelativeDocumentMoniker": "EditClass.cs",
               "ToolTip": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\EditClass.cs",
               "RelativeToolTip": "EditClass.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAuwBQAAAAfAAAAAAAAAA==",
+              "ViewState": "AgIAAJsAAAAAAAAAAAAgwKcAAAANAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-27T17:20:07.83Z",
               "EditorCaption": ""

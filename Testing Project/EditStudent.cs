@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
 using System.Reflection.Emit;
@@ -13,15 +14,77 @@ namespace Testing_Project
 {
     public partial class EditStudent : UserControl
     {
-        private int studentID;
+        private int StudentID;
         private string dbPath = "Data Source=Database/stdmngsys.db;Version=3;";
-        public EditStudent(int StudentID, string FirstName, string LastName)
+        public EditStudent(int StudentIDInput, string FirstName, string LastName)
         {
             InitializeComponent();
 
             stdFNametb.Text = FirstName;
             stdLNametb.Text = LastName;
-            studentID = StudentID;
+            stdIdtb. = StudentIDInput;
+        }
+
+        private void cancelBtn_Click(object sender, EventArgs e)
+        {
+            // Display a warning dialog
+            DialogResult result = MessageBox.Show(
+                "Are you sure you wish to cancel creation?",
+                "Warning",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Exclamation
+            );
+
+            // If the user clicks 'Yes', proceed
+            if (result == DialogResult.Yes)
+            {
+                // Quit out of the NewStudent page and return to MainPage
+                var mainMenu = this.FindForm() as MainMenu;
+                if (mainMenu != null)
+                {
+                    mainMenu.LoadPage(new SearchStudent());
+                }
+            }
+            // If 'No', simply do nothing (stay on the page)
+        }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            DialogResult confirm = MessageBox.Show(
+                "Are you sure you want to delete this student?",
+                "Confirm Delete",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Warning);
+
+            if (confirm == DialogResult.Yes)
+            {
+                try
+                {
+                    using (SQLiteConnection conn = new SQLiteConnection(dbPath))
+                    {
+                        conn.Open();
+                        string query = "DELETE FROM Student WHERE StudentID = @StudentID";
+                        using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@StudentID", StudentID);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error deleting student: {ex.Message}", "Database Error",
+                        MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                var mainMenu = this.FindForm() as MainMenu;
+                if (mainMenu != null)
+                {
+                    mainMenu.LoadPage(new SearchStudent());
+                }
+            }
         }
     }
 }
