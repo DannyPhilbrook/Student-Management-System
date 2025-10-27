@@ -1,34 +1,34 @@
 {
   "Version": 1,
-  "WorkspaceRootPath": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\",
+  "WorkspaceRootPath": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|c:\\users\\oddtr\\onedrive\\documents\\github\\student-management-system\\testing project\\editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\newclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\searchclasses.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchclasses.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\searchclasses.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchclasses.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
       "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchclasses.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\searchclasses.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchclasses.designer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\newclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:newclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|c:\\users\\brand\\onedrive - stephen f. austin state university\\college\\senior design\\finalproject\\student-management-system\\testing project\\editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}|Form"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:editclass.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\searchclasses.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}",
+      "RelativeMoniker": "D:0:0:{40EF5EBC-E119-465F-8191-04AC2DEAC8A3}|Testing Project.csproj|solutionrelative:searchclasses.resx||{81828910-B8B3-4D2B-99A3-067027C180C1}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,19 +38,23 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 6,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
             },
             {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "EditClass.cs",
-              "DocumentMoniker": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\EditClass.cs",
+              "DocumentMoniker": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\EditClass.cs",
               "RelativeDocumentMoniker": "EditClass.cs",
-              "ToolTip": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\EditClass.cs",
+              "ToolTip": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\EditClass.cs",
               "RelativeToolTip": "EditClass.cs",
               "ViewState": "AgIAABsAAAAAAAAAAAAmwEUAAAAwAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
@@ -59,11 +63,11 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "EditClass.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\EditClass.cs",
+              "DocumentMoniker": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\EditClass.cs",
               "RelativeDocumentMoniker": "EditClass.cs",
-              "ToolTip": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\EditClass.cs [Design]",
+              "ToolTip": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\EditClass.cs [Design]",
               "RelativeToolTip": "EditClass.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-25T17:11:13.441Z",
@@ -71,61 +75,66 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "NewClass.cs",
-              "DocumentMoniker": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\NewClass.cs",
+              "DocumentMoniker": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\NewClass.cs",
               "RelativeDocumentMoniker": "NewClass.cs",
-              "ToolTip": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\NewClass.cs",
+              "ToolTip": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\NewClass.cs",
               "RelativeToolTip": "NewClass.cs",
               "ViewState": "AgIAAGwAAAAAAAAAAAAAAJcAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T16:58:45.692Z"
+              "WhenOpened": "2025-10-25T16:58:45.692Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 2,
               "Title": "SearchClasses.Designer.cs",
-              "DocumentMoniker": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\SearchClasses.Designer.cs",
+              "DocumentMoniker": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\SearchClasses.Designer.cs",
               "RelativeDocumentMoniker": "SearchClasses.Designer.cs",
-              "ToolTip": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\SearchClasses.Designer.cs",
+              "ToolTip": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\SearchClasses.Designer.cs",
               "RelativeToolTip": "SearchClasses.Designer.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAK8AAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAAAIAAAAAAAAAAAA3wK8AAAAIAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T16:46:31.276Z"
+              "WhenOpened": "2025-10-25T16:46:31.276Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
               "Title": "SearchClasses.cs",
-              "DocumentMoniker": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\SearchClasses.cs",
+              "DocumentMoniker": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\SearchClasses.cs",
               "RelativeDocumentMoniker": "SearchClasses.cs",
-              "ToolTip": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\SearchClasses.cs",
+              "ToolTip": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\SearchClasses.cs",
               "RelativeToolTip": "SearchClasses.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIgAAAASAAAAAAAAAA==",
+              "ViewState": "AgIAAD4AAAAAAAAAAAAswIgAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T16:42:12.572Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "SearchClasses.resx",
-              "DocumentMoniker": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\SearchClasses.resx",
-              "RelativeDocumentMoniker": "SearchClasses.resx",
-              "ToolTip": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\SearchClasses.resx",
-              "RelativeToolTip": "SearchClasses.resx",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
-              "WhenOpened": "2025-10-25T16:42:03.735Z"
+              "WhenOpened": "2025-10-25T16:42:12.572Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
+              "Title": "SearchClasses.resx",
+              "DocumentMoniker": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\SearchClasses.resx",
+              "RelativeDocumentMoniker": "SearchClasses.resx",
+              "ToolTip": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\SearchClasses.resx",
+              "RelativeToolTip": "SearchClasses.resx",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001005|",
+              "WhenOpened": "2025-10-25T16:42:03.735Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "SearchClasses.cs [Design]",
-              "DocumentMoniker": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\SearchClasses.cs",
+              "DocumentMoniker": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\SearchClasses.cs",
               "RelativeDocumentMoniker": "SearchClasses.cs",
-              "ToolTip": "C:\\Users\\oddtr\\OneDrive\\Documents\\GitHub\\Student-Management-System\\Testing Project\\SearchClasses.cs [Design]",
+              "ToolTip": "C:\\Users\\brand\\OneDrive - Stephen F. Austin State University\\College\\Senior Design\\FinalProject\\Student-Management-System\\Testing Project\\SearchClasses.cs [Design]",
               "RelativeToolTip": "SearchClasses.cs [Design]",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-25T15:21:35.766Z"
+              "WhenOpened": "2025-10-25T15:21:35.766Z",
+              "EditorCaption": " [Design]"
             }
           ]
         }
