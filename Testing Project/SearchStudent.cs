@@ -125,28 +125,49 @@ namespace Testing_Project
         {
             if (e.RowIndex >= 0)
             {
-                DialogResult result = MessageBox.Show(
-                    "Are you sure you wish to edit this Student?",
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+                // Step 1: Confirm edit intention
+                DialogResult confirm = MessageBox.Show(
+                    "Are you sure you want to edit the Student or the Degree Plan?",
                     "Confirm Edit",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
                 );
 
-                if (result == DialogResult.Yes)
+                if (confirm == DialogResult.Yes)
                 {
-                    // Get selected row
-                    DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+                    // Step 2: Ask what to edit
+                    DialogResult choice = MessageBox.Show(
+                        "Would you like to edit the Student? (Select 'No' to edit the Degree Plan)",
+                        "Choose Edit Target",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
 
-                    // Navigate to EditStudent
                     var mainMenu = this.FindForm() as MainMenu;
                     if (mainMenu != null)
                     {
-                        mainMenu.LoadPage(new EditStudent(Convert.ToInt32(row.Cells["StudentID"].Value),
-                        row.Cells["FirstName"].Value.ToString(),
-                        row.Cells["LastName"].Value.ToString()));
+                        if (choice == DialogResult.Yes)
+                        {
+                            // Edit Student
+                            mainMenu.LoadPage(new EditStudent(
+                                Convert.ToInt32(row.Cells["StudentID"].Value),
+                                row.Cells["FirstName"].Value.ToString(),
+                                row.Cells["LastName"].Value.ToString()
+                            ));
+                        }
+                        else if (choice == DialogResult.No)
+                        {
+                            // Edit Degree Plan
+                            mainMenu.LoadPage(new EditDegreePlan(
+                                Convert.ToInt32(row.Cells["DegreePlanID"].Value)
+                            ));
+                        }
                     }
                 }
             }
         }
+
     }
 }

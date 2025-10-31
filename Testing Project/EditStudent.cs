@@ -22,7 +22,7 @@ namespace Testing_Project
 
             stdFNametb.Text = FirstName;
             stdLNametb.Text = LastName;
-            stdIdtb. = StudentIDInput;
+            stdIdtb.Text = StudentIDInput.ToString();
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)
