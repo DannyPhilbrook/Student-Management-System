@@ -23,6 +23,8 @@ namespace Testing_Project
             stdFNametb.Text = FirstName;
             stdLNametb.Text = LastName;
             stdIdtb.Text = StudentIDInput.ToString();
+
+            StudentID = StudentIDInput;
         }
 
         private void cancelBtn_Click(object sender, EventArgs e)
@@ -51,7 +53,7 @@ namespace Testing_Project
         private void btnDelete_Click(object sender, EventArgs e)
         {
             DialogResult confirm = MessageBox.Show(
-                "Are you sure you want to delete this student?",
+                "Are you sure you want to delete this student and all related degree plans?",
                 "Confirm Delete",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning);
@@ -63,28 +65,84 @@ namespace Testing_Project
                     using (SQLiteConnection conn = new SQLiteConnection(dbPath))
                     {
                         conn.Open();
-                        string query = "DELETE FROM Student WHERE StudentID = @StudentID";
-                        using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+
+                        // 1️ Find all DegreePlanIDs for this student
+                        List<int> degreePlanIds = new List<int>();
+                        using (SQLiteCommand cmd = new SQLiteCommand("SELECT DegreePlanID FROM DegreePlan WHERE StudentID = @sid", conn))
                         {
-                            cmd.Parameters.AddWithValue("@StudentID", StudentID);
+                            cmd.Parameters.AddWithValue("@sid", StudentID);
+                            using (SQLiteDataReader reader = cmd.ExecuteReader())
+                            {
+                                while (reader.Read())
+                                    degreePlanIds.Add(reader.GetInt32(0));
+                            }
+                        }
+
+                        foreach (int dpId in degreePlanIds)
+                        {
+                            // 2️ Find all SemesterIDs for each DegreePlan
+                            List<int> semesterIds = new List<int>();
+                            using (SQLiteCommand cmd = new SQLiteCommand("SELECT SemesterID FROM Semester WHERE DegreePlanID = @dpid", conn))
+                            {
+                                cmd.Parameters.AddWithValue("@dpid", dpId);
+                                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                                {
+                                    while (reader.Read())
+                                        semesterIds.Add(reader.GetInt32(0));
+                                }
+                            }
+
+                            // 3️ Delete from SemesterClass for each Semester
+                            foreach (int semId in semesterIds)
+                            {
+                                using (SQLiteCommand cmd = new SQLiteCommand("DELETE FROM SemesterClass WHERE SemesterID = @semid", conn))
+                                {
+                                    cmd.Parameters.AddWithValue("@semid", semId);
+                                    cmd.ExecuteNonQuery();
+                                }
+                            }
+
+                            // 4️⃣ Delete from Semester
+                            using (SQLiteCommand cmd = new SQLiteCommand("DELETE FROM Semester WHERE DegreePlanID = @dpid", conn))
+                            {
+                                cmd.Parameters.AddWithValue("@dpid", dpId);
+                                cmd.ExecuteNonQuery();
+                            }
+
+                            // 5️ Delete from DegreePlan
+                            using (SQLiteCommand cmd = new SQLiteCommand("DELETE FROM DegreePlan WHERE DegreePlanID = @dpid", conn))
+                            {
+                                cmd.Parameters.AddWithValue("@dpid", dpId);
+                                cmd.ExecuteNonQuery();
+                            }
+                        }
+
+                        // 6️ Finally, delete the Student
+                        using (SQLiteCommand cmd = new SQLiteCommand("DELETE FROM Student WHERE StudentID = @sid", conn))
+                        {
+                            cmd.Parameters.AddWithValue("@sid", StudentID);
                             cmd.ExecuteNonQuery();
                         }
+
+                        conn.Close();
                     }
 
-                    MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Student and all related data deleted successfully!",
+                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    var mainMenu = this.FindForm() as MainMenu;
+                    if (mainMenu != null)
+                    {
+                        mainMenu.LoadPage(new SearchStudent());
+                    }
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error deleting student: {ex.Message}", "Database Error",
-                        MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                var mainMenu = this.FindForm() as MainMenu;
-                if (mainMenu != null)
-                {
-                    mainMenu.LoadPage(new SearchStudent());
+                    MessageBox.Show($"Error deleting student: {ex.Message}",
+                        "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }
+
     }
 }

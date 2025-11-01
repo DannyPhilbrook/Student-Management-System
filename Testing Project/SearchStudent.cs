@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
@@ -159,14 +160,48 @@ namespace Testing_Project
                         }
                         else if (choice == DialogResult.No)
                         {
-                            // Edit Degree Plan
-                            mainMenu.LoadPage(new EditDegreePlan(
-                                Convert.ToInt32(row.Cells["DegreePlanID"].Value)
-                            ));
+                            // ✅ Edit Degree Plan — fetch it dynamically
+                            int studentId = Convert.ToInt32(row.Cells["StudentID"].Value);
+                            int degreePlanId = GetDegreePlanIdByStudentId(studentId);
+
+                            if (degreePlanId != -1)
+                            {
+                                mainMenu.LoadPage(new EditDegreePlan(degreePlanId));
+                            }
+                            else
+                            {
+                                MessageBox.Show(
+                                    "This student does not have a Degree Plan.",
+                                    "No Degree Plan Found",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning
+                                );
+                            }
                         }
                     }
                 }
             }
+        }
+
+        // Helper function to get DegreePlanID by StudentID
+        private int GetDegreePlanIdByStudentId(int studentId)
+        {
+            int degreePlanId = -1;
+
+            using (SQLiteConnection conn = new SQLiteConnection(dbPath))
+            {
+                conn.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(
+                    "SELECT DegreePlanID FROM DegreePlan WHERE StudentID = @StudentID", conn))
+                {
+                    cmd.Parameters.AddWithValue("@StudentID", studentId);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null)
+                        degreePlanId = Convert.ToInt32(result);
+                }
+            }
+
+            return degreePlanId;
         }
 
     }

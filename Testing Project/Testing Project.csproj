@@ -71,6 +71,12 @@
     <Compile Include="EditStudent.Designer.cs">
       <DependentUpon>EditStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="GraderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraderForm.Designer.cs">
+      <DependentUpon>GraderForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -117,6 +123,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditStudent.resx">
       <DependentUpon>EditStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraderForm.resx">
+      <DependentUpon>GraderForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
