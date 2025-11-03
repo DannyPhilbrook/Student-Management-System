@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
@@ -146,14 +147,17 @@ namespace Testing_Project
         {
             if (e.RowIndex >= 0)
             {
-                DialogResult result = MessageBox.Show(
-                    "Are you sure you wish to edit this Student?",
+                DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+
+                // Step 1: Confirm edit intention
+                DialogResult confirm = MessageBox.Show(
+                    "Are you sure you want to edit the Student or the Degree Plan?",
                     "Confirm Edit",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
                 );
 
-                if (result == DialogResult.Yes)
+                if (confirm == DialogResult.Yes)
                 {
                     // Get selected row
                     DataGridViewRow row = dataGridView1.Rows[e.RowIndex];

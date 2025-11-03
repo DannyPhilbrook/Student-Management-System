@@ -65,7 +65,6 @@ namespace Testing_Project
         }
         private void btnSubmit_Click(object sender, EventArgs e)
         {
-            // Display a confirmation dialog
             DialogResult result = MessageBox.Show(
                 "Are you sure you wish to update this Course?",
                 "Confirmation",
@@ -73,61 +72,123 @@ namespace Testing_Project
                 MessageBoxIcon.Question
             );
 
+            if (result != DialogResult.Yes) return;
 
-            // If the user clicks 'Yes', proceed
-            if (result == DialogResult.Yes)
+            // Basic validation
+            if (string.IsNullOrWhiteSpace(tbCourseNum.Text) ||
+                string.IsNullOrWhiteSpace(tbClassName.Text) ||
+                string.IsNullOrWhiteSpace(cmbCourseLabel.Text) ||
+                cmbSemester.SelectedItem == null)
             {
-                // Basic validation, kicks us out if yes
-                if (string.IsNullOrWhiteSpace(tbCourseNum.Text) ||
-                    string.IsNullOrWhiteSpace(tbClassName.Text) ||
-                    string.IsNullOrWhiteSpace(cmbCourseLabel.Text) ||
-                    cmbSemester.SelectedItem == null)
-                {
-                    MessageBox.Show("Please fill out all required fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return;
-                }
+                MessageBox.Show("Please fill out all required fields.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                // SQL WILL GO HERE TO UPDATE CLASS
-                try
+            try
+            {
+                using (SQLiteConnection conn = new SQLiteConnection(dbPath))
                 {
-                    using (SQLiteConnection conn = new SQLiteConnection(dbPath))
+                    conn.Open();
+
+                    // --- Step 1: Get current semester info ---
+                    int oldSemesterID = -1;
+                    int degreePlanID = -1;
+                    bool oldSemesterValue = false;
+
+                    string semesterInfoQuery = @"
+                        SELECT s.SemesterID, s.DegreePlanID, s.Semester
+                        FROM Semester s
+                        JOIN SemesterClass sc ON sc.SemesterID = s.SemesterID
+                        WHERE sc.ClassID = @ClassID";
+
+                    using (SQLiteCommand cmd = new SQLiteCommand(semesterInfoQuery, conn))
                     {
-                        conn.Open();
-                        string query = @"UPDATE Classes 
-                             SET CourseNumber = @CourseNumber, 
-                                 ClassName = @ClassName, 
-                                 Label = @Label, 
-                                 Semester = @Semester 
-                             WHERE ClassID = @ClassID";
-
-                        using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                        cmd.Parameters.AddWithValue("@ClassID", classId);
+                        using (SQLiteDataReader reader = cmd.ExecuteReader())
                         {
-                            cmd.Parameters.AddWithValue("@CourseNumber", tbCourseNum.Text);
-                            cmd.Parameters.AddWithValue("@ClassName", tbClassName.Text);
-                            cmd.Parameters.AddWithValue("@Label", cmbCourseLabel.SelectedItem.ToString());
-                            bool semesterValue = cmbSemester.SelectedIndex == 1;
-                            cmd.Parameters.AddWithValue("@Semester", semesterValue);
-                            cmd.Parameters.AddWithValue("@ClassID", classId);
-
-                            cmd.ExecuteNonQuery();
+                            if (reader.Read())
+                            {
+                                oldSemesterID = reader.GetInt32(0);
+                                degreePlanID = reader.GetInt32(1);
+                                oldSemesterValue = reader.GetBoolean(2);
+                            }
                         }
                     }
 
-                    MessageBox.Show("Class updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    
-                    var mainMenu = this.FindForm() as MainMenu;
-                    if (mainMenu != null)
+                    // --- Step 2: Update the Classes table ---
+                    string updateClassQuery = @"
+                        UPDATE Classes 
+                        SET CourseNumber = @CourseNumber, 
+                            ClassName = @ClassName, 
+                            Label = @Label, 
+                            Semester = @Semester 
+                        WHERE ClassID = @ClassID";
+
+                    using (SQLiteCommand cmd = new SQLiteCommand(updateClassQuery, conn))
                     {
-                        mainMenu.LoadPage(new SearchClasses());
+                        cmd.Parameters.AddWithValue("@CourseNumber", tbCourseNum.Text);
+                        cmd.Parameters.AddWithValue("@ClassName", tbClassName.Text);
+                        cmd.Parameters.AddWithValue("@Label", cmbCourseLabel.SelectedItem.ToString());
+                        bool semesterValue = cmbSemester.SelectedIndex == 1; // true = Spring, false = Fall
+                        cmd.Parameters.AddWithValue("@Semester", semesterValue);
+                        cmd.Parameters.AddWithValue("@ClassID", classId);
+                        cmd.ExecuteNonQuery();
+
+                        // --- Step 3: If semester changed, move to new semester ---
+                        if (semesterValue != oldSemesterValue)
+                        {
+                            string findNewSemesterQuery = @"
+                                SELECT SemesterID
+                                FROM Semester
+                                WHERE DegreePlanID = @DegreePlanID AND Semester = @NewSemester
+                                ORDER BY SchoolYear ASC
+                                LIMIT 1";
+
+                            int newSemesterID = -1;
+                            using (SQLiteCommand findCmd = new SQLiteCommand(findNewSemesterQuery, conn))
+                            {
+                                findCmd.Parameters.AddWithValue("@DegreePlanID", degreePlanID);
+                                findCmd.Parameters.AddWithValue("@NewSemester", semesterValue);
+                                object resultObj = findCmd.ExecuteScalar();
+                                if (resultObj != null)
+                                    newSemesterID = Convert.ToInt32(resultObj);
+                            }
+
+                            if (newSemesterID == -1)
+                            {
+                                MessageBox.Show("No matching semester found in this degree plan for the selected semester.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
+                            else
+                            {
+                                string updateSemesterClassQuery = @"
+                                    UPDATE SemesterClass
+                                    SET SemesterID = @NewSemesterID
+                                    WHERE ClassID = @ClassID";
+
+                                using (SQLiteCommand updateSemCmd = new SQLiteCommand(updateSemesterClassQuery, conn))
+                                {
+                                    updateSemCmd.Parameters.AddWithValue("@NewSemesterID", newSemesterID);
+                                    updateSemCmd.Parameters.AddWithValue("@ClassID", classId);
+                                    updateSemCmd.ExecuteNonQuery();
+                                }
+                            }
+                        }
                     }
                 }
-                catch (Exception ex)
+
+                MessageBox.Show("Class updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                var mainMenu = this.FindForm() as MainMenu;
+                if (mainMenu != null)
                 {
-                    MessageBox.Show($"Error adding course: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    mainMenu.LoadPage(new SearchClasses());
                 }
             }
-            // If 'No', simply do nothing (stay on the page)
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error updating course: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void delBtn_Click(object sender, EventArgs e)
         {
