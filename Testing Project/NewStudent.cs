@@ -51,22 +51,9 @@ namespace Testing_Project
                         conn.Open();
 
                         string insertQuery;
-                        Boolean NotesFilled = false;
 
-                        //If Notes is filled out, include it in the insert
-                        if (!string.IsNullOrWhiteSpace(commrtb.Text))
-                        {
-                            NotesFilled = true;
-                            insertQuery = @"INSERT INTO Student (FirstName, LastName, StudentID, StartingSemester, Notes, SchoolYear, DegreePlanID, StudentStatus)
+                        insertQuery = @"INSERT INTO Student (FirstName, LastName, StudentID, StartingSemester, Notes, SchoolYear, DegreePlanID, StudentStatus)
                                    VALUES (@FirstName, @LastName, @StudentID, @StartingSemester, @Notes, @SchoolYear, @DegreePlanID, @StudentStatus)";
-                        }
-                        else
-                        {
-                            NotesFilled = false;
-                            insertQuery = @"INSERT INTO Student (FirstName, LastName, StudentID, StartingSemester, Notes, SchoolYear, DegreePlanID, StudentStatus)
-                                   VALUES (@FirstName, @LastName, @StudentID, @StartingSemester, @Notes, @SchoolYear, @DegreePlanID, @StudentStatus)";
-                        }
-
 
                         using (SQLiteCommand cmd = new SQLiteCommand(insertQuery, conn))
                         {
@@ -75,7 +62,24 @@ namespace Testing_Project
                             cmd.Parameters.AddWithValue("@StudentID", stdIdtb.Text);
                             cmd.Parameters.AddWithValue("@SchoolYear", "2024");
                             cmd.Parameters.AddWithValue("@DegreePlanID", 1); // Default DegreePlanID
-                            cmd.Parameters.AddWithValue("@StudentStatus", 1); // Default StudentStatus
+                            
+                            if (rdbWaiting.Checked)
+                            {
+                                cmd.Parameters.AddWithValue("@StudentStatus", 0);
+                            }
+                            else if (rdbInactive.Checked)
+                            {
+                                cmd.Parameters.AddWithValue("@StudentStatus", 1);
+                            }
+                            else if (rdbActive.Checked)
+                            {
+                                cmd.Parameters.AddWithValue("@StudentStatus", 2);
+                            }
+                            else
+                            {
+                                cmd.Parameters.AddWithValue("@StudentStatus", 3);
+                            }
+
                             cmd.Parameters.AddWithValue("@Notes", commrtb.Text);
                             // Determine boolean value based on selected index
                             // 0 = Fall (false), 1 = Spring (true)
@@ -157,6 +161,11 @@ namespace Testing_Project
             {
                 e.Handled = true; // Ignore the input
             }
+        }
+
+        private void NewStudent_Load(object sender, EventArgs e)
+        {
+            rdbWaiting.Checked = true;
         }
     }
 }

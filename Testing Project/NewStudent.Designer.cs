@@ -40,14 +40,17 @@
             this.stdIdlbl = new System.Windows.Forms.Label();
             this.commrtb = new System.Windows.Forms.RichTextBox();
             this.commlbl = new System.Windows.Forms.Label();
+            this.rdbWaiting = new System.Windows.Forms.RadioButton();
+            this.rdbActive = new System.Windows.Forms.RadioButton();
+            this.rdbInactive = new System.Windows.Forms.RadioButton();
+            this.rdbGraduated = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(356, 25);
-            this.button1.Margin = new System.Windows.Forms.Padding(2);
+            this.button1.Location = new System.Drawing.Point(534, 38);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(109, 25);
+            this.button1.Size = new System.Drawing.Size(164, 38);
             this.button1.TabIndex = 0;
             this.button1.Text = "Submit";
             this.button1.UseVisualStyleBackColor = true;
@@ -55,10 +58,9 @@
             // 
             // cancelBtn
             // 
-            this.cancelBtn.Location = new System.Drawing.Point(356, 60);
-            this.cancelBtn.Margin = new System.Windows.Forms.Padding(2);
+            this.cancelBtn.Location = new System.Drawing.Point(534, 92);
             this.cancelBtn.Name = "cancelBtn";
-            this.cancelBtn.Size = new System.Drawing.Size(109, 25);
+            this.cancelBtn.Size = new System.Drawing.Size(164, 38);
             this.cancelBtn.TabIndex = 1;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
@@ -67,9 +69,10 @@
             // stdFNamelbl
             // 
             this.stdFNamelbl.AutoSize = true;
-            this.stdFNamelbl.Location = new System.Drawing.Point(3, 25);
+            this.stdFNamelbl.Location = new System.Drawing.Point(4, 38);
+            this.stdFNamelbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.stdFNamelbl.Name = "stdFNamelbl";
-            this.stdFNamelbl.Size = new System.Drawing.Size(60, 13);
+            this.stdFNamelbl.Size = new System.Drawing.Size(90, 20);
             this.stdFNamelbl.TabIndex = 2;
             this.stdFNamelbl.Text = "First Name:";
             // 
@@ -83,84 +86,141 @@
             this.semcmbo.Items.AddRange(new object[] {
             "Fall",
             "Spring"});
-            this.semcmbo.Location = new System.Drawing.Point(69, 127);
+            this.semcmbo.Location = new System.Drawing.Point(104, 195);
+            this.semcmbo.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.semcmbo.Name = "semcmbo";
-            this.semcmbo.Size = new System.Drawing.Size(165, 21);
+            this.semcmbo.Size = new System.Drawing.Size(246, 28);
             this.semcmbo.TabIndex = 3;
             // 
             // stdFNametb
             // 
-            this.stdFNametb.Location = new System.Drawing.Point(69, 22);
+            this.stdFNametb.Location = new System.Drawing.Point(104, 34);
+            this.stdFNametb.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.stdFNametb.Name = "stdFNametb";
-            this.stdFNametb.Size = new System.Drawing.Size(165, 20);
+            this.stdFNametb.Size = new System.Drawing.Size(246, 26);
             this.stdFNametb.TabIndex = 4;
             this.stdFNametb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.stdFNametb_KeyPress);
             // 
             // semlbl
             // 
             this.semlbl.AutoSize = true;
-            this.semlbl.Location = new System.Drawing.Point(9, 130);
+            this.semlbl.Location = new System.Drawing.Point(14, 200);
+            this.semlbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.semlbl.Name = "semlbl";
-            this.semlbl.Size = new System.Drawing.Size(54, 13);
+            this.semlbl.Size = new System.Drawing.Size(82, 20);
             this.semlbl.TabIndex = 5;
             this.semlbl.Text = "Semester:";
             // 
             // stdLNametb
             // 
-            this.stdLNametb.Location = new System.Drawing.Point(69, 57);
+            this.stdLNametb.Location = new System.Drawing.Point(104, 88);
+            this.stdLNametb.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.stdLNametb.Name = "stdLNametb";
-            this.stdLNametb.Size = new System.Drawing.Size(165, 20);
+            this.stdLNametb.Size = new System.Drawing.Size(246, 26);
             this.stdLNametb.TabIndex = 7;
             this.stdLNametb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.stdLNametb_KeyPress);
             // 
             // stdnLNamelbl
             // 
             this.stdnLNamelbl.AutoSize = true;
-            this.stdnLNamelbl.Location = new System.Drawing.Point(2, 60);
+            this.stdnLNamelbl.Location = new System.Drawing.Point(3, 92);
+            this.stdnLNamelbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.stdnLNamelbl.Name = "stdnLNamelbl";
-            this.stdnLNamelbl.Size = new System.Drawing.Size(61, 13);
+            this.stdnLNamelbl.Size = new System.Drawing.Size(90, 20);
             this.stdnLNamelbl.TabIndex = 6;
             this.stdnLNamelbl.Text = "Last Name:";
             // 
             // stdIdtb
             // 
-            this.stdIdtb.Location = new System.Drawing.Point(69, 91);
+            this.stdIdtb.Location = new System.Drawing.Point(104, 140);
+            this.stdIdtb.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.stdIdtb.Name = "stdIdtb";
-            this.stdIdtb.Size = new System.Drawing.Size(165, 20);
+            this.stdIdtb.Size = new System.Drawing.Size(246, 26);
             this.stdIdtb.TabIndex = 9;
             this.stdIdtb.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.stdIdtb_KeyPress);
             // 
             // stdIdlbl
             // 
             this.stdIdlbl.AutoSize = true;
-            this.stdIdlbl.Location = new System.Drawing.Point(2, 94);
+            this.stdIdlbl.Location = new System.Drawing.Point(3, 145);
+            this.stdIdlbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.stdIdlbl.Name = "stdIdlbl";
-            this.stdIdlbl.Size = new System.Drawing.Size(61, 13);
+            this.stdIdlbl.Size = new System.Drawing.Size(91, 20);
             this.stdIdlbl.TabIndex = 8;
             this.stdIdlbl.Text = "Student ID:";
             // 
             // commrtb
             // 
-            this.commrtb.Location = new System.Drawing.Point(12, 190);
+            this.commrtb.Location = new System.Drawing.Point(18, 292);
+            this.commrtb.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.commrtb.Name = "commrtb";
-            this.commrtb.Size = new System.Drawing.Size(496, 89);
+            this.commrtb.Size = new System.Drawing.Size(742, 135);
             this.commrtb.TabIndex = 10;
             this.commrtb.Text = "";
             // 
             // commlbl
             // 
             this.commlbl.AutoSize = true;
-            this.commlbl.Location = new System.Drawing.Point(5, 171);
+            this.commlbl.Location = new System.Drawing.Point(8, 263);
+            this.commlbl.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.commlbl.Name = "commlbl";
-            this.commlbl.Size = new System.Drawing.Size(59, 13);
+            this.commlbl.Size = new System.Drawing.Size(90, 20);
             this.commlbl.TabIndex = 12;
             this.commlbl.Text = "Comments:";
             // 
+            // rdbWaiting
+            // 
+            this.rdbWaiting.AutoSize = true;
+            this.rdbWaiting.Location = new System.Drawing.Point(405, 184);
+            this.rdbWaiting.Name = "rdbWaiting";
+            this.rdbWaiting.Size = new System.Drawing.Size(87, 24);
+            this.rdbWaiting.TabIndex = 13;
+            this.rdbWaiting.TabStop = true;
+            this.rdbWaiting.Text = "Waiting";
+            this.rdbWaiting.UseVisualStyleBackColor = true;
+            // 
+            // rdbActive
+            // 
+            this.rdbActive.AutoSize = true;
+            this.rdbActive.Location = new System.Drawing.Point(405, 244);
+            this.rdbActive.Name = "rdbActive";
+            this.rdbActive.Size = new System.Drawing.Size(77, 24);
+            this.rdbActive.TabIndex = 14;
+            this.rdbActive.TabStop = true;
+            this.rdbActive.Text = "Active";
+            this.rdbActive.UseVisualStyleBackColor = true;
+            // 
+            // rdbInactive
+            // 
+            this.rdbInactive.AutoSize = true;
+            this.rdbInactive.Location = new System.Drawing.Point(600, 184);
+            this.rdbInactive.Name = "rdbInactive";
+            this.rdbInactive.Size = new System.Drawing.Size(89, 24);
+            this.rdbInactive.TabIndex = 15;
+            this.rdbInactive.TabStop = true;
+            this.rdbInactive.Text = "Inactive";
+            this.rdbInactive.UseVisualStyleBackColor = true;
+            // 
+            // rdbGraduated
+            // 
+            this.rdbGraduated.AutoSize = true;
+            this.rdbGraduated.Location = new System.Drawing.Point(600, 244);
+            this.rdbGraduated.Name = "rdbGraduated";
+            this.rdbGraduated.Size = new System.Drawing.Size(111, 24);
+            this.rdbGraduated.TabIndex = 16;
+            this.rdbGraduated.TabStop = true;
+            this.rdbGraduated.Text = "Graduated";
+            this.rdbGraduated.UseVisualStyleBackColor = true;
+            // 
             // NewStudent
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.Controls.Add(this.rdbGraduated);
+            this.Controls.Add(this.rdbInactive);
+            this.Controls.Add(this.rdbActive);
+            this.Controls.Add(this.rdbWaiting);
             this.Controls.Add(this.commlbl);
             this.Controls.Add(this.commrtb);
             this.Controls.Add(this.stdIdtb);
@@ -173,9 +233,9 @@
             this.Controls.Add(this.stdFNamelbl);
             this.Controls.Add(this.cancelBtn);
             this.Controls.Add(this.button1);
-            this.Margin = new System.Windows.Forms.Padding(2);
             this.Name = "NewStudent";
-            this.Size = new System.Drawing.Size(519, 291);
+            this.Size = new System.Drawing.Size(778, 448);
+            this.Load += new System.EventHandler(this.NewStudent_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -195,5 +255,9 @@
         private System.Windows.Forms.Label stdIdlbl;
         private System.Windows.Forms.RichTextBox commrtb;
         private System.Windows.Forms.Label commlbl;
+        private System.Windows.Forms.RadioButton rdbWaiting;
+        private System.Windows.Forms.RadioButton rdbActive;
+        private System.Windows.Forms.RadioButton rdbInactive;
+        private System.Windows.Forms.RadioButton rdbGraduated;
     }
 }

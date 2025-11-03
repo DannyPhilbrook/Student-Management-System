@@ -72,6 +72,27 @@ namespace Testing_Project
                         parameters.Add(new SQLiteParameter("@number", "%" + stdntIdtb.Text.Trim() + "%"));
                     }
 
+                    List<int> selectedStatuses = new List<int>();
+
+                    if (ckbWaiting.Checked) selectedStatuses.Add(0);
+                    if (ckbInactive.Checked) selectedStatuses.Add(1);
+                    if (ckbActive.Checked) selectedStatuses.Add(2);
+                    if (ckbGraduated.Checked) selectedStatuses.Add(3);
+
+                    if (selectedStatuses.Count > 0)
+                    {
+                        // Create something like "AND (StudentStatus = 0 OR StudentStatus = 2 OR StudentStatus = 3)"
+                        string statusConditions = string.Join(" OR ", selectedStatuses.Select((s, i) => $"StudentStatus = @status{i}"));
+                        query += " AND (" + statusConditions + ")";
+
+                        // Add parameters for each checked box
+                        for (int i = 0; i < selectedStatuses.Count; i++)
+                        {
+                            parameters.Add(new SQLiteParameter($"@status{i}", selectedStatuses[i]));
+                        }
+                    }
+
+
                     using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                     {
                         cmd.Parameters.AddRange(parameters.ToArray());
@@ -137,13 +158,56 @@ namespace Testing_Project
                     // Get selected row
                     DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
 
-                    // Navigate to EditStudent
-                    var mainMenu = this.FindForm() as MainMenu;
-                    if (mainMenu != null)
+                    int studentID = Convert.ToInt32(row.Cells["StudentID"].Value);
+
+                    try
                     {
-                        mainMenu.LoadPage(new EditStudent(Convert.ToInt32(row.Cells["StudentID"].Value),
-                        row.Cells["FirstName"].Value.ToString(),
-                        row.Cells["LastName"].Value.ToString()));
+                        using (SQLiteConnection conn = new SQLiteConnection(dbPath))
+                        {
+                            conn.Open();
+
+                            // Base query
+                            string query = "SELECT StudentID, FirstName, LastName, StartingSemester, Notes, StudentStatus " +
+                                           "FROM Student Where StudentID = @StudentID";
+
+
+                            using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                            {
+                                cmd.Parameters.AddWithValue("@StudentID", studentID);
+
+                                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        int StudentID = Convert.ToInt32(reader["StudentID"]);
+                                        string FirstName = reader["FirstName"]?.ToString() ?? "";
+                                        string LastName = reader["LastName"]?.ToString() ?? "";
+                                        bool StartingSemester = Convert.ToBoolean(reader["StartingSemester"]);
+                                        string Notes = reader["Notes"]?.ToString() ?? "";
+                                        int StudentStatus = Convert.ToInt32(reader["StudentStatus"]);
+
+                                        // Navigate to EditStudent
+                                        var mainMenu = this.FindForm() as MainMenu;
+                                        if (mainMenu != null)
+                                        {
+                                            mainMenu.LoadPage(new EditStudent(StudentID, FirstName, LastName, StartingSemester, Notes, StudentStatus));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Student not found.", "Error",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                }
+                            }
+                       
+                            conn.Close();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error searching students: " + ex.Message, "Database Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
