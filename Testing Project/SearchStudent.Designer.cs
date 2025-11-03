@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.checkBox1 = new System.Windows.Forms.CheckBox();
-            this.checkBox2 = new System.Windows.Forms.CheckBox();
-            this.checkBox3 = new System.Windows.Forms.CheckBox();
-            this.checkBox4 = new System.Windows.Forms.CheckBox();
+            this.ckbActive = new System.Windows.Forms.CheckBox();
+            this.ckbWaiting = new System.Windows.Forms.CheckBox();
+            this.ckbInactive = new System.Windows.Forms.CheckBox();
+            this.ckbGraduated = new System.Windows.Forms.CheckBox();
             this.createSdtbtn = new System.Windows.Forms.Button();
             this.stuslbl = new System.Windows.Forms.Label();
             this.firstNamelbl = new System.Windows.Forms.Label();
@@ -46,49 +46,49 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // checkBox1
+            // ckbActive
             // 
-            this.checkBox1.AutoSize = true;
-            this.checkBox1.Location = new System.Drawing.Point(370, 45);
-            this.checkBox1.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox1.Name = "checkBox1";
-            this.checkBox1.Size = new System.Drawing.Size(78, 24);
-            this.checkBox1.TabIndex = 1;
-            this.checkBox1.Text = "Active";
-            this.checkBox1.UseVisualStyleBackColor = true;
+            this.ckbActive.AutoSize = true;
+            this.ckbActive.Location = new System.Drawing.Point(464, 46);
+            this.ckbActive.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ckbActive.Name = "ckbActive";
+            this.ckbActive.Size = new System.Drawing.Size(78, 24);
+            this.ckbActive.TabIndex = 1;
+            this.ckbActive.Text = "Active";
+            this.ckbActive.UseVisualStyleBackColor = true;
             // 
-            // checkBox2
+            // ckbWaiting
             // 
-            this.checkBox2.AutoSize = true;
-            this.checkBox2.Location = new System.Drawing.Point(454, 45);
-            this.checkBox2.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox2.Name = "checkBox2";
-            this.checkBox2.Size = new System.Drawing.Size(88, 24);
-            this.checkBox2.TabIndex = 2;
-            this.checkBox2.Text = "Waiting";
-            this.checkBox2.UseVisualStyleBackColor = true;
+            this.ckbWaiting.AutoSize = true;
+            this.ckbWaiting.Location = new System.Drawing.Point(370, 46);
+            this.ckbWaiting.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ckbWaiting.Name = "ckbWaiting";
+            this.ckbWaiting.Size = new System.Drawing.Size(88, 24);
+            this.ckbWaiting.TabIndex = 2;
+            this.ckbWaiting.Text = "Waiting";
+            this.ckbWaiting.UseVisualStyleBackColor = true;
             // 
-            // checkBox3
+            // ckbInactive
             // 
-            this.checkBox3.AutoSize = true;
-            this.checkBox3.Location = new System.Drawing.Point(549, 46);
-            this.checkBox3.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox3.Name = "checkBox3";
-            this.checkBox3.Size = new System.Drawing.Size(90, 24);
-            this.checkBox3.TabIndex = 3;
-            this.checkBox3.Text = "Inactive";
-            this.checkBox3.UseVisualStyleBackColor = true;
+            this.ckbInactive.AutoSize = true;
+            this.ckbInactive.Location = new System.Drawing.Point(549, 46);
+            this.ckbInactive.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ckbInactive.Name = "ckbInactive";
+            this.ckbInactive.Size = new System.Drawing.Size(90, 24);
+            this.ckbInactive.TabIndex = 3;
+            this.ckbInactive.Text = "Inactive";
+            this.ckbInactive.UseVisualStyleBackColor = true;
             // 
-            // checkBox4
+            // ckbGraduated
             // 
-            this.checkBox4.AutoSize = true;
-            this.checkBox4.Location = new System.Drawing.Point(645, 46);
-            this.checkBox4.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.checkBox4.Name = "checkBox4";
-            this.checkBox4.Size = new System.Drawing.Size(112, 24);
-            this.checkBox4.TabIndex = 4;
-            this.checkBox4.Text = "Graduated";
-            this.checkBox4.UseVisualStyleBackColor = true;
+            this.ckbGraduated.AutoSize = true;
+            this.ckbGraduated.Location = new System.Drawing.Point(645, 46);
+            this.ckbGraduated.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ckbGraduated.Name = "ckbGraduated";
+            this.ckbGraduated.Size = new System.Drawing.Size(112, 24);
+            this.ckbGraduated.TabIndex = 4;
+            this.ckbGraduated.Text = "Graduated";
+            this.ckbGraduated.UseVisualStyleBackColor = true;
             // 
             // createSdtbtn
             // 
@@ -221,10 +221,10 @@
             this.Controls.Add(this.firstNamelbl);
             this.Controls.Add(this.stuslbl);
             this.Controls.Add(this.createSdtbtn);
-            this.Controls.Add(this.checkBox4);
-            this.Controls.Add(this.checkBox3);
-            this.Controls.Add(this.checkBox2);
-            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.ckbGraduated);
+            this.Controls.Add(this.ckbInactive);
+            this.Controls.Add(this.ckbWaiting);
+            this.Controls.Add(this.ckbActive);
             this.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
             this.Name = "SearchStudent";
             this.Size = new System.Drawing.Size(778, 445);
@@ -235,10 +235,10 @@
         }
 
         #endregion
-        private System.Windows.Forms.CheckBox checkBox1;
-        private System.Windows.Forms.CheckBox checkBox2;
-        private System.Windows.Forms.CheckBox checkBox3;
-        private System.Windows.Forms.CheckBox checkBox4;
+        private System.Windows.Forms.CheckBox ckbActive;
+        private System.Windows.Forms.CheckBox ckbWaiting;
+        private System.Windows.Forms.CheckBox ckbInactive;
+        private System.Windows.Forms.CheckBox ckbGraduated;
         private System.Windows.Forms.Button createSdtbtn;
         private System.Windows.Forms.Label stuslbl;
         private System.Windows.Forms.Label firstNamelbl;
