@@ -1,0 +1,17 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs/Student-Management-System
+/src/.vs/src/CopilotIndices/17.14.1290.42047
+/src/.vs/src/FileContentIndex
+/src/.vs/src/v17
+/src/.vs
+/src/StudentManagementSystem.App/bin/Debug
+/src/StudentManagementSystem.App/obj/Debug/Styles
+/src/StudentManagementSystem.App/obj/Debug/Views
+/src/StudentManagementSystem.App/obj/Debug
+/src/StudentManagementSystem.App/obj/Release
+/src/StudentManagementSystem.Domain/bin/Debug
+/src/StudentManagementSystem.Domain/obj/Debug
+/src/StudentManagementSystem.Domain/obj/Release
