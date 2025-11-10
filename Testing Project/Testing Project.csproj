@@ -115,6 +115,12 @@
     <Compile Include="SearchStudent.Designer.cs">
       <DependentUpon>SearchStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="SemesterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemesterForm.Designer.cs">
+      <DependentUpon>SemesterForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="EditClass.resx">
       <DependentUpon>EditClass.cs</DependentUpon>
     </EmbeddedResource>
@@ -153,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SearchStudent.resx">
       <DependentUpon>SearchStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemesterForm.resx">
+      <DependentUpon>SemesterForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

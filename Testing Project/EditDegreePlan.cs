@@ -167,92 +167,104 @@ namespace Testing_Project
 
         private void btnAddSemester_Click(object sender, EventArgs e)
         {
-            DialogResult confirm = MessageBox.Show(
-                "Are you sure you want to add a new semester?",
-                "Confirm Add Semester",
-                MessageBoxButtons.YesNo,
-                MessageBoxIcon.Question
-            );
-
-            if (confirm != DialogResult.Yes)
-                return;
-
-            try
+            // Open the SemesterForm (you created) and read the entered values after OK
+            using (var form = new SemesterForm())
             {
-                using (SQLiteConnection conn = new SQLiteConnection("Data Source=Database/stdmngsys.db;Version=3;"))
+                if (form.ShowDialog(this) != DialogResult.OK)
                 {
-                    conn.Open();
+                    DialogResult cancel = MessageBox.Show(
+                    $"Are you sure you want to cancel?",
+                    "Confirm Add Semester",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
 
-                    // Find the most recent semester for this Degree Plan
-                    string lastSemQuery = @"
-                        SELECT Semester, SchoolYear
-                        FROM Semester
-                        WHERE DegreePlanID = @dpid
-                        ORDER BY SchoolYear DESC, Semester ASC
-                        LIMIT 1;";
+                    if (cancel == DialogResult.Yes)
+                        return;
+                    else
+                        form.ShowDialog(this);
+                }
 
-                    bool? lastSemester = null;
-                    int lastYear = 0;
+                // Retrieve controls from the dialog (safe fallback if you didn't add public properties)
+                var tbYear = form.Controls.Find("tbSchlYear", true).FirstOrDefault() as TextBox;
+                var cmbSemForm = form.Controls.Find("semcmbo", true).FirstOrDefault() as ComboBox;
 
-                    using (SQLiteCommand cmd = new SQLiteCommand(lastSemQuery, conn))
+                if (tbYear == null || cmbSemForm == null)
+                {
+                    MessageBox.Show("Unable to read semester form values. Make sure control names are `tbSchlYear` and `semcmbo`.", "Internal Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                string yearText = tbYear.Text?.Trim();
+                if (string.IsNullOrEmpty(yearText))
+                {
+                    MessageBox.Show("Please enter a school year.", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                string semText = cmbSemForm.SelectedItem?.ToString();
+                if (string.IsNullOrEmpty(semText))
+                {
+                    MessageBox.Show("Please select a semester (Fall or Spring).", "Validation", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                bool semesterIsSpring = string.Equals(semText, "Spring", StringComparison.OrdinalIgnoreCase);
+
+                DialogResult confirm = MessageBox.Show(
+                    $"Add {semText} {yearText} to this degree plan?",
+                    "Confirm Add Semester",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (confirm != DialogResult.Yes) return;
+
+                try
+                {
+                    using (SQLiteConnection conn = new SQLiteConnection("Data Source=Database/stdmngsys.db;Version=3;"))
                     {
-                        cmd.Parameters.AddWithValue("@dpid", degreePlanId);
-                        using (SQLiteDataReader reader = cmd.ExecuteReader())
+                        conn.Open();
+
+                        // Prevent duplicate semester entries for this degree plan
+                        string existsQuery = @"
+                            SELECT 1
+                            FROM Semester
+                            WHERE DegreePlanID = @dpid AND Semester = @sem AND SchoolYear = @year
+                            LIMIT 1;";
+                        using (var check = new SQLiteCommand(existsQuery, conn))
                         {
-                            if (reader.Read())
+                            check.Parameters.AddWithValue("@dpid", degreePlanId);
+                            check.Parameters.AddWithValue("@sem", semesterIsSpring);
+                            check.Parameters.AddWithValue("@year", yearText);
+                            var exists = check.ExecuteScalar();
+                            if (exists != null)
                             {
-                                lastSemester = reader.GetBoolean(reader.GetOrdinal("Semester"));
-                                lastYear = int.Parse(reader.GetString(reader.GetOrdinal("SchoolYear")));
+                                MessageBox.Show("That semester already exists for this degree plan.", "Duplicate", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                return;
                             }
                         }
+
+                        string insertQuery = @"
+                            INSERT INTO Semester (DegreePlanID, Semester, SchoolYear)
+                            VALUES (@dpid, @sem, @year);";
+
+                        using (SQLiteCommand cmd = new SQLiteCommand(insertQuery, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@dpid", degreePlanId);
+                            cmd.Parameters.AddWithValue("@sem", semesterIsSpring);
+                            cmd.Parameters.AddWithValue("@year", yearText);
+                            cmd.ExecuteNonQuery();
+                        }
+
+                        conn.Close();
                     }
 
-                    // Determine next semester/year
-                    bool newSemester;
-                    int newYear;
-
-                    if (lastSemester == null)
-                    {
-                        // No semester exists — default to Fall of current year
-                        newSemester = false;
-                        newYear = DateTime.Now.Year;
-                    }
-                    else if (lastSemester == true)
-                    {
-                        // Last was Spring → new one is Fall of same year
-                        newSemester = false;
-                        newYear = lastYear;
-                    }
-                    else
-                    {
-                        // Last was Fall → new one is Spring of next year
-                        newSemester = true;
-                        newYear = lastYear + 1;
-                    }
-
-                    // Insert new semester
-                    string insertQuery = @"
-                        INSERT INTO Semester (DegreePlanID, Semester, SchoolYear)
-                        VALUES (@dpid, @sem, @year);";
-
-                    using (SQLiteCommand cmd = new SQLiteCommand(insertQuery, conn))
-                    {
-                        cmd.Parameters.AddWithValue("@dpid", degreePlanId);
-                        cmd.Parameters.AddWithValue("@sem", newSemester);
-                        cmd.Parameters.AddWithValue("@year", newYear.ToString());
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    MessageBox.Show($"Added new semester: {(newSemester ? "Spring" : "Fall")} {newYear}",
-                        "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Refresh data
                     LoadData(degreePlanId);
+                    MessageBox.Show($"Added new semester: {(semesterIsSpring ? "Spring" : "Fall")} {yearText}", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Error adding semester: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error adding semester: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
         }
 
@@ -260,8 +272,24 @@ namespace Testing_Project
 
         private void btnRmvSem_Click(object sender, EventArgs e)
         {
+            if (cmbSem.SelectedIndex < 0 || cmbYear.SelectedIndex < 0)
+            {
+                MessageBox.Show("Please select the semester and year you want to remove first.", "Missing Selection", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Determine selected semester and year
+            bool selectedSemesterIsSpring = string.Equals(cmbSem.Text, "Spring", StringComparison.OrdinalIgnoreCase);
+            string selectedYear = cmbYear.SelectedItem?.ToString();
+
+            if (string.IsNullOrEmpty(selectedYear))
+            {
+                MessageBox.Show("Selected year is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
             DialogResult confirm = MessageBox.Show(
-                "Are you sure you want to remove the most recent semester?\nThis will also remove all classes within it.",
+                $"Are you sure you want to remove {(selectedSemesterIsSpring ? "Spring" : "Fall")} {selectedYear}?\nThis will also remove all classes within it.",
                 "Confirm Remove Semester",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Warning
@@ -276,10 +304,9 @@ namespace Testing_Project
                 {
                     conn.Open();
 
-                    // Count semesters for this Degree Plan
+                    // Count semesters for this Degree Plan (keep your minimum check)
                     string countQuery = "SELECT COUNT(*) FROM Semester WHERE DegreePlanID = @dpid;";
                     int semesterCount = 0;
-
                     using (SQLiteCommand cmd = new SQLiteCommand(countQuery, conn))
                     {
                         cmd.Parameters.AddWithValue("@dpid", degreePlanId);
@@ -288,22 +315,22 @@ namespace Testing_Project
 
                     if (semesterCount <= 4)
                     {
-                        MessageBox.Show("You cannot have fewer than 4 semesters in a degree plan.",
-                            "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show("You cannot have fewer than 4 semesters in a degree plan.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         return;
                     }
 
-                    // Find the most recent semester
-                    string lastSemQuery = @"
-                        SELECT SemesterID FROM Semester
-                        WHERE DegreePlanID = @dpid
-                        ORDER BY SchoolYear DESC, Semester DESC
-                        LIMIT 1;";
-
+                    // Find the SemesterID for the currently selected year + semester
+                    string findSemQuery = @"
+                SELECT SemesterID
+                FROM Semester
+                WHERE DegreePlanID = @dpid AND Semester = @sem AND SchoolYear = @year
+                LIMIT 1;";
                     int semesterIdToRemove = -1;
-                    using (SQLiteCommand cmd = new SQLiteCommand(lastSemQuery, conn))
+                    using (SQLiteCommand cmd = new SQLiteCommand(findSemQuery, conn))
                     {
                         cmd.Parameters.AddWithValue("@dpid", degreePlanId);
+                        cmd.Parameters.AddWithValue("@sem", selectedSemesterIsSpring);
+                        cmd.Parameters.AddWithValue("@year", selectedYear);
                         object result = cmd.ExecuteScalar();
                         if (result != null)
                             semesterIdToRemove = Convert.ToInt32(result);
@@ -311,7 +338,7 @@ namespace Testing_Project
 
                     if (semesterIdToRemove == -1)
                     {
-                        MessageBox.Show("No semester found to remove.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show("No semester found to remove for the selected year/term.", "Not Found", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
@@ -331,11 +358,12 @@ namespace Testing_Project
                         cmd.ExecuteNonQuery();
                     }
 
-                    MessageBox.Show("Semester and its classes removed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-
-                    // Refresh data
-                    LoadData(degreePlanId);
+                    conn.Close();
                 }
+
+                // Refresh data
+                LoadData(degreePlanId);
+                MessageBox.Show("Semester and its classes removed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
@@ -536,7 +564,7 @@ namespace Testing_Project
         {
             // Display a warning dialog
             DialogResult result = MessageBox.Show(
-                "Are you sure you wish to cancel creation?",
+                "Are you sure you wish to cancel editing? (All changes, you've done, can't be undone)",
                 "Warning",
                 MessageBoxButtons.YesNo,
                 MessageBoxIcon.Exclamation

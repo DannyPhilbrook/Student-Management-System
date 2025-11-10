@@ -54,103 +54,104 @@ namespace Testing_Project
 
                         insertQuery = @"INSERT INTO Student (FirstName, LastName, StudentID, StartingSemester, Notes, SchoolYear, DegreePlanID, StudentStatus)
                                    VALUES (@FirstName, @LastName, @StudentID, @StartingSemester, @Notes, @SchoolYear, @DegreePlanID, @StudentStatus)";
-                        }
-                        
-                        // Determine boolean value based on selected index
-                        // 0 = Fall (false), 1 = Spring (true)
-                        bool semesterValue = semcmbo.SelectedIndex == 1;
+                    
 
-                        // STEP 1: Create a new DegreePlan
-                        int degreePlanId;
-                        using (SQLiteCommand cmd = new SQLiteCommand(
-                            "INSERT INTO DegreePlan (StudentID, SchoolYear, StartSemester) VALUES (@sid, @year, @sem);", conn))
-                        {
-                            // StudentID is temporarily placeholder (since we create the student afterward)
-                            cmd.Parameters.AddWithValue("@sid", 0); // Temporary.
-                            cmd.Parameters.AddWithValue("@year", tbSchlYear.Text);
-                            cmd.Parameters.AddWithValue("@sem", semesterValue);
-                            cmd.ExecuteNonQuery();
-                        }
+                    // Determine boolean value based on selected index
+                    // 0 = Fall (false), 1 = Spring (true)
+                    bool semesterValue = semcmbo.SelectedIndex == 1;
 
-                        // Get DegreePlanID
-                        using (SQLiteCommand cmd = new SQLiteCommand("SELECT last_insert_rowid();", conn))
-                        {
-                            degreePlanId = Convert.ToInt32(cmd.ExecuteScalar());
-                        }
-
-                        // STEP 2: Generate 4 semesters for this degree plan, and their classes.
-                        GenerateSemesters(conn, degreePlanId, tbSchlYear.Text, semcmbo.SelectedIndex);
-                        GenerateDefaultClasses(conn, degreePlanId, semcmbo.SelectedIndex);
-
-
-                        using (SQLiteCommand cmd = new SQLiteCommand(insertQuery, conn))
-                        {
-
-                            // Final Step, Create the Student in Full.
-                            cmd.Parameters.AddWithValue("@FirstName", stdFNametb.Text);
-                            cmd.Parameters.AddWithValue("@LastName", stdLNametb.Text);
-                            cmd.Parameters.AddWithValue("@StudentID", stdIdtb.Text);
-                            cmd.Parameters.AddWithValue("@SchoolYear", "2024");
-                            cmd.Parameters.AddWithValue("@DegreePlanID", 1); // Default DegreePlanID
-                            
-                            if (rdbWaiting.Checked)
-                            {
-                                cmd.Parameters.AddWithValue("@StudentStatus", 0);
-                            }
-                            else if (rdbInactive.Checked)
-                            {
-                                cmd.Parameters.AddWithValue("@StudentStatus", 1);
-                            }
-                            else if (rdbActive.Checked)
-                            {
-                                cmd.Parameters.AddWithValue("@StudentStatus", 2);
-                            }
-                            else
-                            {
-                                cmd.Parameters.AddWithValue("@StudentStatus", 3);
-                            }
-
-                            cmd.Parameters.AddWithValue("@SchoolYear", tbSchlYear);
-                            cmd.Parameters.AddWithValue("@DegreePlanID", degreePlanId);
-                            cmd.Parameters.AddWithValue("@StudentStatus", 1); // Default StudentStatus
-                            cmd.Parameters.AddWithValue("@Notes", commrtb.Text);
-                            cmd.Parameters.AddWithValue("@StartingSemester", semesterValue);
-
-
-                            cmd.ExecuteNonQuery();
-                        }
-
-                        using (SQLiteCommand cmd = new SQLiteCommand("SELECT last_insert_rowid();", conn))
-                        {
-                            int studentPrimaryId = Convert.ToInt32(cmd.ExecuteScalar());
-                            using (SQLiteCommand updateCmd = new SQLiteCommand("UPDATE DegreePlan SET StudentID = @sid WHERE DegreePlanID = @dpid;", conn))
-                            {
-                                updateCmd.Parameters.AddWithValue("@sid", studentPrimaryId);
-                                updateCmd.Parameters.AddWithValue("@dpid", degreePlanId);
-                                updateCmd.ExecuteNonQuery();
-                            }
-                        }
-
-                        conn.Close();
+                    // STEP 1: Create a new DegreePlan
+                    int degreePlanId;
+                    using (SQLiteCommand cmd = new SQLiteCommand(
+                        "INSERT INTO DegreePlan (StudentID, SchoolYear, StartSemester) VALUES (@sid, @year, @sem);", conn))
+                    {
+                        // StudentID is temporarily placeholder (since we create the student afterward)
+                        cmd.Parameters.AddWithValue("@sid", 0); // Temporary.
+                        cmd.Parameters.AddWithValue("@year", tbSchlYear.Text);
+                        cmd.Parameters.AddWithValue("@sem", semesterValue);
+                        cmd.ExecuteNonQuery();
                     }
+
+                    // Get DegreePlanID
+                    using (SQLiteCommand cmd = new SQLiteCommand("SELECT last_insert_rowid();", conn))
+                    {
+                        degreePlanId = Convert.ToInt32(cmd.ExecuteScalar());
+                    }
+
+                    // STEP 2: Generate 4 semesters for this degree plan, and their classes.
+                    GenerateSemesters(conn, degreePlanId, tbSchlYear.Text, semcmbo.SelectedIndex);
+                    GenerateDefaultClasses(conn, degreePlanId, semcmbo.SelectedIndex);
+
+
+                    using (SQLiteCommand cmd = new SQLiteCommand(insertQuery, conn))
+                    {
+
+                        // Final Step, Create the Student in Full.
+                        cmd.Parameters.AddWithValue("@FirstName", stdFNametb.Text);
+                        cmd.Parameters.AddWithValue("@LastName", stdLNametb.Text);
+                        cmd.Parameters.AddWithValue("@StudentID", stdIdtb.Text);
+                        cmd.Parameters.AddWithValue("@SchoolYear", "2024");
+                        cmd.Parameters.AddWithValue("@DegreePlanID", 1); // Default DegreePlanID
+
+                        if (rdbWaiting.Checked)
+                        {
+                            cmd.Parameters.AddWithValue("@StudentStatus", 0);
+                        }
+                        else if (rdbInactive.Checked)
+                        {
+                            cmd.Parameters.AddWithValue("@StudentStatus", 1);
+                        }
+                        else if (rdbActive.Checked)
+                        {
+                            cmd.Parameters.AddWithValue("@StudentStatus", 2);
+                        }
+                        else
+                        {
+                            cmd.Parameters.AddWithValue("@StudentStatus", 3);
+                        }
+
+                        cmd.Parameters.AddWithValue("@SchoolYear", tbSchlYear);
+                        cmd.Parameters.AddWithValue("@DegreePlanID", degreePlanId);
+                        cmd.Parameters.AddWithValue("@StudentStatus", 1); // Default StudentStatus
+                        cmd.Parameters.AddWithValue("@Notes", commrtb.Text);
+                        cmd.Parameters.AddWithValue("@StartingSemester", semesterValue);
+
+
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    using (SQLiteCommand cmd = new SQLiteCommand("SELECT last_insert_rowid();", conn))
+                    {
+                        int studentPrimaryId = Convert.ToInt32(cmd.ExecuteScalar());
+                        using (SQLiteCommand updateCmd = new SQLiteCommand("UPDATE DegreePlan SET StudentID = @sid WHERE DegreePlanID = @dpid;", conn))
+                        {
+                            updateCmd.Parameters.AddWithValue("@sid", studentPrimaryId);
+                            updateCmd.Parameters.AddWithValue("@dpid", degreePlanId);
+                            updateCmd.ExecuteNonQuery();
+                        }
+                    }
+
+                    conn.Close();
+                }
 
 
                     // After adding the student, navigate back to the MainPage
                     var mainMenu = this.FindForm() as MainMenu;
-                    if (mainMenu != null)
-                    {
-                        mainMenu.LoadPage(new MainPage());
-                    }
+                if (mainMenu != null)
+                {
+                    mainMenu.LoadPage(new MainPage());
                 }
+            }
                 catch (Exception ex)
                 {
-                    MessageBox.Show($"Error adding course: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
+                MessageBox.Show($"Error adding course: {ex.Message}", "Database Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            // If 'No', simply do nothing (stay on the page)
         }
+
+        // If 'No', simply do nothing (stay on the page)
+    }
+
 
         private void GenerateSemesters(SQLiteConnection conn, int degreePlanId, string startYear, int startSemester)
         {

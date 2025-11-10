@@ -91,7 +91,7 @@
             "Fall",
             "Spring"});
             this.semcmbo.Location = new System.Drawing.Point(92, 156);
-            this.semcmbo.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.semcmbo.Margin = new System.Windows.Forms.Padding(4);
             this.semcmbo.Name = "semcmbo";
             this.semcmbo.Size = new System.Drawing.Size(219, 24);
             this.semcmbo.TabIndex = 3;
@@ -99,7 +99,7 @@
             // stdFNametb
             // 
             this.stdFNametb.Location = new System.Drawing.Point(92, 27);
-            this.stdFNametb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.stdFNametb.Margin = new System.Windows.Forms.Padding(4);
             this.stdFNametb.Name = "stdFNametb";
             this.stdFNametb.Size = new System.Drawing.Size(219, 22);
             this.stdFNametb.TabIndex = 4;
@@ -118,7 +118,7 @@
             // stdLNametb
             // 
             this.stdLNametb.Location = new System.Drawing.Point(92, 70);
-            this.stdLNametb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.stdLNametb.Margin = new System.Windows.Forms.Padding(4);
             this.stdLNametb.Name = "stdLNametb";
             this.stdLNametb.Size = new System.Drawing.Size(219, 22);
             this.stdLNametb.TabIndex = 7;
@@ -137,7 +137,7 @@
             // stdIdtb
             // 
             this.stdIdtb.Location = new System.Drawing.Point(92, 112);
-            this.stdIdtb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.stdIdtb.Margin = new System.Windows.Forms.Padding(4);
             this.stdIdtb.Name = "stdIdtb";
             this.stdIdtb.Size = new System.Drawing.Size(219, 22);
             this.stdIdtb.TabIndex = 9;
@@ -155,8 +155,8 @@
             // 
             // commrtb
             // 
-            this.commrtb.Location = new System.Drawing.Point(16, 234);
-            this.commrtb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.commrtb.Location = new System.Drawing.Point(15, 230);
+            this.commrtb.Margin = new System.Windows.Forms.Padding(4);
             this.commrtb.Name = "commrtb";
             this.commrtb.Size = new System.Drawing.Size(660, 109);
             this.commrtb.TabIndex = 10;
@@ -192,9 +192,9 @@
             // rdbWaiting
             // 
             this.rdbWaiting.AutoSize = true;
-            this.rdbWaiting.Location = new System.Drawing.Point(405, 184);
+            this.rdbWaiting.Location = new System.Drawing.Point(382, 70);
             this.rdbWaiting.Name = "rdbWaiting";
-            this.rdbWaiting.Size = new System.Drawing.Size(87, 24);
+            this.rdbWaiting.Size = new System.Drawing.Size(73, 20);
             this.rdbWaiting.TabIndex = 13;
             this.rdbWaiting.TabStop = true;
             this.rdbWaiting.Text = "Waiting";
@@ -203,9 +203,9 @@
             // rdbActive
             // 
             this.rdbActive.AutoSize = true;
-            this.rdbActive.Location = new System.Drawing.Point(405, 244);
+            this.rdbActive.Location = new System.Drawing.Point(382, 112);
             this.rdbActive.Name = "rdbActive";
-            this.rdbActive.Size = new System.Drawing.Size(77, 24);
+            this.rdbActive.Size = new System.Drawing.Size(65, 20);
             this.rdbActive.TabIndex = 14;
             this.rdbActive.TabStop = true;
             this.rdbActive.Text = "Active";
@@ -214,9 +214,9 @@
             // rdbInactive
             // 
             this.rdbInactive.AutoSize = true;
-            this.rdbInactive.Location = new System.Drawing.Point(600, 184);
+            this.rdbInactive.Location = new System.Drawing.Point(577, 70);
             this.rdbInactive.Name = "rdbInactive";
-            this.rdbInactive.Size = new System.Drawing.Size(89, 24);
+            this.rdbInactive.Size = new System.Drawing.Size(74, 20);
             this.rdbInactive.TabIndex = 15;
             this.rdbInactive.TabStop = true;
             this.rdbInactive.Text = "Inactive";
@@ -225,9 +225,9 @@
             // rdbGraduated
             // 
             this.rdbGraduated.AutoSize = true;
-            this.rdbGraduated.Location = new System.Drawing.Point(600, 244);
+            this.rdbGraduated.Location = new System.Drawing.Point(577, 112);
             this.rdbGraduated.Name = "rdbGraduated";
-            this.rdbGraduated.Size = new System.Drawing.Size(111, 24);
+            this.rdbGraduated.Size = new System.Drawing.Size(92, 20);
             this.rdbGraduated.TabIndex = 16;
             this.rdbGraduated.TabStop = true;
             this.rdbGraduated.Text = "Graduated";
