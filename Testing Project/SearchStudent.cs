@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Office.Interop.Excel;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Data.SQLite;
 using System.Drawing;
 using System.Linq;
@@ -98,7 +100,7 @@ namespace Testing_Project
                         cmd.Parameters.AddRange(parameters.ToArray());
 
                         SQLiteDataAdapter adapter = new SQLiteDataAdapter(cmd);
-                        DataTable dt = new DataTable();
+                        System.Data.DataTable dt = new System.Data.DataTable();
                         adapter.Fill(dt);
 
                         dataGridView1.DataSource = dt;
@@ -146,71 +148,128 @@ namespace Testing_Project
         {
             if (e.RowIndex >= 0)
             {
-                DialogResult result = MessageBox.Show(
-                    "Are you sure you wish to edit this Student?",
+
+                // Step 1: Confirm edit intention
+                DialogResult confirm = MessageBox.Show(
+                    "Are you sure you want to edit the Student or the Degree Plan?",
                     "Confirm Edit",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
                 );
 
-                if (result == DialogResult.Yes)
+                if (confirm == DialogResult.Yes)
                 {
                     // Get selected row
+                    DialogResult choice = MessageBox.Show(
+                        "Would you like to edit the Student? (Select 'No' to edit the Degree Plan)",
+                        "Choose Edit Target",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question
+                    );
+
                     DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
 
-                    int studentID = Convert.ToInt32(row.Cells["StudentID"].Value);
-
-                    try
+                    if (choice == DialogResult.Yes)
                     {
-                        using (SQLiteConnection conn = new SQLiteConnection(dbPath))
+
+                        int studentID = Convert.ToInt32(row.Cells["StudentID"].Value);
+
+                        try
                         {
-                            conn.Open();
-
-                            // Base query
-                            string query = "SELECT StudentID, FirstName, LastName, StartingSemester, Notes, StudentStatus " +
-                                           "FROM Student Where StudentID = @StudentID";
-
-
-                            using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
+                            using (SQLiteConnection conn = new SQLiteConnection(dbPath))
                             {
-                                cmd.Parameters.AddWithValue("@StudentID", studentID);
+                                conn.Open();
 
-                                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                                // Base query
+                                string query = "SELECT StudentID, FirstName, LastName, StartingSemester, Notes, StudentStatus " +
+                                               "FROM Student Where StudentID = @StudentID";
+
+
+                                using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                                 {
-                                    if (reader.Read())
-                                    {
-                                        int StudentID = Convert.ToInt32(reader["StudentID"]);
-                                        string FirstName = reader["FirstName"]?.ToString() ?? "";
-                                        string LastName = reader["LastName"]?.ToString() ?? "";
-                                        bool StartingSemester = Convert.ToBoolean(reader["StartingSemester"]);
-                                        string Notes = reader["Notes"]?.ToString() ?? "";
-                                        int StudentStatus = Convert.ToInt32(reader["StudentStatus"]);
+                                    cmd.Parameters.AddWithValue("@StudentID", studentID);
 
-                                        // Navigate to EditStudent
-                                        var mainMenu = this.FindForm() as MainMenu;
-                                        if (mainMenu != null)
+                                    using (SQLiteDataReader reader = cmd.ExecuteReader())
+                                    {
+                                        if (reader.Read())
                                         {
-                                            mainMenu.LoadPage(new EditStudent(StudentID, FirstName, LastName, StartingSemester, Notes, StudentStatus));
+                                            int StudentID = Convert.ToInt32(reader["StudentID"]);
+                                            string FirstName = reader["FirstName"]?.ToString() ?? "";
+                                            string LastName = reader["LastName"]?.ToString() ?? "";
+                                            bool StartingSemester = Convert.ToBoolean(reader["StartingSemester"]);
+                                            string Notes = reader["Notes"]?.ToString() ?? "";
+                                            int StudentStatus = Convert.ToInt32(reader["StudentStatus"]);
+
+                                            // Navigate to EditStudent
+                                            var mainMenu = this.FindForm() as MainMenu;
+                                            if (mainMenu != null)
+                                            {
+                                                mainMenu.LoadPage(new EditStudent(StudentID, FirstName, LastName, StartingSemester, Notes, StudentStatus));
+                                            }
+                                        }
+                                        else
+                                        {
+                                            MessageBox.Show("Student not found.", "Error",
+                                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                                         }
                                     }
-                                    else
-                                    {
-                                        MessageBox.Show("Student not found.", "Error",
-                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    }
                                 }
+
+                                conn.Close();
                             }
-                       
-                            conn.Close();
+                        }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show("Error searching students: " + ex.Message, "Database Error",
+                                MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
-                    catch (Exception ex)
+
+                    else if (choice == DialogResult.No)
                     {
-                        MessageBox.Show("Error searching students: " + ex.Message, "Database Error",
-                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        // ✅ Edit Degree Plan — fetch it dynamically
+                        int studentId = Convert.ToInt32(row.Cells["StudentID"].Value);
+                        int degreePlanId = GetDegreePlanIdByStudentId(studentId);
+
+                        if (degreePlanId != -1)
+                        {
+                            var mainMenu = this.FindForm() as MainMenu;
+                            if (mainMenu != null)
+                            {
+                                mainMenu.LoadPage(new EditDegreePlan(degreePlanId));
+                            }
+                            else
+                            {
+                                MessageBox.Show(
+                                    "This student does not have a Degree Plan.",
+                                    "No Degree Plan Found",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning
+                                );
+                            }
+                        }
                     }
                 }
             }
+        }  
+        private int GetDegreePlanIdByStudentId(int studentId)
+        {
+            int degreePlanId = -1;
+
+            using (SQLiteConnection conn = new SQLiteConnection(dbPath))
+            {
+                conn.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(
+                    "SELECT DegreePlanID FROM DegreePlan WHERE StudentID = @StudentID", conn))
+                {
+                    cmd.Parameters.AddWithValue("@StudentID", studentId);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null)
+                        degreePlanId = Convert.ToInt32(result);
+                }
+            }
+
+            return degreePlanId;
         }
     }
 }

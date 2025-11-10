@@ -71,6 +71,12 @@
     <Compile Include="EditStudent.Designer.cs">
       <DependentUpon>EditStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="GraderForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GraderForm.Designer.cs">
+      <DependentUpon>GraderForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainMenu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -109,6 +115,12 @@
     <Compile Include="SearchStudent.Designer.cs">
       <DependentUpon>SearchStudent.cs</DependentUpon>
     </Compile>
+    <Compile Include="SemesterForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SemesterForm.Designer.cs">
+      <DependentUpon>SemesterForm.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="EditClass.resx">
       <DependentUpon>EditClass.cs</DependentUpon>
     </EmbeddedResource>
@@ -117,6 +129,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="EditStudent.resx">
       <DependentUpon>EditStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GraderForm.resx">
+      <DependentUpon>GraderForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="MainMenu.resx">
       <DependentUpon>MainMenu.cs</DependentUpon>
@@ -144,6 +159,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SearchStudent.resx">
       <DependentUpon>SearchStudent.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="SemesterForm.resx">
+      <DependentUpon>SemesterForm.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

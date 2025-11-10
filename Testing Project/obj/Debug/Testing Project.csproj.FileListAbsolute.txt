@@ -86,3 +86,8 @@ C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Desi
 C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Data.SQLite.dll
 C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\bin\Debug\System.Data.SQLite.xml
 C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing .38839BFA.Up2Date
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.EditDegreePlan.resources
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.EditStudent.resources
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.GraderForm.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.GraderForm.resources
+C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SemesterForm.resources
