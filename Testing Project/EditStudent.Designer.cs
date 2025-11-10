@@ -41,6 +41,10 @@
             this.cancelBtn = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.btnDelete = new System.Windows.Forms.Button();
+            this.rdbWaiting = new System.Windows.Forms.RadioButton();
+            this.rdbActive = new System.Windows.Forms.RadioButton();
+            this.rdbInactive = new System.Windows.Forms.RadioButton();
+            this.rdbGraduated = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // commlbl
@@ -58,7 +62,7 @@
             this.commrtb.Location = new System.Drawing.Point(24, 285);
             this.commrtb.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.commrtb.Name = "commrtb";
-            this.commrtb.Size = new System.Drawing.Size(742, 135);
+            this.commrtb.Size = new System.Drawing.Size(559, 144);
             this.commrtb.TabIndex = 23;
             this.commrtb.Text = "";
             // 
@@ -144,7 +148,7 @@
             // 
             // cancelBtn
             // 
-            this.cancelBtn.Location = new System.Drawing.Point(540, 174);
+            this.cancelBtn.Location = new System.Drawing.Point(601, 391);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(164, 38);
             this.cancelBtn.TabIndex = 14;
@@ -154,16 +158,17 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(540, 31);
+            this.button1.Location = new System.Drawing.Point(601, 285);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(164, 38);
             this.button1.TabIndex = 13;
             this.button1.Text = "Submit";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // btnDelete
             // 
-            this.btnDelete.Location = new System.Drawing.Point(540, 98);
+            this.btnDelete.Location = new System.Drawing.Point(601, 338);
             this.btnDelete.Name = "btnDelete";
             this.btnDelete.Size = new System.Drawing.Size(164, 38);
             this.btnDelete.TabIndex = 25;
@@ -171,10 +176,58 @@
             this.btnDelete.UseVisualStyleBackColor = true;
             this.btnDelete.Click += new System.EventHandler(this.btnDelete_Click);
             // 
+            // rdbWaiting
+            // 
+            this.rdbWaiting.AutoSize = true;
+            this.rdbWaiting.Location = new System.Drawing.Point(414, 123);
+            this.rdbWaiting.Name = "rdbWaiting";
+            this.rdbWaiting.Size = new System.Drawing.Size(87, 24);
+            this.rdbWaiting.TabIndex = 26;
+            this.rdbWaiting.TabStop = true;
+            this.rdbWaiting.Text = "Waiting";
+            this.rdbWaiting.UseVisualStyleBackColor = true;
+            // 
+            // rdbActive
+            // 
+            this.rdbActive.AutoSize = true;
+            this.rdbActive.Location = new System.Drawing.Point(414, 192);
+            this.rdbActive.Name = "rdbActive";
+            this.rdbActive.Size = new System.Drawing.Size(77, 24);
+            this.rdbActive.TabIndex = 27;
+            this.rdbActive.TabStop = true;
+            this.rdbActive.Text = "Active";
+            this.rdbActive.UseVisualStyleBackColor = true;
+            // 
+            // rdbInactive
+            // 
+            this.rdbInactive.AutoSize = true;
+            this.rdbInactive.Location = new System.Drawing.Point(589, 123);
+            this.rdbInactive.Name = "rdbInactive";
+            this.rdbInactive.Size = new System.Drawing.Size(89, 24);
+            this.rdbInactive.TabIndex = 28;
+            this.rdbInactive.TabStop = true;
+            this.rdbInactive.Text = "Inactive";
+            this.rdbInactive.UseVisualStyleBackColor = true;
+            // 
+            // rdbGraduated
+            // 
+            this.rdbGraduated.AutoSize = true;
+            this.rdbGraduated.Location = new System.Drawing.Point(589, 192);
+            this.rdbGraduated.Name = "rdbGraduated";
+            this.rdbGraduated.Size = new System.Drawing.Size(111, 24);
+            this.rdbGraduated.TabIndex = 29;
+            this.rdbGraduated.TabStop = true;
+            this.rdbGraduated.Text = "Graduated";
+            this.rdbGraduated.UseVisualStyleBackColor = true;
+            // 
             // EditStudent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.Controls.Add(this.rdbGraduated);
+            this.Controls.Add(this.rdbInactive);
+            this.Controls.Add(this.rdbActive);
+            this.Controls.Add(this.rdbWaiting);
             this.Controls.Add(this.btnDelete);
             this.Controls.Add(this.commlbl);
             this.Controls.Add(this.commrtb);
@@ -211,5 +264,9 @@
         private System.Windows.Forms.Button cancelBtn;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnDelete;
+        private System.Windows.Forms.RadioButton rdbWaiting;
+        private System.Windows.Forms.RadioButton rdbActive;
+        private System.Windows.Forms.RadioButton rdbInactive;
+        private System.Windows.Forms.RadioButton rdbGraduated;
     }
 }

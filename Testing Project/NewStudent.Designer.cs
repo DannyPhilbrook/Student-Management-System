@@ -42,6 +42,10 @@
             this.commlbl = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbSchlYear = new System.Windows.Forms.TextBox();
+            this.rdbWaiting = new System.Windows.Forms.RadioButton();
+            this.rdbActive = new System.Windows.Forms.RadioButton();
+            this.rdbInactive = new System.Windows.Forms.RadioButton();
+            this.rdbGraduated = new System.Windows.Forms.RadioButton();
             this.SuspendLayout();
             // 
             // button1
@@ -185,6 +189,50 @@
             this.tbSchlYear.TabIndex = 14;
             this.tbSchlYear.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.tbSchlYear_KeyPress);
             // 
+            // rdbWaiting
+            // 
+            this.rdbWaiting.AutoSize = true;
+            this.rdbWaiting.Location = new System.Drawing.Point(405, 184);
+            this.rdbWaiting.Name = "rdbWaiting";
+            this.rdbWaiting.Size = new System.Drawing.Size(87, 24);
+            this.rdbWaiting.TabIndex = 13;
+            this.rdbWaiting.TabStop = true;
+            this.rdbWaiting.Text = "Waiting";
+            this.rdbWaiting.UseVisualStyleBackColor = true;
+            // 
+            // rdbActive
+            // 
+            this.rdbActive.AutoSize = true;
+            this.rdbActive.Location = new System.Drawing.Point(405, 244);
+            this.rdbActive.Name = "rdbActive";
+            this.rdbActive.Size = new System.Drawing.Size(77, 24);
+            this.rdbActive.TabIndex = 14;
+            this.rdbActive.TabStop = true;
+            this.rdbActive.Text = "Active";
+            this.rdbActive.UseVisualStyleBackColor = true;
+            // 
+            // rdbInactive
+            // 
+            this.rdbInactive.AutoSize = true;
+            this.rdbInactive.Location = new System.Drawing.Point(600, 184);
+            this.rdbInactive.Name = "rdbInactive";
+            this.rdbInactive.Size = new System.Drawing.Size(89, 24);
+            this.rdbInactive.TabIndex = 15;
+            this.rdbInactive.TabStop = true;
+            this.rdbInactive.Text = "Inactive";
+            this.rdbInactive.UseVisualStyleBackColor = true;
+            // 
+            // rdbGraduated
+            // 
+            this.rdbGraduated.AutoSize = true;
+            this.rdbGraduated.Location = new System.Drawing.Point(600, 244);
+            this.rdbGraduated.Name = "rdbGraduated";
+            this.rdbGraduated.Size = new System.Drawing.Size(111, 24);
+            this.rdbGraduated.TabIndex = 16;
+            this.rdbGraduated.TabStop = true;
+            this.rdbGraduated.Text = "Graduated";
+            this.rdbGraduated.UseVisualStyleBackColor = true;
+            // 
             // NewStudent
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -192,6 +240,10 @@
             this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.Controls.Add(this.tbSchlYear);
             this.Controls.Add(this.label1);
+            this.Controls.Add(this.rdbGraduated);
+            this.Controls.Add(this.rdbInactive);
+            this.Controls.Add(this.rdbActive);
+            this.Controls.Add(this.rdbWaiting);
             this.Controls.Add(this.commlbl);
             this.Controls.Add(this.commrtb);
             this.Controls.Add(this.stdIdtb);
@@ -228,5 +280,9 @@
         private System.Windows.Forms.Label commlbl;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox tbSchlYear;
+        private System.Windows.Forms.RadioButton rdbWaiting;
+        private System.Windows.Forms.RadioButton rdbActive;
+        private System.Windows.Forms.RadioButton rdbInactive;
+        private System.Windows.Forms.RadioButton rdbGraduated;
     }
 }

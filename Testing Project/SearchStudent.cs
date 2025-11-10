@@ -73,6 +73,27 @@ namespace Testing_Project
                         parameters.Add(new SQLiteParameter("@number", "%" + stdntIdtb.Text.Trim() + "%"));
                     }
 
+                    List<int> selectedStatuses = new List<int>();
+
+                    if (ckbWaiting.Checked) selectedStatuses.Add(0);
+                    if (ckbInactive.Checked) selectedStatuses.Add(1);
+                    if (ckbActive.Checked) selectedStatuses.Add(2);
+                    if (ckbGraduated.Checked) selectedStatuses.Add(3);
+
+                    if (selectedStatuses.Count > 0)
+                    {
+                        // Create something like "AND (StudentStatus = 0 OR StudentStatus = 2 OR StudentStatus = 3)"
+                        string statusConditions = string.Join(" OR ", selectedStatuses.Select((s, i) => $"StudentStatus = @status{i}"));
+                        query += " AND (" + statusConditions + ")";
+
+                        // Add parameters for each checked box
+                        for (int i = 0; i < selectedStatuses.Count; i++)
+                        {
+                            parameters.Add(new SQLiteParameter($"@status{i}", selectedStatuses[i]));
+                        }
+                    }
+
+
                     using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                     {
                         cmd.Parameters.AddRange(parameters.ToArray());
@@ -138,71 +159,62 @@ namespace Testing_Project
 
                 if (confirm == DialogResult.Yes)
                 {
-                    // Step 2: Ask what to edit
-                    DialogResult choice = MessageBox.Show(
-                        "Would you like to edit the Student? (Select 'No' to edit the Degree Plan)",
-                        "Choose Edit Target",
-                        MessageBoxButtons.YesNo,
-                        MessageBoxIcon.Question
-                    );
+                    // Get selected row
+                    DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
 
-                    var mainMenu = this.FindForm() as MainMenu;
-                    if (mainMenu != null)
+                    int studentID = Convert.ToInt32(row.Cells["StudentID"].Value);
+
+                    try
                     {
-                        if (choice == DialogResult.Yes)
+                        using (SQLiteConnection conn = new SQLiteConnection(dbPath))
                         {
-                            // Edit Student
-                            mainMenu.LoadPage(new EditStudent(
-                                Convert.ToInt32(row.Cells["StudentID"].Value),
-                                row.Cells["FirstName"].Value.ToString(),
-                                row.Cells["LastName"].Value.ToString()
-                            ));
-                        }
-                        else if (choice == DialogResult.No)
-                        {
-                            // ✅ Edit Degree Plan — fetch it dynamically
-                            int studentId = Convert.ToInt32(row.Cells["StudentID"].Value);
-                            int degreePlanId = GetDegreePlanIdByStudentId(studentId);
+                            conn.Open();
 
-                            if (degreePlanId != -1)
+                            // Base query
+                            string query = "SELECT StudentID, FirstName, LastName, StartingSemester, Notes, StudentStatus " +
+                                           "FROM Student Where StudentID = @StudentID";
+
+
+                            using (SQLiteCommand cmd = new SQLiteCommand(query, conn))
                             {
-                                mainMenu.LoadPage(new EditDegreePlan(degreePlanId));
+                                cmd.Parameters.AddWithValue("@StudentID", studentID);
+
+                                using (SQLiteDataReader reader = cmd.ExecuteReader())
+                                {
+                                    if (reader.Read())
+                                    {
+                                        int StudentID = Convert.ToInt32(reader["StudentID"]);
+                                        string FirstName = reader["FirstName"]?.ToString() ?? "";
+                                        string LastName = reader["LastName"]?.ToString() ?? "";
+                                        bool StartingSemester = Convert.ToBoolean(reader["StartingSemester"]);
+                                        string Notes = reader["Notes"]?.ToString() ?? "";
+                                        int StudentStatus = Convert.ToInt32(reader["StudentStatus"]);
+
+                                        // Navigate to EditStudent
+                                        var mainMenu = this.FindForm() as MainMenu;
+                                        if (mainMenu != null)
+                                        {
+                                            mainMenu.LoadPage(new EditStudent(StudentID, FirstName, LastName, StartingSemester, Notes, StudentStatus));
+                                        }
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Student not found.", "Error",
+                                            MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                    }
+                                }
                             }
-                            else
-                            {
-                                MessageBox.Show(
-                                    "This student does not have a Degree Plan.",
-                                    "No Degree Plan Found",
-                                    MessageBoxButtons.OK,
-                                    MessageBoxIcon.Warning
-                                );
-                            }
+                       
+                            conn.Close();
                         }
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error searching students: " + ex.Message, "Database Error",
+                            MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
         }
-
-        // Helper function to get DegreePlanID by StudentID
-        private int GetDegreePlanIdByStudentId(int studentId)
-        {
-            int degreePlanId = -1;
-
-            using (SQLiteConnection conn = new SQLiteConnection(dbPath))
-            {
-                conn.Open();
-                using (SQLiteCommand cmd = new SQLiteCommand(
-                    "SELECT DegreePlanID FROM DegreePlan WHERE StudentID = @StudentID", conn))
-                {
-                    cmd.Parameters.AddWithValue("@StudentID", studentId);
-                    var result = cmd.ExecuteScalar();
-                    if (result != null)
-                        degreePlanId = Convert.ToInt32(result);
-                }
-            }
-
-            return degreePlanId;
-        }
-
     }
 }
