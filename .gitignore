@@ -16,3 +16,5 @@
 /src/StudentManagementSystem.Domain/obj/Debug
 /src/StudentManagementSystem.Domain/obj/Release
 /.vs/StudentManagementSystem
+/packages
+/src/StudentManagementSystem.App/Properties
