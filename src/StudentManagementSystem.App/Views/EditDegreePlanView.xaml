@@ -1,0 +1,169 @@
+<Page x:Class="StudentManagementSystem.App.Views.EditDegreePlanView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Edit Degree Plan"
+      Background="{StaticResource Brush.Background}" Height="783" Width="1215">
+
+    <Grid Margin="48">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,48">
+            <TextBlock Text="Degree Plan Manager" 
+                       Style="{StaticResource HeaderH1}"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="{Binding StudentName, StringFormat='Managing degree plan for {0}'}" 
+                       Style="{StaticResource HeaderH3}"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource Brush.Text.Secondary}"/>
+        </StackPanel>
+
+        <!-- Main Content -->
+        <Border Grid.Row="1" 
+                Style="{StaticResource Card}"
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Stretch">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Left Panel: Semesters -->
+                <StackPanel Grid.Column="0" Margin="0,0,16,0">
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Column="0"
+                                   Text="Semesters" 
+                                   Style="{StaticResource HeaderH3}"/>
+
+                        <StackPanel Grid.Column="1" 
+                                    Orientation="Horizontal">
+                            <Button Content="+ Add" 
+                                    Style="{StaticResource PrimaryButton}"
+                                    Command="{Binding AddSemesterCommand}"
+                                    Margin="0,0,8,0"
+                                    Padding="12,6"/>
+                            <Button Content="Remove" 
+                                    Style="{StaticResource DangerButton}"
+                                    Command="{Binding RemoveSemesterCommand}"
+                                    Padding="12,6"/>
+                        </StackPanel>
+                    </Grid>
+
+                    <Border BorderBrush="{StaticResource Brush.Border}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Background="{StaticResource Brush.Surface}">
+                        <ListBox ItemsSource="{Binding Semesters}"
+                                 SelectedItem="{Binding SelectedSemester}"
+                                 DisplayMemberPath="DisplayText"
+                                 BorderThickness="0"
+                                 Background="Transparent"
+                                 MinHeight="400"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="12"/>
+                                    <Setter Property="Margin" Value="4"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Style.Triggers>
+                                        <Trigger Property="IsSelected" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource Brush.Primary.Light}"/>
+                                            <Setter Property="Foreground" Value="{StaticResource Brush.Text.OnPrimary}"/>
+                                        </Trigger>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource Brush.Surface.Dark}"/>
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </Border>
+                </StackPanel>
+
+                <!-- Right Panel: Classes for Selected Semester -->
+                <StackPanel Grid.Column="1" Margin="16,0,0,0">
+                    <Grid Margin="0,0,0,16">
+                        <TextBlock Text="Assigned Classes" 
+                                   Style="{StaticResource HeaderH3}"
+                                   HorizontalAlignment="Left"/>
+                    </Grid>
+
+                    <!-- Assigned Classes DataGrid -->
+                    <Border BorderBrush="{StaticResource Brush.Border}"
+                            BorderThickness="1"
+                            CornerRadius="8"
+                            Margin="0,0,0,16">
+                        <DataGrid ItemsSource="{Binding SemesterClasses}"
+                                  SelectedItem="{Binding SelectedSemesterClass}"
+                                  AutoGenerateColumns="False"
+                                  Style="{StaticResource ModernDataGrid}"
+                                  ColumnHeaderStyle="{StaticResource ModernDataGridColumnHeader}"
+                                  RowStyle="{StaticResource ModernDataGridRow}"
+                                  MinHeight="200"
+                                  MaxHeight="300">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Course" 
+                                                    Binding="{Binding Course.CourseNumber}" 
+                                                    Width="*"/>
+                                <DataGridTextColumn Header="Name" 
+                                                    Binding="{Binding Course.CourseName}" 
+                                                    Width="2*"/>
+                                <DataGridTextColumn Header="Grade" 
+                                                    Binding="{Binding Grade}" 
+                                                    Width="60"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+
+                    <!-- Add/Remove Class Controls -->
+                    <TextBlock Text="Add Course" 
+                               Style="{StaticResource HeaderH3}"
+                               Margin="0,16,0,8"/>
+
+                    <ComboBox ItemsSource="{Binding AvailableCourses}"
+                              SelectedItem="{Binding SelectedAvailableCourse}"
+                              DisplayMemberPath="DisplayText"
+                              Style="{StaticResource ModernComboBox}"
+                              Margin="0,0,0,8"/>
+
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Button Grid.Column="0"
+                                Content="Add to Semester" 
+                                Style="{StaticResource PrimaryButton}"
+                                Command="{Binding AddClassToSemesterCommand}"
+                                HorizontalAlignment="Stretch"/>
+
+                        <Button Grid.Column="1"
+                                Content="Remove Selected" 
+                                Style="{StaticResource DangerButton}"
+                                Command="{Binding RemoveClassFromSemesterCommand}"
+                                Margin="8,0,0,0"/>
+                    </Grid>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <!-- Back Button -->
+        <Button Grid.Row="1" 
+                Content="? Back" 
+                Style="{StaticResource OutlineButton}"
+                Command="{Binding BackCommand}"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Bottom"
+                Margin="0,16,0,0"/>
+    </Grid>
+</Page>
