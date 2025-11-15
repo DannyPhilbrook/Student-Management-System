@@ -11,25 +11,29 @@ namespace StudentManagementSystem.App.ViewModels
         private readonly INavigationService _navigationService;
         private readonly ICourseService _courseService;
 
-        private int _id;
+        private int _classId;
         private string _courseNumber;
         private string _courseName;
+        private string _label;
+        private bool _semester;
 
         public EditClassViewModel(INavigationService navigationService, ICourseService courseService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _courseService = courseService ?? throw new ArgumentNullException(nameof(courseService));
-            
+
             _courseNumber = string.Empty;
             _courseName = string.Empty;
+            _label = string.Empty;
+            _semester = false;
         }
 
-        public int Id
+        public int ClassId
         {
-            get => _id;
+            get => _classId;
             set
             {
-                _id = value;
+                _classId = value;
                 OnPropertyChanged();
             }
         }
@@ -54,13 +58,35 @@ namespace StudentManagementSystem.App.ViewModels
             }
         }
 
+        public string Label
+        {
+            get => _label;
+            set
+            {
+                _label = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public bool Semester
+        {
+            get => _semester;
+            set
+            {
+                _semester = value;
+                OnPropertyChanged();
+            }
+        }
+
         public void LoadCourse(Course course)
         {
             if (course != null)
             {
-                Id = course.Id;
+                ClassId = course.ClassID;
                 CourseNumber = course.CourseNumber;
                 CourseName = course.CourseName;
+                Label = course.Label;
+                Semester = course.Semester;
             }
         }
 
@@ -68,21 +94,21 @@ namespace StudentManagementSystem.App.ViewModels
         {
             if (string.IsNullOrWhiteSpace(CourseNumber) || string.IsNullOrWhiteSpace(CourseName))
             {
-                // TODO: Show validation error message
                 return;
             }
 
             try
             {
-                var course = new Course(CourseNumber, CourseName) { Id = Id };
+                var course = new Course(CourseNumber, CourseName, Label, Semester)
+                {
+                    ClassID = ClassId
+                };
                 await _courseService.UpdateCourseAsync(course);
-                
-                // TODO: Show success message
+
                 _navigationService.GoBack();
             }
             catch (Exception ex)
             {
-                // TODO: Show error message
                 System.Diagnostics.Debug.WriteLine($"Error updating course: {ex.Message}");
             }
         });
