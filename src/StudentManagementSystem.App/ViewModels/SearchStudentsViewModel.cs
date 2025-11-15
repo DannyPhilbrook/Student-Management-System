@@ -26,7 +26,7 @@ namespace StudentManagementSystem.App.ViewModels
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
-            
+
             _students = new ObservableCollection<Student>();
             _searchName = string.Empty;
             _searchStudentId = string.Empty;
@@ -116,9 +116,8 @@ namespace StudentManagementSystem.App.ViewModels
         {
             if (student != null)
             {
-                // TODO: Navigate to edit student view with parameter
-                System.Diagnostics.Debug.WriteLine($"Edit student: {student.FullName}");
-                // _navigationService.NavigateTo<EditStudentViewModel>(student);
+                // Navigate to EditStudentViewModel with the student object
+                _navigationService.NavigateTo<EditStudentViewModel>(student);
             }
         });
 
@@ -141,7 +140,7 @@ namespace StudentManagementSystem.App.ViewModels
             {
                 IsLoading = true;
                 var results = await _studentService.SearchStudentsAsync(SearchName, SearchStudentId, SearchStatus, SearchSemester);
-                
+
                 Students.Clear();
                 foreach (var student in results)
                 {
@@ -150,7 +149,6 @@ namespace StudentManagementSystem.App.ViewModels
             }
             catch (Exception ex)
             {
-                // TODO: Show error dialog
                 System.Diagnostics.Debug.WriteLine($"Error searching students: {ex.Message}");
             }
             finally
@@ -165,7 +163,7 @@ namespace StudentManagementSystem.App.ViewModels
             {
                 IsLoading = true;
                 var results = await _studentService.GetAllStudentsAsync();
-                
+
                 Students.Clear();
                 foreach (var student in results)
                 {
@@ -174,7 +172,6 @@ namespace StudentManagementSystem.App.ViewModels
             }
             catch (Exception ex)
             {
-                // TODO: Show error dialog
                 System.Diagnostics.Debug.WriteLine($"Error loading students: {ex.Message}");
             }
             finally
@@ -191,17 +188,15 @@ namespace StudentManagementSystem.App.ViewModels
                 // For now, just delete directly
                 IsLoading = true;
                 bool success = await _studentService.DeleteStudentAsync(student.StudentID);
-                
+
                 if (success)
                 {
                     Students.Remove(student);
-                    // TODO: Show success message
                     System.Diagnostics.Debug.WriteLine($"Student {student.FullName} deleted successfully");
                 }
             }
             catch (Exception ex)
             {
-                // TODO: Show error dialog
                 System.Diagnostics.Debug.WriteLine($"Error deleting student: {ex.Message}");
             }
             finally

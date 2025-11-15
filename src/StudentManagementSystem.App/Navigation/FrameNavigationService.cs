@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Navigation;
 using StudentManagementSystem.App.Views;
+using StudentManagementSystem.App.ViewModels;
 
 namespace StudentManagementSystem.App.Navigation
 {
@@ -16,12 +16,14 @@ namespace StudentManagementSystem.App.Navigation
             _frame = frame;
             _viewMap = new Dictionary<Type, Type>
             {
-                { typeof(ViewModels.MainMenuViewModel), typeof(MainMenuView) },
-                { typeof(ViewModels.NewStudentViewModel), typeof(NewStudentView) },
-                { typeof(ViewModels.SearchStudentsViewModel), typeof(SearchStudentsView) },
-                { typeof(ViewModels.CoursesViewModel), typeof(CoursesView) },
-                { typeof(ViewModels.NewClassViewModel), typeof(NewClassView) },
-                { typeof(ViewModels.EditClassViewModel), typeof(EditClassView) }
+                { typeof(MainMenuViewModel), typeof(MainMenuView) },
+                { typeof(NewStudentViewModel), typeof(NewStudentView) },
+                { typeof(SearchStudentsViewModel), typeof(SearchStudentsView) },
+                { typeof(EditStudentViewModel), typeof(EditStudentView) },
+                { typeof(CoursesViewModel), typeof(CoursesView) },
+                { typeof(NewClassViewModel), typeof(NewClassView) },
+                { typeof(EditClassViewModel), typeof(EditClassView) },
+                { typeof(EditDegreePlanViewModel), typeof(EditDegreePlanView) }
             };
         }
 
@@ -35,11 +37,66 @@ namespace StudentManagementSystem.App.Navigation
             if (_viewMap.TryGetValue(typeof(T), out Type viewType))
             {
                 var view = Activator.CreateInstance(viewType) as Page;
+
                 if (view != null)
                 {
-                    _frame.Navigate(view, parameter);
+                    // Create ViewModel with services from ServiceLocator
+                    var viewModel = CreateViewModel<T>();
+
+                    if (viewModel != null)
+                    {
+                        view.DataContext = viewModel;
+
+                        // Handle parameter passing for specific ViewModels
+                        if (parameter != null)
+                        {
+                            if (viewModel is EditStudentViewModel editStudentVM && parameter is Domain.Student student)
+                            {
+                                editStudentVM.LoadStudent(student);
+                            }
+                            else if (viewModel is EditDegreePlanViewModel editDegreePlanVM && parameter is DegreePlanParameter dpParam)
+                            {
+                                // Load degree plan asynchronously
+                                _ = editDegreePlanVM.LoadDegreePlanAsync(dpParam.DegreePlanId, dpParam.StudentName);
+                            }
+                        }
+                    }
+
+                    _frame.Navigate(view);
                 }
             }
+        }
+
+        private object CreateViewModel<T>() where T : class
+        {
+            var viewModelType = typeof(T);
+
+            // Create ViewModels with their dependencies
+            if (viewModelType == typeof(MainMenuViewModel))
+                return new MainMenuViewModel(ServiceLocator.NavigationService);
+
+            if (viewModelType == typeof(NewStudentViewModel))
+                return new NewStudentViewModel(ServiceLocator.NavigationService, ServiceLocator.StudentService);
+
+            if (viewModelType == typeof(SearchStudentsViewModel))
+                return new SearchStudentsViewModel(ServiceLocator.NavigationService, ServiceLocator.StudentService);
+
+            if (viewModelType == typeof(EditStudentViewModel))
+                return new EditStudentViewModel(ServiceLocator.NavigationService, ServiceLocator.StudentService);
+
+            if (viewModelType == typeof(CoursesViewModel))
+                return new CoursesViewModel(ServiceLocator.NavigationService, ServiceLocator.CourseService);
+
+            if (viewModelType == typeof(NewClassViewModel))
+                return new NewClassViewModel(ServiceLocator.NavigationService, ServiceLocator.CourseService);
+
+            if (viewModelType == typeof(EditClassViewModel))
+                return new EditClassViewModel(ServiceLocator.NavigationService, ServiceLocator.CourseService);
+
+            if (viewModelType == typeof(EditDegreePlanViewModel))
+                return new EditDegreePlanViewModel(ServiceLocator.NavigationService, ServiceLocator.DegreePlanService, ServiceLocator.CourseService);
+
+            return null;
         }
 
         public void GoBack()
@@ -51,5 +108,12 @@ namespace StudentManagementSystem.App.Navigation
         }
 
         public bool CanGoBack => _frame.CanGoBack;
+    }
+
+    // Helper class for passing degree plan parameters
+    public class DegreePlanParameter
+    {
+        public int DegreePlanId { get; set; }
+        public string StudentName { get; set; }
     }
 }
