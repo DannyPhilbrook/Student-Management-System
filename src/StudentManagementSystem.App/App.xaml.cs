@@ -2,6 +2,7 @@ using System;
 using System.Windows;
 using StudentManagementSystem.App.Navigation;
 using StudentManagementSystem.App.Views;
+using StudentManagementSystem.App.ViewModels;
 using StudentManagementSystem.Services.Implementations;
 using StudentManagementSystem.Services.Interfaces;
 
@@ -22,11 +23,14 @@ namespace StudentManagementSystem.App
             var mainWindow = new MainWindow();
             var navigationService = new FrameNavigationService(mainWindow.MainFrame);
 
-            // Set up dependency injection (simple approach)
+            // Set up dependency injection
             ServiceLocator.StudentService = studentService;
             ServiceLocator.CourseService = courseService;
             ServiceLocator.DegreePlanService = degreePlanService;
             ServiceLocator.NavigationService = navigationService;
+
+            // NOW navigate to MainMenu
+            navigationService.NavigateTo<MainMenuViewModel>();
 
             // Show main window
             mainWindow.Show();

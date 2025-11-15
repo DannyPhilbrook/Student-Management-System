@@ -24,7 +24,8 @@
         <!-- Form Card -->
         <Border Grid.Row="1" 
                 Style="{StaticResource Card}" 
-                Width="500" 
+                Width="600"
+                Height="700"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Center">
             <StackPanel Margin="32">
