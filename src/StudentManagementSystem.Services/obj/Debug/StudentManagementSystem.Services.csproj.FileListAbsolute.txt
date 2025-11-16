@@ -1,9 +1,0 @@
-C:\Users\dsphi\OneDrive\Desktop\Classes\Fall 2025\Senior Design\Student-Management-System\src\StudentManagementSystem.Services\bin\Debug\StudentManagementSystem.Services.dll
-C:\Users\dsphi\OneDrive\Desktop\Classes\Fall 2025\Senior Design\Student-Management-System\src\StudentManagementSystem.Services\bin\Debug\StudentManagementSystem.Services.pdb
-C:\Users\dsphi\OneDrive\Desktop\Classes\Fall 2025\Senior Design\Student-Management-System\src\StudentManagementSystem.Services\bin\Debug\StudentManagementSystem.Domain.dll
-C:\Users\dsphi\OneDrive\Desktop\Classes\Fall 2025\Senior Design\Student-Management-System\src\StudentManagementSystem.Services\bin\Debug\StudentManagementSystem.Domain.pdb
-C:\Users\dsphi\OneDrive\Desktop\Classes\Fall 2025\Senior Design\Student-Management-System\src\StudentManagementSystem.Services\obj\Debug\StudentManagementSystem.Services.csproj.AssemblyReference.cache
-C:\Users\dsphi\OneDrive\Desktop\Classes\Fall 2025\Senior Design\Student-Management-System\src\StudentManagementSystem.Services\obj\Debug\StudentManagementSystem.Services.csproj.CoreCompileInputs.cache
-C:\Users\dsphi\OneDrive\Desktop\Classes\Fall 2025\Senior Design\Student-Management-System\src\StudentManagementSystem.Services\obj\Debug\StudentM.2964CCD9.Up2Date
-C:\Users\dsphi\OneDrive\Desktop\Classes\Fall 2025\Senior Design\Student-Management-System\src\StudentManagementSystem.Services\obj\Debug\StudentManagementSystem.Services.dll
-C:\Users\dsphi\OneDrive\Desktop\Classes\Fall 2025\Senior Design\Student-Management-System\src\StudentManagementSystem.Services\obj\Debug\StudentManagementSystem.Services.pdb
