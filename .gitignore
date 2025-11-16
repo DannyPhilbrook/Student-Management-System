@@ -1,5 +1,42 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+﻿# Build outputs - use patterns, not specific paths
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
 
-/.vs/Student-Management-System/CopilotIndices/17.14.1290.42047/CodeChunks.db
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Visual Studio cache/options
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet Packages
+*.nupkg
+packages/
+*.nuget.props
+*.nuget.targets
+
+# XML documentation files
+*.xml
+
+# Build results
+*.dll
+*.exe
+*.pdb
+
+# Test Results
+TestResults/
+
+# VS Code
+.vscode/
+
+# Resource files (if auto-generated)
+*.resources
