@@ -10,7 +10,8 @@ namespace StudentManagementSystem.Services.Implementations
 {
     public class StudentService : IStudentService
     {
-        private readonly string _connectionString = "Data Source=Database/stdmngsys.db;Version=3;";
+        // Database path relative to executable location (matches WinForms)
+        private readonly string _connectionString = $"Data Source={System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "stdmngsys.db")};Version=3;";
 
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {
@@ -138,13 +139,13 @@ namespace StudentManagementSystem.Services.Implementations
 
                     using (var cmd = new SQLiteCommand(insertQuery, conn))
                     {
-                        cmd.Parameters.AddWithValue("@FirstName", student.FirstName);
-                        cmd.Parameters.AddWithValue("@LastName", student.LastName);
-                        cmd.Parameters.AddWithValue("@StartingSemester", student.StartingSemester);
-                        cmd.Parameters.AddWithValue("@Notes", student.Notes ?? string.Empty);
-                        cmd.Parameters.AddWithValue("@StudentStatus", (int)student.StudentStatus);
-                        cmd.Parameters.AddWithValue("@SchoolYear", student.SchoolYear);
-                        cmd.Parameters.AddWithValue("@DegreePlanID", degreePlanID);
+                    cmd.Parameters.AddWithValue("@FirstName", student.FirstName);
+                    cmd.Parameters.AddWithValue("@LastName", student.LastName);
+                    cmd.Parameters.AddWithValue("@StartingSemester", student.StartingSemester);
+                    cmd.Parameters.AddWithValue("@Notes", student.Notes ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@StudentStatus", (int)student.StudentStatus);
+                    cmd.Parameters.AddWithValue("@SchoolYear", student.SchoolYear ?? DateTime.Now.Year.ToString());
+                    cmd.Parameters.AddWithValue("@DegreePlanID", degreePlanID);
 
                         student.StudentID = Convert.ToInt32(cmd.ExecuteScalar());
                         student.DegreePlanID = degreePlanID;
@@ -171,6 +172,8 @@ namespace StudentManagementSystem.Services.Implementations
                 using (var conn = new SQLiteConnection(_connectionString))
                 {
                     conn.Open();
+                    // Match WinForms logic: Update all fields including StudentID if it's changeable
+                    // Note: In WinForms, StudentID appears to be updatable, but we'll use it as the WHERE clause identifier
                     string updateQuery = @"UPDATE Student 
                                           SET FirstName = @FirstName, 
                                               LastName = @LastName, 
@@ -188,8 +191,8 @@ namespace StudentManagementSystem.Services.Implementations
                         cmd.Parameters.AddWithValue("@StartingSemester", student.StartingSemester);
                         cmd.Parameters.AddWithValue("@Notes", student.Notes ?? string.Empty);
                         cmd.Parameters.AddWithValue("@StudentStatus", (int)student.StudentStatus);
-                        cmd.Parameters.AddWithValue("@SchoolYear", student.SchoolYear);
-                        cmd.Parameters.AddWithValue("@DegreePlanID", student.DegreePlanID ?? (object)DBNull.Value);
+                        cmd.Parameters.AddWithValue("@SchoolYear", student.SchoolYear ?? "2024");
+                        cmd.Parameters.AddWithValue("@DegreePlanID", student.DegreePlanID ?? 1); // Default DegreePlanID like WinForms
                         cmd.Parameters.AddWithValue("@StudentID", student.StudentID);
 
                         cmd.ExecuteNonQuery();

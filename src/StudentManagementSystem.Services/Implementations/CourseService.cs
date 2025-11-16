@@ -10,7 +10,8 @@ namespace StudentManagementSystem.Services.Implementations
 {
     public class CourseService : ICourseService
     {
-        private readonly string _connectionString = "Data Source=Database/stdmngsys.db;Version=3;";
+        // Database path relative to executable location (matches WinForms)
+        private readonly string _connectionString = $"Data Source={System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "stdmngsys.db")};Version=3;";
 
         public async Task<IEnumerable<Course>> GetAllCoursesAsync()
         {

@@ -6,6 +6,6 @@
         Width="1024"
         WindowStartupLocation="CenterScreen">
     <Grid>
-        <Frame x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        <Frame x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="{StaticResource Brush.Background}"/>
     </Grid>
 </Window>
