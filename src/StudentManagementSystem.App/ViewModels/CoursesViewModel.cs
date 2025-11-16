@@ -104,8 +104,11 @@ namespace StudentManagementSystem.App.ViewModels
             }
             catch (Exception ex)
             {
-                // TODO: Show error dialog
-                System.Diagnostics.Debug.WriteLine($"Error loading courses: {ex.Message}");
+                System.Windows.MessageBox.Show(
+                    $"Error loading courses: {ex.Message}",
+                    "Database Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
             finally
             {
@@ -115,23 +118,37 @@ namespace StudentManagementSystem.App.ViewModels
 
         private async Task DeleteCourseAsync(Course course)
         {
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you want to delete this class?",
+                "Confirm Delete",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Warning);
+
+            if (result != System.Windows.MessageBoxResult.Yes)
+                return;
+
             try
             {
-                // TODO: Show confirmation dialog
                 IsLoading = true;
                 bool success = await _courseService.DeleteCourseAsync(course.ClassID);
 
                 if (success)
                 {
                     Courses.Remove(course);
-                    // TODO: Show success message
-                    System.Diagnostics.Debug.WriteLine($"Course {course.DisplayText} deleted successfully");
+                    System.Windows.MessageBox.Show(
+                        "Class deleted successfully!",
+                        "Success",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Information);
                 }
             }
             catch (Exception ex)
             {
-                // TODO: Show error dialog
-                System.Diagnostics.Debug.WriteLine($"Error deleting course: {ex.Message}");
+                System.Windows.MessageBox.Show(
+                    $"Error deleting class: {ex.Message}",
+                    "Database Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
             finally
             {

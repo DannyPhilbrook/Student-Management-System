@@ -4,6 +4,9 @@
         Title="Student Management System"
         Height="768"
         Width="1024"
+        MinHeight="600"
+        MinWidth="800"
+        ResizeMode="CanResize"
         WindowStartupLocation="CenterScreen">
     <Grid>
         <Frame x:Name="ContentFrame" NavigationUIVisibility="Hidden" Background="{StaticResource Brush.Background}"/>

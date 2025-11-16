@@ -75,6 +75,32 @@ namespace StudentManagementSystem.App.ViewModels
             {
                 _semester = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSpringSemester));
+                OnPropertyChanged(nameof(IsFallSemester));
+            }
+        }
+
+        public bool IsSpringSemester
+        {
+            get => _semester;
+            set
+            {
+                _semester = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Semester));
+                OnPropertyChanged(nameof(IsFallSemester));
+            }
+        }
+
+        public bool IsFallSemester
+        {
+            get => !_semester;
+            set
+            {
+                _semester = !value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(Semester));
+                OnPropertyChanged(nameof(IsSpringSemester));
             }
         }
 

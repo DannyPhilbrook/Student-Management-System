@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 using System.Windows.Input;
 using StudentManagementSystem.App.Navigation;
 using StudentManagementSystem.Domain;
@@ -19,6 +21,9 @@ namespace StudentManagementSystem.App.ViewModels
         private bool _isSpringSemester;
         private bool _isLoading;
         private ObservableCollection<string> _availableLabels;
+        private string _selectedSemester;
+
+        public List<string> SemesterOptions { get; } = new List<string> { "Fall", "Spring" };
 
         public NewClassViewModel(INavigationService navigationService, ICourseService courseService)
         {
@@ -29,6 +34,7 @@ namespace StudentManagementSystem.App.ViewModels
             _courseName = string.Empty;
             _selectedLabel = string.Empty;
             _availableLabels = new ObservableCollection<string>();
+            _selectedSemester = "Fall"; // Default to Fall
 
             // Load existing labels for dropdown
             _ = LoadLabelsAsync();
@@ -64,18 +70,46 @@ namespace StudentManagementSystem.App.ViewModels
             }
         }
 
+        public string SemesterText
+        {
+            get => _selectedSemester;
+            set
+            {
+                if (value != null)
+                {
+                    _selectedSemester = value;
+                    _isSpringSemester = value.Equals("Spring", StringComparison.OrdinalIgnoreCase);
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(IsSpringSemester));
+                }
+            }
+        }
+
         public bool IsSpringSemester
         {
             get => _isSpringSemester;
             set
             {
                 _isSpringSemester = value;
+                _selectedSemester = value ? "Spring" : "Fall";
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(SemesterText));
+                OnPropertyChanged(nameof(IsFallSemester));
             }
         }
 
-        public string SemesterText => IsSpringSemester ? "Spring" : "Fall";
+        public bool IsFallSemester
+        {
+            get => !_isSpringSemester;
+            set
+            {
+                _isSpringSemester = !value;
+                _selectedSemester = value ? "Fall" : "Spring";
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSpringSemester));
+                OnPropertyChanged(nameof(SemesterText));
+            }
+        }
 
         public bool IsLoading
         {
@@ -99,10 +133,22 @@ namespace StudentManagementSystem.App.ViewModels
 
         public ICommand SaveCommand => new RelayCommand(async () =>
         {
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you wish to create this Course?",
+                "Confirmation",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question);
+
+            if (result != System.Windows.MessageBoxResult.Yes)
+                return;
+
             if (!ValidateInput())
             {
-                // TODO: Show validation error
-                System.Diagnostics.Debug.WriteLine("Please fill out all required fields.");
+                System.Windows.MessageBox.Show(
+                    "Please fill out all required fields.",
+                    "Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
                 return;
             }
 
@@ -113,14 +159,21 @@ namespace StudentManagementSystem.App.ViewModels
                 var course = new Course(CourseNumber, CourseName, SelectedLabel, IsSpringSemester);
                 await _courseService.AddCourseAsync(course);
 
-                // TODO: Show success message
-                System.Diagnostics.Debug.WriteLine($"Course {course.DisplayText} added successfully!");
+                System.Windows.MessageBox.Show(
+                    "Course added successfully!",
+                    "Success",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Information);
+
                 _navigationService.GoBack();
             }
             catch (Exception ex)
             {
-                // TODO: Show error dialog
-                System.Diagnostics.Debug.WriteLine($"Error adding course: {ex.Message}");
+                System.Windows.MessageBox.Show(
+                    $"Error adding course: {ex.Message}",
+                    "Database Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
             finally
             {
@@ -130,7 +183,16 @@ namespace StudentManagementSystem.App.ViewModels
 
         public ICommand CancelCommand => new RelayCommand(() =>
         {
-            _navigationService.GoBack();
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you wish to cancel creation?",
+                "Warning",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Exclamation);
+
+            if (result == System.Windows.MessageBoxResult.Yes)
+            {
+                _navigationService.GoBack();
+            }
         });
 
         private async Task LoadLabelsAsync()

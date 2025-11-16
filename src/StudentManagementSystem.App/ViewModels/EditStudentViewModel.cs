@@ -124,11 +124,81 @@ namespace StudentManagementSystem.App.ViewModels
 
         public Array StudentStatusValues => Enum.GetValues(typeof(StudentStatus));
 
+        // Status radio button properties
+        public bool IsWaitingStatus
+        {
+            get => _studentStatus == StudentStatus.Waiting;
+            set
+            {
+                if (value) _studentStatus = StudentStatus.Waiting;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StudentStatus));
+                OnPropertyChanged(nameof(IsInactiveStatus));
+                OnPropertyChanged(nameof(IsActiveStatus));
+                OnPropertyChanged(nameof(IsGraduatedStatus));
+            }
+        }
+
+        public bool IsInactiveStatus
+        {
+            get => _studentStatus == StudentStatus.Inactive;
+            set
+            {
+                if (value) _studentStatus = StudentStatus.Inactive;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StudentStatus));
+                OnPropertyChanged(nameof(IsWaitingStatus));
+                OnPropertyChanged(nameof(IsActiveStatus));
+                OnPropertyChanged(nameof(IsGraduatedStatus));
+            }
+        }
+
+        public bool IsActiveStatus
+        {
+            get => _studentStatus == StudentStatus.Active;
+            set
+            {
+                if (value) _studentStatus = StudentStatus.Active;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StudentStatus));
+                OnPropertyChanged(nameof(IsWaitingStatus));
+                OnPropertyChanged(nameof(IsInactiveStatus));
+                OnPropertyChanged(nameof(IsGraduatedStatus));
+            }
+        }
+
+        public bool IsGraduatedStatus
+        {
+            get => _studentStatus == StudentStatus.Graduated;
+            set
+            {
+                if (value) _studentStatus = StudentStatus.Graduated;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StudentStatus));
+                OnPropertyChanged(nameof(IsWaitingStatus));
+                OnPropertyChanged(nameof(IsInactiveStatus));
+                OnPropertyChanged(nameof(IsActiveStatus));
+            }
+        }
+
         public ICommand SaveCommand => new RelayCommand(async () =>
         {
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you wish to edit this student's information?",
+                "Confirmation",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question);
+
+            if (result != System.Windows.MessageBoxResult.Yes)
+                return;
+
             if (!ValidateInput())
             {
-                System.Diagnostics.Debug.WriteLine("Please fill out all required fields.");
+                System.Windows.MessageBox.Show(
+                    "Please fill out all required fields.",
+                    "Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
                 return;
             }
 
@@ -147,36 +217,76 @@ namespace StudentManagementSystem.App.ViewModels
 
                 await _studentService.UpdateStudentAsync(student);
 
-                System.Diagnostics.Debug.WriteLine($"Student {student.FullName} updated successfully!");
+                System.Windows.MessageBox.Show(
+                    $"Student {student.FullName} updated successfully!",
+                    "Success",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Information);
+
+                // Navigate back and refresh the student list
                 _navigationService.GoBack();
+                
+                // Trigger refresh on the previous page (SearchStudentsView)
+                // This will be handled by the view's Loaded event
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error updating student: {ex.Message}");
+                System.Windows.MessageBox.Show(
+                    $"Error updating student: {ex.Message}",
+                    "Database Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
         });
 
         public ICommand DeleteCommand => new RelayCommand(async () =>
         {
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you want to delete this student and all related degree plans?",
+                "Confirm Delete",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Warning);
+
+            if (result != System.Windows.MessageBoxResult.Yes)
+                return;
+
             try
             {
                 bool success = await _studentService.DeleteStudentAsync(StudentId);
 
                 if (success)
                 {
-                    System.Diagnostics.Debug.WriteLine($"Student deleted successfully!");
+                    System.Windows.MessageBox.Show(
+                        "Student and all related data deleted successfully!",
+                        "Success",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Information);
+
                     _navigationService.GoBack();
                 }
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine($"Error deleting student: {ex.Message}");
+                System.Windows.MessageBox.Show(
+                    $"Error deleting student: {ex.Message}",
+                    "Database Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
         });
 
         public ICommand CancelCommand => new RelayCommand(() =>
         {
-            _navigationService.GoBack();
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you wish to cancel editing? (All changes you've done can't be undone)",
+                "Warning",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Exclamation);
+
+            if (result == System.Windows.MessageBoxResult.Yes)
+            {
+                _navigationService.GoBack();
+            }
         });
 
         public void LoadStudent(Student student)

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Globalization;
 using StudentManagementSystem.Domain;
 using StudentManagementSystem.Services.Interfaces;
 
@@ -261,13 +262,51 @@ namespace StudentManagementSystem.Services.Implementations
         // Helper method to map SQLiteDataReader to Course object
         private Course MapCourse(SQLiteDataReader reader)
         {
+            // Handle Semester column - SQLite stores booleans as INTEGER (0/1)
+            // Try to read as boolean first, but handle cases where it might be stored differently
+            bool semesterValue = false;
+            int semesterOrdinal = reader.GetOrdinal("Semester");
+            
+            if (!reader.IsDBNull(semesterOrdinal))
+            {
+                // Try to read as boolean (INTEGER 0/1)
+                try
+                {
+                    semesterValue = reader.GetBoolean(semesterOrdinal);
+                }
+                catch (InvalidCastException)
+                {
+                    // If boolean read fails, try reading as integer
+                    try
+                    {
+                        int intValue = reader.GetInt32(semesterOrdinal);
+                        semesterValue = intValue != 0;
+                    }
+                    catch
+                    {
+                        // If integer read fails, try reading as string and converting
+                        string strValue = reader.GetString(semesterOrdinal);
+                        semesterValue = strValue.Equals("1", StringComparison.OrdinalIgnoreCase) || 
+                                      strValue.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                                      strValue.Equals("Spring", StringComparison.OrdinalIgnoreCase);
+                    }
+                }
+            }
+
+            // Use indexer with ToString() like WinForms - handles type conversion automatically
+            // CourseNumber might be stored as INTEGER or TEXT
+            int classIdOrdinal = reader.GetOrdinal("ClassID");
+            int courseNumberOrdinal = reader.GetOrdinal("CourseNumber");
+            int classNameOrdinal = reader.GetOrdinal("ClassName");
+            int labelOrdinal = reader.GetOrdinal("Label");
+
             return new Course
             {
-                ClassID = reader.GetInt32(reader.GetOrdinal("ClassID")),
-                CourseNumber = reader.GetString(reader.GetOrdinal("CourseNumber")),
-                CourseName = reader.GetString(reader.GetOrdinal("ClassName")),
-                Label = reader.IsDBNull(reader.GetOrdinal("Label")) ? string.Empty : reader.GetString(reader.GetOrdinal("Label")),
-                Semester = reader.GetBoolean(reader.GetOrdinal("Semester"))
+                ClassID = reader.GetInt32(classIdOrdinal),
+                CourseNumber = reader.IsDBNull(courseNumberOrdinal) ? string.Empty : reader[courseNumberOrdinal].ToString(),
+                CourseName = reader.IsDBNull(classNameOrdinal) ? string.Empty : reader[classNameOrdinal].ToString(),
+                Label = reader.IsDBNull(labelOrdinal) ? string.Empty : reader[labelOrdinal].ToString(),
+                Semester = semesterValue
             };
         }
     }

@@ -61,7 +61,7 @@ namespace StudentManagementSystem.Services.Implementations
             });
         }
 
-        public async Task<IEnumerable<Student>> SearchStudentsAsync(string name, string studentId, StudentStatus? status, string semester)
+        public async Task<IEnumerable<Student>> SearchStudentsAsync(string name, string studentId, IEnumerable<StudentStatus> statuses, string semester)
         {
             return await Task.Run(() =>
             {
@@ -71,25 +71,36 @@ namespace StudentManagementSystem.Services.Implementations
                 {
                     conn.Open();
 
+                    // Build base query - match WinForms: separate FirstName and LastName filters
                     var query = "SELECT StudentID, FirstName, LastName, StartingSemester, Notes, StudentStatus, SchoolYear, DegreePlanID FROM Student WHERE 1=1";
                     var parameters = new List<SQLiteParameter>();
 
+                    // Split name into first and last name for separate filtering (matching WinForms)
                     if (!string.IsNullOrWhiteSpace(name))
                     {
-                        query += " AND (FirstName LIKE @name OR LastName LIKE @name)";
-                        parameters.Add(new SQLiteParameter("@name", $"%{name}%"));
+                        // WinForms uses LOWER() for case-insensitive search
+                        query += " AND (LOWER(FirstName) LIKE @firstName OR LOWER(LastName) LIKE @lastName)";
+                        parameters.Add(new SQLiteParameter("@firstName", $"%{name.Trim().ToLower()}%"));
+                        parameters.Add(new SQLiteParameter("@lastName", $"%{name.Trim().ToLower()}%"));
                     }
 
                     if (!string.IsNullOrWhiteSpace(studentId))
                     {
-                        query += " AND CAST(StudentID AS TEXT) LIKE @studentId";
-                        parameters.Add(new SQLiteParameter("@studentId", $"%{studentId}%"));
+                        query += " AND StudentID LIKE @studentId";
+                        parameters.Add(new SQLiteParameter("@studentId", $"%{studentId.Trim()}%"));
                     }
 
-                    if (status.HasValue)
+                    // Handle multiple status selections (matching WinForms checkbox logic)
+                    if (statuses != null && statuses.Any())
                     {
-                        query += " AND StudentStatus = @status";
-                        parameters.Add(new SQLiteParameter("@status", (int)status.Value));
+                        var statusList = statuses.ToList();
+                        var statusConditions = string.Join(" OR ", statusList.Select((s, i) => $"StudentStatus = @status{i}"));
+                        query += " AND (" + statusConditions + ")";
+
+                        for (int i = 0; i < statusList.Count; i++)
+                        {
+                            parameters.Add(new SQLiteParameter($"@status{i}", (int)statusList[i]));
+                        }
                     }
 
                     if (!string.IsNullOrWhiteSpace(semester))
@@ -116,7 +127,7 @@ namespace StudentManagementSystem.Services.Implementations
             });
         }
 
-        public async Task<Student> AddStudentAsync(Student student)
+        public async Task<Student> AddStudentAsync(Student student, string schoolYear)
         {
             return await Task.Run(() =>
             {
@@ -124,45 +135,241 @@ namespace StudentManagementSystem.Services.Implementations
                 {
                     conn.Open();
 
-                    // Create a degree plan for the student first
-                    string createDegreePlanQuery = "INSERT INTO DegreePlan (StudentID) VALUES (NULL); SELECT last_insert_rowid();";
-                    int degreePlanID;
-                    using (var cmd = new SQLiteCommand(createDegreePlanQuery, conn))
+                    // Determine boolean value based on starting semester
+                    // false = Fall (0), true = Spring (1)
+                    bool semesterValue = student.StartingSemester;
+                    int startSemesterIndex = semesterValue ? 1 : 0;
+
+                    // STEP 1: Create a new DegreePlan (matching WinForms logic)
+                    // Note: WinForms includes SchoolYear and StartSemester in DegreePlan, but we'll use minimal schema
+                    // If those columns don't exist, this will still work
+                    int degreePlanId;
+                    try
                     {
-                        degreePlanID = Convert.ToInt32(cmd.ExecuteScalar());
+                        // Try with SchoolYear and StartSemester (WinForms schema)
+                        string createDegreePlanQuery = "INSERT INTO DegreePlan (StudentID, SchoolYear, StartSemester) VALUES (@sid, @year, @sem);";
+                        using (var cmd = new SQLiteCommand(createDegreePlanQuery, conn))
+                        {
+                            cmd.Parameters.AddWithValue("@sid", 0); // Temporary placeholder
+                            cmd.Parameters.AddWithValue("@year", schoolYear);
+                            cmd.Parameters.AddWithValue("@sem", semesterValue);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                    catch
+                    {
+                        // Fallback to minimal schema if columns don't exist
+                        string createDegreePlanQuery = "INSERT INTO DegreePlan (StudentID) VALUES (NULL);";
+                        using (var cmd = new SQLiteCommand(createDegreePlanQuery, conn))
+                        {
+                            cmd.ExecuteNonQuery();
+                        }
                     }
 
-                    // Insert the student
-                    string insertQuery = @"INSERT INTO Student (FirstName, LastName, StartingSemester, Notes, StudentStatus, SchoolYear, DegreePlanID)
-                                          VALUES (@FirstName, @LastName, @StartingSemester, @Notes, @StudentStatus, @SchoolYear, @DegreePlanID);
-                                          SELECT last_insert_rowid();";
+                    // Get DegreePlanID
+                    using (var cmd = new SQLiteCommand("SELECT last_insert_rowid();", conn))
+                    {
+                        degreePlanId = Convert.ToInt32(cmd.ExecuteScalar());
+                    }
+
+                    // STEP 2: Generate 4 semesters for this degree plan
+                    GenerateSemesters(conn, degreePlanId, schoolYear, startSemesterIndex);
+
+                    // STEP 3: Generate default classes for each semester
+                    GenerateDefaultClasses(conn, degreePlanId, startSemesterIndex);
+
+                    // STEP 4: Create the Student record (StudentID is user-entered, not auto-increment)
+                    string insertQuery = @"INSERT INTO Student (FirstName, LastName, StudentID, StartingSemester, Notes, SchoolYear, DegreePlanID, StudentStatus)
+                                          VALUES (@FirstName, @LastName, @StudentID, @StartingSemester, @Notes, @SchoolYear, @DegreePlanID, @StudentStatus);";
 
                     using (var cmd = new SQLiteCommand(insertQuery, conn))
                     {
-                    cmd.Parameters.AddWithValue("@FirstName", student.FirstName);
-                    cmd.Parameters.AddWithValue("@LastName", student.LastName);
-                    cmd.Parameters.AddWithValue("@StartingSemester", student.StartingSemester);
-                    cmd.Parameters.AddWithValue("@Notes", student.Notes ?? string.Empty);
-                    cmd.Parameters.AddWithValue("@StudentStatus", (int)student.StudentStatus);
-                    cmd.Parameters.AddWithValue("@SchoolYear", student.SchoolYear ?? DateTime.Now.Year.ToString());
-                    cmd.Parameters.AddWithValue("@DegreePlanID", degreePlanID);
+                        cmd.Parameters.AddWithValue("@FirstName", student.FirstName);
+                        cmd.Parameters.AddWithValue("@LastName", student.LastName);
+                        cmd.Parameters.AddWithValue("@StudentID", student.StudentID);
+                        cmd.Parameters.AddWithValue("@StartingSemester", semesterValue);
+                        cmd.Parameters.AddWithValue("@Notes", student.Notes ?? string.Empty);
+                        cmd.Parameters.AddWithValue("@SchoolYear", schoolYear);
+                        cmd.Parameters.AddWithValue("@DegreePlanID", degreePlanId);
+                        cmd.Parameters.AddWithValue("@StudentStatus", (int)student.StudentStatus);
 
-                        student.StudentID = Convert.ToInt32(cmd.ExecuteScalar());
-                        student.DegreePlanID = degreePlanID;
+                        cmd.ExecuteNonQuery();
                     }
 
-                    // Update the DegreePlan with the StudentID
-                    string updateDegreePlanQuery = "UPDATE DegreePlan SET StudentID = @StudentID WHERE DegreePlanID = @DegreePlanID";
-                    using (var cmd = new SQLiteCommand(updateDegreePlanQuery, conn))
+                    // Get the primary key (last_insert_rowid returns the rowid, which is StudentID if it's the primary key)
+                    using (var cmd = new SQLiteCommand("SELECT last_insert_rowid();", conn))
                     {
-                        cmd.Parameters.AddWithValue("@StudentID", student.StudentID);
-                        cmd.Parameters.AddWithValue("@DegreePlanID", degreePlanID);
-                        cmd.ExecuteNonQuery();
+                        int studentPrimaryId = Convert.ToInt32(cmd.ExecuteScalar());
+                        
+                        // STEP 5: Update DegreePlan with actual StudentID (primary key)
+                        using (var updateCmd = new SQLiteCommand("UPDATE DegreePlan SET StudentID = @sid WHERE DegreePlanID = @dpid;", conn))
+                        {
+                            updateCmd.Parameters.AddWithValue("@sid", studentPrimaryId);
+                            updateCmd.Parameters.AddWithValue("@dpid", degreePlanId);
+                            updateCmd.ExecuteNonQuery();
+                        }
+
+                        // Note: student.StudentID already contains the user-entered value
+                        // If the database uses StudentID as primary key, last_insert_rowid() returns it
+                        // Otherwise, we might need to query it back
+                        student.DegreePlanID = degreePlanId;
                     }
                 }
 
                 return student;
             });
+        }
+
+        // Generate 4 semesters for a degree plan (matching WinForms GenerateSemesters)
+        private void GenerateSemesters(SQLiteConnection conn, int degreePlanId, string startYear, int startSemester)
+        {
+            // Convert start year string to an integer (e.g., "2025" → 2025)
+            int currentYear = int.Parse(startYear);
+            int currentSemester = startSemester; // 0 = Fall, 1 = Spring
+
+            for (int i = 0; i < 4; i++)
+            {
+                string insertSemester = "INSERT INTO Semester (DegreePlanID, Semester, SchoolYear) VALUES (@dpid, @sem, @year)";
+                using (var cmd = new SQLiteCommand(insertSemester, conn))
+                {
+                    cmd.Parameters.AddWithValue("@dpid", degreePlanId);
+                    bool semester = currentSemester == 1;
+                    cmd.Parameters.AddWithValue("@sem", semester);
+                    cmd.Parameters.AddWithValue("@year", $"{currentYear}");
+                    cmd.ExecuteNonQuery();
+                }
+
+                // Toggle semester: 0 ↔ 1
+                currentSemester = (currentSemester == 0) ? 1 : 0;
+
+                // Increment year *after* Fall (0) → Spring (1) transition
+                if (currentSemester == 1)
+                    currentYear++;
+            }
+        }
+
+        // Generate default classes for each semester (matching WinForms GenerateDefaultClasses)
+        private void GenerateDefaultClasses(SQLiteConnection conn, int degreePlanId, int startSemester)
+        {
+            // startSemester: 0 = Fall, 1 = Spring
+
+            // Adjust order depending on starting semester
+            List<(bool semester, int yearOffset, List<(string Label, int CourseNumber, string ClassName)> classes)> semesterCurriculum;
+
+            if (startSemester == 1) // if Spring start
+            {
+                semesterCurriculum = new List<(bool semester, int yearOffset, List<(string Label, int CourseNumber, string ClassName)> classes)>
+                {
+                    (true, 0, new List<(string,int,string)> { // SPRING
+                        ("CSCI", 5348, "Digital Forensics"),
+                        ("CSCI", 5360, "Computer Networking")
+                    }),
+                    (false, 0, new List<(string,int,string)> { // FALL
+                        ("CSCI", 5312, "Web Security"),
+                        ("CSCI", 5322, "Cryptography"),
+                        ("CSCI", 5313, "Software Dev Principles")
+                    }),
+                    (true, 1, new List<(string,int,string)> { // SPRING
+                        ("CSCI", 5345, "Malware Analysis"),
+                        ("CSCI", 5347, "Cyber Security Concepts"),
+                        ("CSCI", 5363, "Computer Net and Dist Systems")
+                    }),
+                    (false, 1, new List<(string,int,string)> { // FALL
+                        ("CSCI", 5362, "Penetration Testing"),
+                        ("CSCI", 5320, "Database Management Systems")
+                    }),
+                };
+            }
+            else // if Fall start
+            {
+                semesterCurriculum = new List<(bool semester, int yearOffset, List<(string Label, int CourseNumber, string ClassName)> classes)>
+                {
+                    (false, 0, new List<(string,int,string)> { // FALL
+                        ("CSCI", 5312, "Web Security"),
+                        ("CSCI", 5322, "Cryptography"),
+                        ("CSCI", 5313, "Software Dev Principles")
+                    }),
+                    (true, 1, new List<(string,int,string)> { // SPRING
+                        ("CSCI", 5348, "Digital Forensics"),
+                        ("CSCI", 5360, "Computer Networking")
+                    }),
+                    (false, 1, new List<(string,int,string)> { // FALL
+                        ("CSCI", 5362, "Penetration Testing"),
+                        ("CSCI", 5320, "Database Management Systems")
+                    }),
+                    (true, 2, new List<(string,int,string)> { // SPRING
+                        ("CSCI", 5345, "Malware Analysis"),
+                        ("CSCI", 5347, "Cyber Security Concepts"),
+                        ("CSCI", 5363, "Computer Net and Dist Systems")
+                    }),
+                };
+            }
+
+            // Get all semesters for this degree plan
+            var semesterQuery = "SELECT SemesterID, Semester, SchoolYear FROM Semester WHERE DegreePlanID = @dpid ORDER BY SchoolYear, Semester;";
+            var semesterMap = new List<(int SemesterID, bool Semester, string Year)>();
+            using (var cmd = new SQLiteCommand(semesterQuery, conn))
+            {
+                cmd.Parameters.AddWithValue("@dpid", degreePlanId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        semesterMap.Add((reader.GetInt32(0), reader.GetBoolean(1), reader.GetString(2)));
+                    }
+                }
+            }
+
+            // Insert classes per semester
+            foreach (var sem in semesterMap)
+            {
+                int baseYear = int.Parse(semesterMap.First().Year);
+                int offset = int.Parse(sem.Year) - baseYear;
+
+                var match = semesterCurriculum.FirstOrDefault(d => d.semester == sem.Semester && d.yearOffset == offset);
+                if (match.classes != null)
+                {
+                    foreach (var c in match.classes)
+                    {
+                        // Find ClassID from Classes table
+                        int classId;
+                        using (var cmd = new SQLiteCommand("SELECT ClassID FROM Classes WHERE Label=@lbl AND CourseNumber=@num;", conn))
+                        {
+                            cmd.Parameters.AddWithValue("@lbl", c.Label);
+                            cmd.Parameters.AddWithValue("@num", c.CourseNumber.ToString());
+                            var result = cmd.ExecuteScalar();
+                            if (result == null)
+                            {
+                                // If not found, insert new class
+                                using (var insert = new SQLiteCommand("INSERT INTO Classes (CourseNumber, ClassName, Label, Semester) VALUES (@num, @name, @lbl, @sem);", conn))
+                                {
+                                    insert.Parameters.AddWithValue("@num", c.CourseNumber.ToString());
+                                    insert.Parameters.AddWithValue("@name", c.ClassName);
+                                    insert.Parameters.AddWithValue("@lbl", c.Label);
+                                    insert.Parameters.AddWithValue("@sem", sem.Semester);
+                                    insert.ExecuteNonQuery();
+                                }
+                                using (var getIdCmd = new SQLiteCommand("SELECT last_insert_rowid();", conn))
+                                {
+                                    classId = Convert.ToInt32(getIdCmd.ExecuteScalar());
+                                }
+                            }
+                            else
+                            {
+                                classId = Convert.ToInt32(result);
+                            }
+                        }
+
+                        // Link class to semester
+                        using (var cmd = new SQLiteCommand("INSERT INTO SemesterClass (SemesterID, ClassID) VALUES (@sid, @cid);", conn))
+                        {
+                            cmd.Parameters.AddWithValue("@sid", sem.SemesterID);
+                            cmd.Parameters.AddWithValue("@cid", classId);
+                            cmd.ExecuteNonQuery();
+                        }
+                    }
+                }
+            }
         }
 
         public async Task<Student> UpdateStudentAsync(Student student)

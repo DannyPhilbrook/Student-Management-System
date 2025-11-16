@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Windows.Input;
 using StudentManagementSystem.App.Navigation;
 using StudentManagementSystem.Domain;
@@ -13,21 +14,24 @@ namespace StudentManagementSystem.App.ViewModels
 
         private string _firstName;
         private string _lastName;
-        private string _semester;
+        private string _studentId;
+        private bool _isSpringSemester;
         private StudentStatus _status;
         private string _comments;
         private string _schoolYear;
         private bool _isLoading;
+
 
         public NewStudentViewModel(INavigationService navigationService, IStudentService studentService)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
 
-            _status = StudentStatus.Active;
+            _status = StudentStatus.Waiting; // Default to Waiting like WinForms
             _firstName = string.Empty;
             _lastName = string.Empty;
-            _semester = string.Empty;
+            _studentId = string.Empty;
+            _isSpringSemester = false; // Default to Fall
             _comments = string.Empty;
             _schoolYear = DateTime.Now.Year.ToString();
         }
@@ -56,13 +60,35 @@ namespace StudentManagementSystem.App.ViewModels
 
         public string FullName => $"{FirstName} {LastName}".Trim();
 
-        public string Semester
+        public string StudentId
         {
-            get => _semester;
+            get => _studentId;
             set
             {
-                _semester = value;
+                _studentId = value;
                 OnPropertyChanged();
+            }
+        }
+
+        public bool IsSpringSemester
+        {
+            get => _isSpringSemester;
+            set
+            {
+                _isSpringSemester = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsFallSemester));
+            }
+        }
+
+        public bool IsFallSemester
+        {
+            get => !_isSpringSemester;
+            set
+            {
+                _isSpringSemester = !value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(IsSpringSemester));
             }
         }
 
@@ -110,10 +136,23 @@ namespace StudentManagementSystem.App.ViewModels
 
         public ICommand SubmitCommand => new RelayCommand(async () =>
         {
+            // Show confirmation dialog like WinForms
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you wish to create this Student?",
+                "Confirmation",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question);
+
+            if (result != System.Windows.MessageBoxResult.Yes)
+                return;
+
             if (!ValidateInput())
             {
-                // TODO: Show validation error message
-                System.Diagnostics.Debug.WriteLine("Please fill out all required fields.");
+                System.Windows.MessageBox.Show(
+                    "Please fill out all required fields.",
+                    "Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
                 return;
             }
 
@@ -121,24 +160,45 @@ namespace StudentManagementSystem.App.ViewModels
             {
                 IsLoading = true;
 
+                // Parse StudentID - in WinForms it's stored as text but we'll convert to int if possible
+                if (!int.TryParse(StudentId, out int studentIdInt))
+                {
+                    System.Windows.MessageBox.Show(
+                        "Student ID must be a valid number.",
+                        "Validation Error",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Error);
+                    return;
+                }
+
                 var student = new Student(
                     FirstName,
                     LastName,
-                    Semester.Equals("Spring", StringComparison.OrdinalIgnoreCase), // StartingSemester bool
+                    IsSpringSemester, // StartingSemester bool
                     Comments,
                     Status,
-                    SchoolYear);
+                    SchoolYear)
+                {
+                    StudentID = studentIdInt
+                };
 
-                await _studentService.AddStudentAsync(student);
+                await _studentService.AddStudentAsync(student, SchoolYear);
 
-                // TODO: Show success message
-                System.Diagnostics.Debug.WriteLine($"Student {student.FullName} added successfully!");
+                System.Windows.MessageBox.Show(
+                    $"Student {student.FullName} added successfully!",
+                    "Success",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Information);
+
                 _navigationService.GoBack();
             }
             catch (Exception ex)
             {
-                // TODO: Show error dialog
-                System.Diagnostics.Debug.WriteLine($"Error adding student: {ex.Message}");
+                System.Windows.MessageBox.Show(
+                    $"Error adding student: {ex.Message}",
+                    "Database Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
             }
             finally
             {
@@ -148,15 +208,23 @@ namespace StudentManagementSystem.App.ViewModels
 
         public ICommand CancelCommand => new RelayCommand(() =>
         {
-            // TODO: Show confirmation dialog if there are unsaved changes
-            _navigationService.GoBack();
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you wish to cancel creation?",
+                "Warning",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Exclamation);
+
+            if (result == System.Windows.MessageBoxResult.Yes)
+            {
+                _navigationService.GoBack();
+            }
         });
 
         private bool ValidateInput()
         {
             return !string.IsNullOrWhiteSpace(FirstName) &&
                    !string.IsNullOrWhiteSpace(LastName) &&
-                   !string.IsNullOrWhiteSpace(Semester) &&
+                   !string.IsNullOrWhiteSpace(StudentId) &&
                    !string.IsNullOrWhiteSpace(SchoolYear);
         }
     }
