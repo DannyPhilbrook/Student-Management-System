@@ -1,48 +1,42 @@
-﻿################################################################################
-# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
-################################################################################
+﻿# Build outputs - use patterns, not specific paths
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
 
-/.vs/Student-Management-System
-/src/.vs/src/CopilotIndices/17.14.1290.42047
-/src/.vs/src/FileContentIndex
-/src/.vs/src/v17
-/src/.vs
-/src/StudentManagementSystem.App/bin/Debug
-/src/StudentManagementSystem.App/obj/Debug/Styles
-/src/StudentManagementSystem.App/obj/Debug/Views
-/src/StudentManagementSystem.App/obj/Debug
-/src/StudentManagementSystem.App/obj/Release
-/src/StudentManagementSystem.Domain/bin/Debug
-/src/StudentManagementSystem.Domain/obj/Debug
-/src/StudentManagementSystem.Domain/obj/Release
-/.vs/StudentManagementSystem
-/packages
-/src/StudentManagementSystem.App/Properties
-/src/StudentManagementSystem.Services/bin/Debug/x86
-/src/StudentManagementSystem.Services/.vs/StudentManagementSystem.Services.csproj.dtbcache.json
-/src/StudentManagementSystem.Services/bin/Debug/x64
-/src/StudentManagementSystem.Services/bin/Debug/StudentManagementSystem.Domain.dll
-/src/StudentManagementSystem.Services/bin/Debug/StudentManagementSystem.Domain.pdb
-/src/StudentManagementSystem.Services/bin/Debug/StudentManagementSystem.Services.dll
-/src/StudentManagementSystem.Services/bin/Debug/StudentManagementSystem.Services.pdb
+# Database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Visual Studio cache/options
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# NuGet Packages
+*.nupkg
+packages/
+*.nuget.props
+*.nuget.targets
+
+# XML documentation files
+*.xml
+
+# Build results
 *.dll
-/src/StudentManagementSystem.Services/bin/Debug/System.Data.SQLite.xml
-/src/StudentManagementSystem.Services/obj/Debug/DesignTimeResolveAssemblyReferences.cache
-/src/StudentManagementSystem.Services/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
-/src/StudentManagementSystem.Services/obj/Debug/StudentManagementSystem.Services.csproj.AssemblyReference.cache
-/src/StudentManagementSystem.Services/obj/Debug/StudentManagementSystem.Services.csproj.CoreCompileInputs.cache
-/src/StudentManagementSystem.Services/obj/Debug/StudentManagementSystem.Services.csproj.FileListAbsolute.txt
-/src/StudentManagementSystem.Services/obj/Debug/StudentManagementSystem.Services.dll
-/src/StudentManagementSystem.Services/obj/Debug/StudentManagementSystem.Services.pdb
-/.vs/VSWorkspaceState.json
-/Testing Project/.vs/Testing Project/FileContentIndex
-/Testing Project/.vs/Testing Project/v17/.suo
-/Testing Project/.vs/Testing Project/v17/DocumentLayout.json
-/src/StudentManagementSystem.Services/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
-/src/StudentManagementSystem.Services/obj/Debug/StudentManagementSystem.Services.csproj.AssemblyReference.cache
-/Testing Project/.vs/Testing Project/v17/.suo
-/Testing Project/.vs/Testing Project/v17/DocumentLayout.json
-/src/StudentManagementSystem.Services/obj/Debug/StudentManagementSystem.Services.csproj.AssemblyReference.cache
-/src/StudentManagementSystem.Services/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
-/.vs/VSWorkspaceState.json
-/Testing Project/SemesterForm.resx
+*.exe
+*.pdb
+
+# Test Results
+TestResults/
+
+# VS Code
+.vscode/
+
+# Resource files (if auto-generated)
+*.resources
