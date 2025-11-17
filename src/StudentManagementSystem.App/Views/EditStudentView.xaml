@@ -1,0 +1,136 @@
+<Page x:Class="StudentManagementSystem.App.Views.EditStudentView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="Edit Student"
+      Background="{StaticResource Brush.Background}">
+
+    <Grid Margin="48">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section with Back Button -->
+        <Grid Grid.Row="0" Margin="0,0,0,32">
+            <Button Content="← Back" 
+                    Style="{StaticResource OutlineButton}"
+                    Command="{Binding CancelCommand}"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Padding="12,6"/>
+            <StackPanel HorizontalAlignment="Center">
+                <TextBlock Text="Edit Student" 
+                           Style="{StaticResource HeaderH1}"
+                           HorizontalAlignment="Center"/>
+                <TextBlock Text="Update student information" 
+                           Style="{StaticResource HeaderH3}"
+                           HorizontalAlignment="Center"
+                           Foreground="{StaticResource Brush.Text.Secondary}"/>
+            </StackPanel>
+        </Grid>
+
+        <!-- Scrollable Form Card -->
+        <ScrollViewer Grid.Row="1" 
+                      VerticalScrollBarVisibility="Auto"
+                      HorizontalScrollBarVisibility="Disabled">
+            <Border Style="{StaticResource Card}" 
+                    MaxWidth="600"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,48">
+            <StackPanel>
+                <!-- First Name -->
+                <Label Content="First Name" Style="{StaticResource ModernLabel}"/>
+                <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,16"/>
+
+                <!-- Last Name -->
+                <Label Content="Last Name" Style="{StaticResource ModernLabel}"/>
+                <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,16"/>
+
+                <!-- Starting Semester (Radio Buttons) -->
+                <Label Content="Starting Semester" Style="{StaticResource ModernLabel}"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                    <RadioButton Content="Spring" 
+                                 IsChecked="{Binding StartingSemester}"
+                                 GroupName="Semester"
+                                 Margin="0,0,24,0"
+                                 VerticalAlignment="Center"/>
+                    <RadioButton Content="Fall" 
+                                 IsChecked="{Binding IsFallSemester}"
+                                 GroupName="Semester"
+                                 VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- School Year -->
+                <Label Content="School Year" Style="{StaticResource ModernLabel}"/>
+                <TextBox Text="{Binding SchoolYear, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,16"/>
+
+                <!-- Status -->
+                <Label Content="Status" Style="{StaticResource ModernLabel}"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                    <RadioButton Content="Waiting" 
+                                 IsChecked="{Binding IsWaitingStatus, UpdateSourceTrigger=PropertyChanged}"
+                                 GroupName="Status"
+                                 Margin="0,0,16,0"
+                                 VerticalAlignment="Center"/>
+                    <RadioButton Content="Inactive" 
+                                 IsChecked="{Binding IsInactiveStatus, UpdateSourceTrigger=PropertyChanged}"
+                                 GroupName="Status"
+                                 Margin="0,0,16,0"
+                                 VerticalAlignment="Center"/>
+                    <RadioButton Content="Active" 
+                                 IsChecked="{Binding IsActiveStatus, UpdateSourceTrigger=PropertyChanged}"
+                                 GroupName="Status"
+                                 Margin="0,0,16,0"
+                                 VerticalAlignment="Center"/>
+                    <RadioButton Content="Graduated" 
+                                 IsChecked="{Binding IsGraduatedStatus, UpdateSourceTrigger=PropertyChanged}"
+                                 GroupName="Status"
+                                 VerticalAlignment="Center"/>
+                </StackPanel>
+
+                <!-- Notes -->
+                <Label Content="Notes" Style="{StaticResource ModernLabel}"/>
+                <TextBox Text="{Binding Notes, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         TextWrapping="Wrap"
+                         AcceptsReturn="True"
+                         Height="100"
+                         VerticalScrollBarVisibility="Auto"
+                         Margin="0,0,0,24"/>
+
+                <!-- Action Buttons -->
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Button Grid.Column="0" 
+                            Content="Delete Student" 
+                            Style="{StaticResource DangerButton}"
+                            Command="{Binding DeleteCommand}"
+                            HorizontalAlignment="Left"/>
+
+                    <Button Grid.Column="1" 
+                            Content="Cancel" 
+                            Style="{StaticResource OutlineButton}"
+                            Command="{Binding CancelCommand}"
+                            Margin="0,0,16,0"/>
+
+                    <Button Grid.Column="2" 
+                            Content="Save Changes" 
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding SaveCommand}"/>
+                </Grid>
+            </StackPanel>
+            </Border>
+        </ScrollViewer>
+    </Grid>
+</Page>

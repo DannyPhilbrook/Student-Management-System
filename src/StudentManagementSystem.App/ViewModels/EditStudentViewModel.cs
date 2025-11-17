@@ -1,0 +1,313 @@
+﻿using System;
+using System.Windows.Input;
+using StudentManagementSystem.App.Navigation;
+using StudentManagementSystem.Domain;
+using StudentManagementSystem.Services.Interfaces;
+
+namespace StudentManagementSystem.App.ViewModels
+{
+    public class EditStudentViewModel : BaseViewModel
+    {
+        private readonly INavigationService _navigationService;
+        private readonly IStudentService _studentService;
+
+        private int _studentId;
+        private string _firstName;
+        private string _lastName;
+        private bool _startingSemester;
+        private string _notes;
+        private StudentStatus _studentStatus;
+        private string _schoolYear;
+
+        public EditStudentViewModel(INavigationService navigationService, IStudentService studentService)
+        {
+            _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
+            _studentService = studentService ?? throw new ArgumentNullException(nameof(studentService));
+
+            _firstName = string.Empty;
+            _lastName = string.Empty;
+            _notes = string.Empty;
+            _schoolYear = DateTime.Now.Year.ToString();
+            _studentStatus = StudentStatus.Active;
+            _startingSemester = true;
+        }
+
+        public int StudentId
+        {
+            get => _studentId;
+            set
+            {
+                _studentId = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string FirstName
+        {
+            get => _firstName;
+            set
+            {
+                _firstName = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FullName));
+            }
+        }
+
+        public string LastName
+        {
+            get => _lastName;
+            set
+            {
+                _lastName = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(FullName));
+            }
+        }
+
+        public string FullName => $"{FirstName} {LastName}".Trim();
+
+        public bool StartingSemester
+        {
+            get => _startingSemester;
+            set
+            {
+                _startingSemester = value;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(SemesterText));
+                OnPropertyChanged(nameof(IsFallSemester));
+            }
+        }
+
+        public bool IsFallSemester
+        {
+            get => !_startingSemester;
+            set
+            {
+                _startingSemester = !value;
+                OnPropertyChanged(nameof(StartingSemester));
+                OnPropertyChanged(nameof(SemesterText));
+                OnPropertyChanged();
+            }
+        }
+
+        public string SemesterText => StartingSemester ? "Spring" : "Fall";
+
+        public string Notes
+        {
+            get => _notes;
+            set
+            {
+                _notes = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public StudentStatus StudentStatus
+        {
+            get => _studentStatus;
+            set
+            {
+                _studentStatus = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public string SchoolYear
+        {
+            get => _schoolYear;
+            set
+            {
+                _schoolYear = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Array StudentStatusValues => Enum.GetValues(typeof(StudentStatus));
+
+        // Status radio button properties
+        public bool IsWaitingStatus
+        {
+            get => _studentStatus == StudentStatus.Waiting;
+            set
+            {
+                if (value) _studentStatus = StudentStatus.Waiting;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StudentStatus));
+                OnPropertyChanged(nameof(IsInactiveStatus));
+                OnPropertyChanged(nameof(IsActiveStatus));
+                OnPropertyChanged(nameof(IsGraduatedStatus));
+            }
+        }
+
+        public bool IsInactiveStatus
+        {
+            get => _studentStatus == StudentStatus.Inactive;
+            set
+            {
+                if (value) _studentStatus = StudentStatus.Inactive;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StudentStatus));
+                OnPropertyChanged(nameof(IsWaitingStatus));
+                OnPropertyChanged(nameof(IsActiveStatus));
+                OnPropertyChanged(nameof(IsGraduatedStatus));
+            }
+        }
+
+        public bool IsActiveStatus
+        {
+            get => _studentStatus == StudentStatus.Active;
+            set
+            {
+                if (value) _studentStatus = StudentStatus.Active;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StudentStatus));
+                OnPropertyChanged(nameof(IsWaitingStatus));
+                OnPropertyChanged(nameof(IsInactiveStatus));
+                OnPropertyChanged(nameof(IsGraduatedStatus));
+            }
+        }
+
+        public bool IsGraduatedStatus
+        {
+            get => _studentStatus == StudentStatus.Graduated;
+            set
+            {
+                if (value) _studentStatus = StudentStatus.Graduated;
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(StudentStatus));
+                OnPropertyChanged(nameof(IsWaitingStatus));
+                OnPropertyChanged(nameof(IsInactiveStatus));
+                OnPropertyChanged(nameof(IsActiveStatus));
+            }
+        }
+
+        public ICommand SaveCommand => new RelayCommand(async () =>
+        {
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you wish to edit this student's information?",
+                "Confirmation",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Question);
+
+            if (result != System.Windows.MessageBoxResult.Yes)
+                return;
+
+            if (!ValidateInput())
+            {
+                System.Windows.MessageBox.Show(
+                    "Please fill out all required fields.",
+                    "Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+                return;
+            }
+
+            try
+            {
+                var student = new Student(
+                    FirstName,
+                    LastName,
+                    StartingSemester,
+                    Notes,
+                    StudentStatus,
+                    SchoolYear)
+                {
+                    StudentID = StudentId
+                };
+
+                await _studentService.UpdateStudentAsync(student);
+
+                System.Windows.MessageBox.Show(
+                    $"Student {student.FullName} updated successfully!",
+                    "Success",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Information);
+
+                // Navigate back and refresh the student list
+                _navigationService.GoBack();
+                
+                // Trigger refresh on the previous page (SearchStudentsView)
+                // This will be handled by the view's Loaded event
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    $"Error updating student: {ex.Message}",
+                    "Database Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+            }
+        });
+
+        public ICommand DeleteCommand => new RelayCommand(async () =>
+        {
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you want to delete this student and all related degree plans?",
+                "Confirm Delete",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Warning);
+
+            if (result != System.Windows.MessageBoxResult.Yes)
+                return;
+
+            try
+            {
+                bool success = await _studentService.DeleteStudentAsync(StudentId);
+
+                if (success)
+                {
+                    System.Windows.MessageBox.Show(
+                        "Student and all related data deleted successfully!",
+                        "Success",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Information);
+
+                    _navigationService.GoBack();
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    $"Error deleting student: {ex.Message}",
+                    "Database Error",
+                    System.Windows.MessageBoxButton.OK,
+                    System.Windows.MessageBoxImage.Error);
+            }
+        });
+
+        public ICommand CancelCommand => new RelayCommand(() =>
+        {
+            var result = System.Windows.MessageBox.Show(
+                "Are you sure you wish to cancel editing? (All changes you've done can't be undone)",
+                "Warning",
+                System.Windows.MessageBoxButton.YesNo,
+                System.Windows.MessageBoxImage.Exclamation);
+
+            if (result == System.Windows.MessageBoxResult.Yes)
+            {
+                _navigationService.GoBack();
+            }
+        });
+
+        public void LoadStudent(Student student)
+        {
+            if (student != null)
+            {
+                StudentId = student.StudentID;
+                FirstName = student.FirstName;
+                LastName = student.LastName;
+                StartingSemester = student.StartingSemester;
+                Notes = student.Notes;
+                StudentStatus = student.StudentStatus;
+                SchoolYear = student.SchoolYear;
+            }
+        }
+
+        private bool ValidateInput()
+        {
+            return !string.IsNullOrWhiteSpace(FirstName) &&
+                   !string.IsNullOrWhiteSpace(LastName) &&
+                   !string.IsNullOrWhiteSpace(SchoolYear);
+        }
+    }
+}
