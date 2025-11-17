@@ -208,6 +208,31 @@ namespace StudentManagementSystem.App.ViewModels
             _navigationService.NavigateTo<NewStudentViewModel>();
         });
 
+        public ICommand ViewDegreePlanCommand => new RelayCommand<Student>(student =>
+        {
+            if (student != null)
+            {
+                if (student.DegreePlanID.HasValue && student.DegreePlanID.Value > 0)
+                {
+                    // Navigate to EditDegreePlanViewModel with degree plan parameters
+                    var param = new DegreePlanParameter
+                    {
+                        DegreePlanId = student.DegreePlanID.Value,
+                        StudentName = student.FullName
+                    };
+                    _navigationService.NavigateTo<EditDegreePlanViewModel>(param);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show(
+                        "This student does not have a Degree Plan.",
+                        "No Degree Plan Found",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Warning);
+                }
+            }
+        });
+
         // Public method to refresh students (called when returning from edit)
         public void RefreshStudents()
         {

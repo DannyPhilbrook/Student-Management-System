@@ -20,6 +20,7 @@ namespace StudentManagementSystem.Services.Interfaces
 
         // Class assignment management
         Task<IEnumerable<SemesterClass>> GetClassesBySemesterAsync(int semesterId);
+        Task<IEnumerable<SemesterClass>> GetClassesBySemesterAndYearAsync(int degreePlanId, bool isSpringSemester, string schoolYear);
         Task<SemesterClass> AssignClassToSemesterAsync(int semesterId, int classId);
         Task<bool> RemoveClassFromSemesterAsync(int semesterClassId);
         Task<SemesterClass> UpdateGradeAsync(int semesterClassId, string grade);

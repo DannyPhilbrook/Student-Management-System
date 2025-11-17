@@ -8,6 +8,7 @@ namespace StudentManagementSystem.Services.Interfaces
     public interface ICourseService
     {
         Task<IEnumerable<Course>> GetAllCoursesAsync();
+        Task<IEnumerable<Course>> GetCoursesBySemesterAsync(bool isSpringSemester);
         Task<Course> GetCourseByIdAsync(int classID);
         Task<Course> GetCourseByNumberAsync(string courseNumber);
         Task<IEnumerable<string>> GetDistinctLabelsAsync();

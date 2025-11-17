@@ -12,7 +12,7 @@ namespace StudentManagementSystem.Services.Implementations
     public class CourseService : ICourseService
     {
         // Database path relative to executable location (matches WinForms)
-        private readonly string _connectionString = $"Data Source={System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "stdmngsys.db")};Version=3;";
+        private readonly string _connectionString = StudentService.GetConnectionString();
 
         public async Task<IEnumerable<Course>> GetAllCoursesAsync()
         {
@@ -31,6 +31,34 @@ namespace StudentManagementSystem.Services.Implementations
                         while (reader.Read())
                         {
                             courses.Add(MapCourse(reader));
+                        }
+                    }
+                }
+
+                return courses;
+            });
+        }
+
+        public async Task<IEnumerable<Course>> GetCoursesBySemesterAsync(bool isSpringSemester)
+        {
+            return await Task.Run(() =>
+            {
+                var courses = new List<Course>();
+
+                using (var conn = new SQLiteConnection(_connectionString))
+                {
+                    conn.Open();
+                    string query = "SELECT ClassID, CourseNumber, ClassName, Label, Semester FROM Classes WHERE Semester = @sem ORDER BY CourseNumber ASC";
+
+                    using (var cmd = new SQLiteCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@sem", isSpringSemester);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                courses.Add(MapCourse(reader));
+                            }
                         }
                     }
                 }

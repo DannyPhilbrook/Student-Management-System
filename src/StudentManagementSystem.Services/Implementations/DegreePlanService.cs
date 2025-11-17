@@ -11,7 +11,7 @@ namespace StudentManagementSystem.Services.Implementations
     public class DegreePlanService : IDegreePlanService
     {
         // Database path relative to executable location (matches WinForms)
-        private readonly string _connectionString = $"Data Source={System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "stdmngsys.db")};Version=3;";
+        private readonly string _connectionString = StudentService.GetConnectionString();
 
         public async Task<DegreePlan> GetDegreePlanByIdAsync(int degreePlanId)
         {
@@ -218,6 +218,23 @@ namespace StudentManagementSystem.Services.Implementations
                 using (var conn = new SQLiteConnection(_connectionString))
                 {
                     conn.Open();
+                    
+                    // Check for duplicate semester
+                    string existsQuery = @"SELECT 1 FROM Semester 
+                                         WHERE DegreePlanID = @dpid AND Semester = @sem AND SchoolYear = @year 
+                                         LIMIT 1;";
+                    using (var checkCmd = new SQLiteCommand(existsQuery, conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@dpid", degreePlanId);
+                        checkCmd.Parameters.AddWithValue("@sem", isSpringSemester);
+                        checkCmd.Parameters.AddWithValue("@year", schoolYear);
+                        var exists = checkCmd.ExecuteScalar();
+                        if (exists != null)
+                        {
+                            throw new InvalidOperationException("That semester already exists for this degree plan.");
+                        }
+                    }
+
                     string insertQuery = @"INSERT INTO Semester (DegreePlanID, Semester, SchoolYear) 
                                           VALUES (@DegreePlanID, @Semester, @SchoolYear);
                                           SELECT last_insert_rowid();";
@@ -281,7 +298,7 @@ namespace StudentManagementSystem.Services.Implementations
                 using (var conn = new SQLiteConnection(_connectionString))
                 {
                     conn.Open();
-                    string query = @"SELECT sc.SemesterID, sc.ClassID, sc.Grade, 
+                    string query = @"SELECT sc.SemesterClassID, sc.SemesterID, sc.ClassID, sc.Grade, 
                                            c.CourseNumber, c.ClassName, c.Label, c.Semester
                                     FROM SemesterClass sc
                                     JOIN Classes c ON sc.ClassID = c.ClassID
@@ -297,16 +314,123 @@ namespace StudentManagementSystem.Services.Implementations
                             {
                                 semesterClasses.Add(new SemesterClass
                                 {
-                                    SemesterID = reader.GetInt32(0),
-                                    ClassID = reader.GetInt32(1),
-                                    Grade = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
+                                    SemesterClassID = reader.GetInt32(0),
+                                    SemesterID = reader.GetInt32(1),
+                                    ClassID = reader.GetInt32(2),
+                                    Grade = reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
                                     Course = new Course
                                     {
-                                        ClassID = reader.GetInt32(1),
-                                        CourseNumber = reader.GetString(3),
-                                        CourseName = reader.GetString(4),
-                                        Label = reader.IsDBNull(5) ? string.Empty : reader.GetString(5),
-                                        Semester = reader.GetBoolean(6)
+                                        ClassID = reader.GetInt32(2),
+                                        CourseNumber = reader.GetString(4),
+                                        CourseName = reader.GetString(5),
+                                        Label = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
+                                        Semester = reader.GetBoolean(7)
+                                    }
+                                });
+                            }
+                        }
+                    }
+                }
+
+                return semesterClasses;
+            });
+        }
+
+        public async Task<IEnumerable<SemesterClass>> GetClassesBySemesterAndYearAsync(int degreePlanId, bool isSpringSemester, string schoolYear)
+        {
+            return await Task.Run(() =>
+            {
+                var semesterClasses = new List<SemesterClass>();
+
+                using (var conn = new SQLiteConnection(_connectionString))
+                {
+                    conn.Open();
+                    string query = @"SELECT sc.SemesterClassID, sc.SemesterID, sc.ClassID, sc.Grade, 
+                                           c.CourseNumber, c.ClassName, c.Label, c.Semester
+                                    FROM SemesterClass sc
+                                    JOIN Semester s ON sc.SemesterID = s.SemesterID
+                                    JOIN Classes c ON sc.ClassID = c.ClassID
+                                    WHERE s.DegreePlanID = @dpid AND s.Semester = @sem AND s.SchoolYear = @year
+                                    ORDER BY c.CourseNumber ASC";
+
+                    using (var cmd = new SQLiteCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@dpid", degreePlanId);
+                        cmd.Parameters.AddWithValue("@sem", isSpringSemester);
+                        cmd.Parameters.AddWithValue("@year", schoolYear);
+                        using (var reader = cmd.ExecuteReader())
+                        {
+                            while (reader.Read())
+                            {
+                                // Handle Grade column - might be stored as different types
+                                string grade = string.Empty;
+                                if (!reader.IsDBNull(3))
+                                {
+                                    try
+                                    {
+                                        grade = reader.GetString(3);
+                                    }
+                                    catch
+                                    {
+                                        grade = reader[3]?.ToString() ?? string.Empty;
+                                    }
+                                }
+
+                                // Handle CourseNumber and ClassName - might be stored as different types
+                                string courseNumber = reader[4]?.ToString() ?? string.Empty;
+                                string courseName = reader[5]?.ToString() ?? string.Empty;
+
+                                // Handle Label column - might be stored as different types
+                                string label = string.Empty;
+                                if (!reader.IsDBNull(6))
+                                {
+                                    try
+                                    {
+                                        label = reader.GetString(6);
+                                    }
+                                    catch
+                                    {
+                                        label = reader[6]?.ToString() ?? string.Empty;
+                                    }
+                                }
+
+                                // Handle Semester column - might be stored as boolean, integer, or string
+                                bool semesterValue = false;
+                                if (!reader.IsDBNull(7))
+                                {
+                                    try
+                                    {
+                                        semesterValue = reader.GetBoolean(7);
+                                    }
+                                    catch
+                                    {
+                                        try
+                                        {
+                                            semesterValue = reader.GetInt32(7) != 0;
+                                        }
+                                        catch
+                                        {
+                                            string semText = reader[7]?.ToString() ?? "false";
+                                            semesterValue = semText.Equals("Spring", StringComparison.OrdinalIgnoreCase) ||
+                                                           semText.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                                                           semText == "1";
+                                        }
+                                    }
+                                }
+
+                                semesterClasses.Add(new SemesterClass
+                                {
+                                    SemesterClassID = reader.GetInt32(0),
+                                    SemesterID = reader.GetInt32(1),
+                                    ClassID = reader.GetInt32(2),
+                                    Grade = grade,
+                                    Course = new Course
+                                    {
+                                        ClassID = reader.GetInt32(2),
+                                        CourseNumber = courseNumber,
+                                        CourseName = courseName,
+                                        Label = label,
+                                        Semester = semesterValue
                                     }
                                 });
                             }
@@ -362,6 +486,45 @@ namespace StudentManagementSystem.Services.Implementations
                         {
                             if (reader.Read())
                             {
+                                // Handle Label column - might be stored as different types
+                                string label = string.Empty;
+                                if (!reader.IsDBNull(2))
+                                {
+                                    try
+                                    {
+                                        label = reader.GetString(2);
+                                    }
+                                    catch
+                                    {
+                                        label = reader[2].ToString();
+                                    }
+                                }
+
+                                // Handle Semester column - might be stored as boolean, integer, or string
+                                bool semesterValue = false;
+                                try
+                                {
+                                    semesterValue = reader.GetBoolean(3);
+                                }
+                                catch
+                                {
+                                    try
+                                    {
+                                        semesterValue = reader.GetInt32(3) != 0;
+                                    }
+                                    catch
+                                    {
+                                        string semText = reader.GetString(3);
+                                        semesterValue = semText.Equals("Spring", StringComparison.OrdinalIgnoreCase) ||
+                                                       semText.Equals("true", StringComparison.OrdinalIgnoreCase) ||
+                                                       semText == "1";
+                                    }
+                                }
+
+                                // Handle CourseNumber and ClassName - might be stored as different types
+                                string courseNumber = reader[0]?.ToString() ?? string.Empty;
+                                string courseName = reader[1]?.ToString() ?? string.Empty;
+
                                 return new SemesterClass
                                 {
                                     SemesterClassID = newId,
@@ -371,10 +534,10 @@ namespace StudentManagementSystem.Services.Implementations
                                     Course = new Course
                                     {
                                         ClassID = classId,
-                                        CourseNumber = reader.GetString(0),
-                                        CourseName = reader.GetString(1),
-                                        Label = reader.IsDBNull(2) ? string.Empty : reader.GetString(2),
-                                        Semester = reader.GetBoolean(3)
+                                        CourseNumber = courseNumber,
+                                        CourseName = courseName,
+                                        Label = label,
+                                        Semester = semesterValue
                                     }
                                 };
                             }

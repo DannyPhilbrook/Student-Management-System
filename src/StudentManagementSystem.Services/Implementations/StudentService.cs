@@ -11,7 +11,37 @@ namespace StudentManagementSystem.Services.Implementations
     public class StudentService : IStudentService
     {
         // Database path relative to executable location (matches WinForms)
-        private readonly string _connectionString = $"Data Source={System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "stdmngsys.db")};Version=3;";
+        private readonly string _connectionString = GetConnectionString();
+
+        // Shared helper method for getting connection string (used by all services)
+        public static string GetConnectionString()
+        {
+            // Try executable directory first (for deployed app)
+            string exePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Database", "stdmngsys.db");
+            if (System.IO.File.Exists(exePath))
+            {
+                return $"Data Source={exePath};Version=3;";
+            }
+
+            // Try project root directory (for development, matches WinForms)
+            string projectRoot = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "..", "..", "Database", "stdmngsys.db");
+            string projectRootFull = System.IO.Path.GetFullPath(projectRoot);
+            if (System.IO.File.Exists(projectRootFull))
+            {
+                return $"Data Source={projectRootFull};Version=3;";
+            }
+
+            // Try relative path like WinForms (from executable)
+            string relativePath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "..", "Database", "stdmngsys.db");
+            string relativePathFull = System.IO.Path.GetFullPath(relativePath);
+            if (System.IO.File.Exists(relativePathFull))
+            {
+                return $"Data Source={relativePathFull};Version=3;";
+            }
+
+            // Fallback to executable directory (will create if doesn't exist)
+            return $"Data Source={exePath};Version=3;";
+        }
 
         public async Task<IEnumerable<Student>> GetAllStudentsAsync()
         {

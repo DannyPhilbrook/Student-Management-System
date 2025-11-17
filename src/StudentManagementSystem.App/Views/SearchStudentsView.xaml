@@ -146,7 +146,7 @@
                             <DataGridTextColumn Header="Comments" 
                                                Binding="{Binding Notes}" 
                                                Width="*"/>
-                            <DataGridTemplateColumn Header="Actions" Width="150">
+                            <DataGridTemplateColumn Header="Actions" Width="250">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -154,7 +154,13 @@
                                                     Style="{StaticResource OutlineButton}"
                                                     Command="{Binding DataContext.EditStudentCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
                                                     CommandParameter="{Binding}"
-                                                    Margin="0,0,8,0"
+                                                    Margin="0,0,4,0"
+                                                    Padding="8,4"/>
+                                            <Button Content="Degree Plan" 
+                                                    Style="{StaticResource OutlineButton}"
+                                                    Command="{Binding DataContext.ViewDegreePlanCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}"
+                                                    CommandParameter="{Binding}"
+                                                    Margin="0,0,4,0"
                                                     Padding="8,4"/>
                                             <Button Content="Delete" 
                                                     Style="{StaticResource DangerButton}"
