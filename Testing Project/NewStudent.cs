@@ -54,7 +54,6 @@ namespace Testing_Project
 
                         insertQuery = @"INSERT INTO Student (FirstName, LastName, StudentID, StartingSemester, Notes, SchoolYear, DegreePlanID, StudentStatus)
                                    VALUES (@FirstName, @LastName, @StudentID, @StartingSemester, @Notes, @SchoolYear, @DegreePlanID, @StudentStatus)";
-                        }
                         
                         // Determine boolean value based on selected index
                         // 0 = Fall (false), 1 = Spring (true)
@@ -90,8 +89,6 @@ namespace Testing_Project
                             cmd.Parameters.AddWithValue("@FirstName", stdFNametb.Text);
                             cmd.Parameters.AddWithValue("@LastName", stdLNametb.Text);
                             cmd.Parameters.AddWithValue("@StudentID", stdIdtb.Text);
-                            cmd.Parameters.AddWithValue("@SchoolYear", "2024");
-                            cmd.Parameters.AddWithValue("@DegreePlanID", 1); // Default DegreePlanID
                             
                             if (rdbWaiting.Checked)
                             {
@@ -112,7 +109,6 @@ namespace Testing_Project
 
                             cmd.Parameters.AddWithValue("@SchoolYear", tbSchlYear);
                             cmd.Parameters.AddWithValue("@DegreePlanID", degreePlanId);
-                            cmd.Parameters.AddWithValue("@StudentStatus", 1); // Default StudentStatus
                             cmd.Parameters.AddWithValue("@Notes", commrtb.Text);
                             cmd.Parameters.AddWithValue("@StartingSemester", semesterValue);
 

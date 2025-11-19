@@ -89,3 +89,4 @@ C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Desi
 C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.EditDegreePlan.resources
 C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.EditStudent.resources
 C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.GraderForm.resources
+C:\Users\brand\OneDrive - Stephen F. Austin State University\College\Senior Design\FinalProject\Student-Management-System\Testing Project\obj\Debug\Testing_Project.GraderForm.resources

@@ -150,19 +150,19 @@ namespace Testing_Project
                 DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
 
                 // Step 1: Confirm edit intention
-                DialogResult confirm = MessageBox.Show(
+                DialogResult choice = MessageBox.Show(
                     "Are you sure you want to edit the Student or the Degree Plan?",
                     "Confirm Edit",
                     MessageBoxButtons.YesNo,
                     MessageBoxIcon.Question
                 );
 
-                if (confirm == DialogResult.Yes)
+                if (choice == DialogResult.Yes)
                 {
                     // Get selected row
-                    DataGridViewRow row = dataGridView1.Rows[e.RowIndex];
+                    DataGridViewRow rows = dataGridView1.Rows[e.RowIndex];
 
-                    int studentID = Convert.ToInt32(row.Cells["StudentID"].Value);
+                    int studentID = Convert.ToInt32(rows.Cells["StudentID"].Value);
 
                     try
                     {
@@ -214,7 +214,48 @@ namespace Testing_Project
                             MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
+                else if (choice == DialogResult.No)
+                {
+                    // ✅ Edit Degree Plan — fetch it dynamically
+                    int studentId = Convert.ToInt32(row.Cells["StudentID"].Value);
+                    int degreePlanId = GetDegreePlanIdByStudentId(studentId);
+
+                    if (degreePlanId != -1)
+                    {
+                        var mainMenu = this.FindForm() as MainMenu;
+                        mainMenu.LoadPage(new EditDegreePlan(degreePlanId));
+                    }
+                    else
+                    {
+                        MessageBox.Show(
+                            "This student does not have a Degree Plan.",
+                            "No Degree Plan Found",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning
+                        );
+                    }
+                }
             }
+        }
+
+        private int GetDegreePlanIdByStudentId(int studentId)
+        {
+            int degreePlanId = -1;
+
+            using (SQLiteConnection conn = new SQLiteConnection(dbPath))
+            {
+                conn.Open();
+                using (SQLiteCommand cmd = new SQLiteCommand(
+                    "SELECT DegreePlanID FROM DegreePlan WHERE StudentID = @StudentID", conn))
+                {
+                    cmd.Parameters.AddWithValue("@StudentID", studentId);
+                    var result = cmd.ExecuteScalar();
+                    if (result != null)
+                        degreePlanId = Convert.ToInt32(result);
+                }
+            }
+
+            return degreePlanId;
         }
     }
 }
