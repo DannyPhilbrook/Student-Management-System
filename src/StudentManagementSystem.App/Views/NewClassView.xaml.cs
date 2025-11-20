@@ -12,6 +12,7 @@ namespace StudentManagementSystem.App.Views
             DataContext = new NewClassViewModel(ServiceLocator.NavigationService, ServiceLocator.CourseService);
         }
 
+            
         private void CourseLabel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (sender is ComboBox comboBox && comboBox.SelectedItem != null)
