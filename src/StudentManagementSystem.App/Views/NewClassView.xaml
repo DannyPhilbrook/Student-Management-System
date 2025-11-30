@@ -1,0 +1,77 @@
+<Page x:Class="StudentManagementSystem.App.Views.NewClassView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      Title="New Course"
+      Background="{StaticResource Brush.Background}" Height="606" Width="1234">
+
+    <Grid Margin="48">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Section -->
+        <StackPanel Grid.Row="0" HorizontalAlignment="Center" Margin="0,0,0,48">
+            <TextBlock Text="Add New Course" 
+                       Style="{StaticResource HeaderH1}"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Enter course information below" 
+                       Style="{StaticResource HeaderH3}"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource Brush.Text.Secondary}"/>
+        </StackPanel>
+
+        <!-- Form Card -->
+        <Border Grid.Row="1" 
+                Style="{StaticResource Card}" 
+                Width="500" 
+                HorizontalAlignment="Center"
+                VerticalAlignment="Center">
+            <StackPanel Margin="32">
+
+                <!-- Course Name -->
+                <Label Content="Course Name:" Style="{StaticResource ModernLabel}"/>
+                <TextBox Text="{Binding CourseName, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,16"/>
+
+                <!-- Course Label -->
+                <Label Content="Course Label:" Style="{StaticResource ModernLabel}"/>
+                <ComboBox Text="{Binding SelectedLabel, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding AvailableLabels}"
+                          Style="{StaticResource ModernComboBox}"
+                          IsEditable="True"
+                          Margin="0,0,0,16"/>
+
+                <!-- Course Number -->
+                <Label Content="Course Number:" Style="{StaticResource ModernLabel}"/>
+                <TextBox Text="{Binding CourseNumber, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,16"/>
+
+                <!-- Course Semester -->
+                <Label Content="Course Semester:" Style="{StaticResource ModernLabel}"/>
+                <ComboBox SelectedValue="{Binding SemesterText, UpdateSourceTrigger=PropertyChanged}"
+                          Style="{StaticResource ModernComboBox}"
+                          Margin="0,0,0,24">
+                    <ComboBoxItem Content="Fall"/>
+                    <ComboBoxItem Content="Spring"/>
+                </ComboBox>
+
+                <!-- Buttons -->
+                <StackPanel Orientation="Horizontal" 
+                           HorizontalAlignment="Center">
+                    <Button Content="Submit" 
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding SaveCommand}"
+                            Margin="0,0,16,0"
+                            Padding="24,8"/>
+                    <Button Content="Cancel" 
+                            Style="{StaticResource OutlineButton}"
+                            Command="{Binding CancelCommand}"
+                            Padding="24,8"/>
+                </StackPanel>
+            </StackPanel>
+        </Border>
+    </Grid>
+</Page>
