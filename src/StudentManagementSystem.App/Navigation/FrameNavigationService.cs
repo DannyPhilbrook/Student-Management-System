@@ -59,6 +59,10 @@ namespace StudentManagementSystem.App.Navigation
                                 // Load degree plan asynchronously
                                 _ = editDegreePlanVM.LoadDegreePlanAsync(dpParam.DegreePlanId, dpParam.StudentName);
                             }
+                            else if (viewModel is EditClassViewModel editClassVM && parameter is Domain.Course course)
+                            {
+                                editClassVM.LoadCourse(course);
+                            }
                         }
                     }
 

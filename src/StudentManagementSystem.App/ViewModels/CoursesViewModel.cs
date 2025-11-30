@@ -70,9 +70,7 @@ namespace StudentManagementSystem.App.ViewModels
         {
             if (course != null)
             {
-                // TODO: Navigate with parameter
-                System.Diagnostics.Debug.WriteLine($"Edit course: {course.DisplayText}");
-                // _navigationService.NavigateTo<EditClassViewModel>(course);
+                _navigationService.NavigateTo<EditClassViewModel>(course);
             }
         });
 
