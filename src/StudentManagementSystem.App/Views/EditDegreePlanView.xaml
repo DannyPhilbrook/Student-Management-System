@@ -38,26 +38,26 @@
                     VerticalAlignment="Top"
                     Margin="0,0,0,48">
                 <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-
-                <!-- Year and Semester Selection (Top Row) -->
-                <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,24">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
-                    
-                    <Label Content="Year:" Grid.Column="0" Style="{StaticResource ModernLabel}" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <ComboBox x:Name="YearComboBox"
+
+                    <!-- Year and Semester Selection (Top Row) -->
+                    <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Margin="0,0,0,24">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label Content="Year:" Grid.Column="0" Style="{StaticResource ModernLabel}" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <ComboBox x:Name="YearComboBox"
                               Grid.Column="1" 
                               ItemsSource="{Binding AvailableYears, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding SelectedYear, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
@@ -67,184 +67,195 @@
                               Margin="0,0,24,0"
                               SelectionChanged="YearComboBox_SelectionChanged"
                               DisplayMemberPath="."/>
-                    
-                    <Label Content="Semester:" Grid.Column="2" Style="{StaticResource ModernLabel}" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                    <ComboBox x:Name="SemesterComboBox"
-                              Grid.Column="3" 
+
+                        <Label Content="Semester:" Grid.Column="2" Style="{StaticResource ModernLabel}" VerticalAlignment="Center" Margin="243,0,128,0"/>
+                        <ComboBox x:Name="SemesterComboBox"
+                              Grid.Column="2" 
                               ItemsSource="{Binding AvailableSemestersForYear, UpdateSourceTrigger=PropertyChanged}"
                               SelectedItem="{Binding SelectedSemesterType, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                               IsEditable="False"
                               Style="{StaticResource ModernComboBox}"
                               MinWidth="120"
                               SelectionChanged="SemesterComboBox_SelectionChanged"
-                              DisplayMemberPath="."/>
-                </Grid>
+                              DisplayMemberPath="." Grid.ColumnSpan="2" Margin="320,0,3,0"/>
+                    </Grid>
 
-                <!-- Left Panel: Semesters -->
-                <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,16,0">
-                    <Grid Margin="0,0,0,16">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                    <!-- Left Panel: Semesters -->
+                    <StackPanel Grid.Row="1" Grid.Column="0" Margin="0,0,16,0">
+                        <Grid Margin="0,0,0,16">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Column="0"
+                            <TextBlock Grid.Column="0"
                                    Text="Semesters" 
                                    Style="{StaticResource HeaderH3}"/>
 
-                        <StackPanel Grid.Column="1" 
+                            <StackPanel Grid.Column="1" 
                                     Orientation="Horizontal">
-                            <Button Content="+ Add" 
+                                <Button Content="+ Add" 
                                     Style="{StaticResource PrimaryButton}"
                                     Command="{Binding AddSemesterCommand}"
                                     Margin="0,0,8,0"
                                     Padding="12,6"/>
-                            <Button Content="Remove" 
+                                <Button Content="Remove" 
                                     Style="{StaticResource DangerButton}"
                                     Command="{Binding RemoveSemesterCommand}"
                                     Padding="12,6"/>
-                        </StackPanel>
-                    </Grid>
+                            </StackPanel>
+                        </Grid>
 
-                    <!-- Add Semester Input -->
-                    <Border BorderBrush="{StaticResource Brush.Border}"
+                        <!-- Add Semester Input -->
+                        <Border BorderBrush="{StaticResource Brush.Border}"
                             BorderThickness="1"
                             CornerRadius="8"
                             Background="{StaticResource Brush.Surface}"
                             Padding="12"
                             Margin="0,0,0,16">
-                        <StackPanel>
-                            <Label Content="Add New Semester:" Style="{StaticResource ModernLabel}" Margin="0,0,0,8"/>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
-                                
-                                <Label Content="Year:" Grid.Row="0" Grid.Column="0" Style="{StaticResource ModernLabel}"/>
-                                <TextBox Text="{Binding NewSemesterYear, UpdateSourceTrigger=PropertyChanged}" 
+                            <StackPanel>
+                                <Label Content="Add New Semester:" Style="{StaticResource ModernLabel}" Margin="0,0,0,8"/>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <Label Content="Year:" Grid.Row="0" Grid.Column="0" Style="{StaticResource ModernLabel}"/>
+                                    <TextBox Text="{Binding NewSemesterYear, UpdateSourceTrigger=PropertyChanged}" 
                                          Grid.Row="1" Grid.Column="0"
                                          Style="{StaticResource ModernTextBox}"
                                          Margin="0,0,8,0"/>
-                                
-                                <Label Content="Semester:" Grid.Row="0" Grid.Column="1" Style="{StaticResource ModernLabel}"/>
-                                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
-                                    <RadioButton Content="Fall" 
+
+                                    <Label Content="Semester:" Grid.Row="0" Grid.Column="1" Style="{StaticResource ModernLabel}"/>
+                                    <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                                        <RadioButton Content="Fall" 
                                                  IsChecked="{Binding IsNewSemesterFall, UpdateSourceTrigger=PropertyChanged}"
                                                  GroupName="NewSemester"
                                                  Margin="0,0,16,0"
                                                  VerticalAlignment="Center"/>
-                                    <RadioButton Content="Spring" 
+                                        <RadioButton Content="Spring" 
                                                  IsChecked="{Binding IsNewSemesterSpring, UpdateSourceTrigger=PropertyChanged}"
                                                  GroupName="NewSemester"
                                                  VerticalAlignment="Center"/>
-                                </StackPanel>
-                            </Grid>
-                        </StackPanel>
-                    </Border>
+                                    </StackPanel>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
 
-                    <Border BorderBrush="{StaticResource Brush.Border}"
+                        <Border BorderBrush="{StaticResource Brush.Border}"
                             BorderThickness="1"
                             CornerRadius="8"
                             Background="{StaticResource Brush.Surface}">
-                        <ListBox ItemsSource="{Binding Semesters}"
+                            <ListBox ItemsSource="{Binding Semesters}"
                                  SelectedItem="{Binding SelectedSemester}"
                                  DisplayMemberPath="DisplayText"
                                  BorderThickness="0"
                                  Background="Transparent"
                                  MinHeight="400"
                                  ScrollViewer.VerticalScrollBarVisibility="Auto">
-                            <ListBox.ItemContainerStyle>
-                                <Style TargetType="ListBoxItem">
-                                    <Setter Property="Padding" Value="12"/>
-                                    <Setter Property="Margin" Value="4"/>
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Style.Triggers>
-                                        <Trigger Property="IsSelected" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource Brush.Primary.Light}"/>
-                                            <Setter Property="Foreground" Value="{StaticResource Brush.Text.OnPrimary}"/>
-                                        </Trigger>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{StaticResource Brush.Surface.Dark}"/>
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ListBox.ItemContainerStyle>
-                        </ListBox>
-                    </Border>
-                </StackPanel>
+                                <ListBox.ItemContainerStyle>
+                                    <Style TargetType="ListBoxItem">
+                                        <Setter Property="Padding" Value="12"/>
+                                        <Setter Property="Margin" Value="4"/>
+                                        <Setter Property="Background" Value="Transparent"/>
+                                        <Style.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource Brush.Primary.Light}"/>
+                                                <Setter Property="Foreground" Value="{StaticResource Brush.Text.OnPrimary}"/>
+                                            </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="{StaticResource Brush.Surface.Dark}"/>
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ListBox.ItemContainerStyle>
+                            </ListBox>
+                        </Border>
+                    </StackPanel>
 
-                <!-- Right Panel: Classes for Selected Semester -->
-                <StackPanel Grid.Row="1" Grid.Column="1" Margin="16,0,0,0">
-                    <Grid Margin="0,0,0,16">
-                        <TextBlock Text="Assigned Classes" 
+                    <!-- Right Panel: Classes for Selected Semester -->
+                    <StackPanel Grid.Row="1" Grid.Column="1" Margin="16,0,0,0">
+                        <Grid Margin="0,0,0,16">
+                            <TextBlock Text="Assigned Classes" 
                                    Style="{StaticResource HeaderH3}"
                                    HorizontalAlignment="Left"/>
-                    </Grid>
+                        </Grid>
 
-                    <!-- Assigned Classes DataGrid -->
-                    <Border BorderBrush="{StaticResource Brush.Border}"
+                        <!-- Assigned Classes DataGrid -->
+                        <Border BorderBrush="{StaticResource Brush.Border}"
                             BorderThickness="1"
                             CornerRadius="8"
                             Margin="0,0,0,16">
-                        <DataGrid ItemsSource="{Binding SemesterClasses}"
+                            <DataGrid x:Name="AssignedClassesDataGrid"
+                                  ItemsSource="{Binding SemesterClasses}"
                                   SelectedItem="{Binding SelectedSemesterClass}"
                                   AutoGenerateColumns="False"
+                                  IsReadOnly="True"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  SelectionMode="Single"
+                                  SelectionUnit="FullRow"
+                                  MouseDoubleClick="AssignedClassesDataGrid_MouseDoubleClick"
                                   Style="{StaticResource ModernDataGrid}"
                                   ColumnHeaderStyle="{StaticResource ModernDataGridColumnHeader}"
                                   RowStyle="{StaticResource ModernDataGridRow}"
                                   MinHeight="200"
-                                  MaxHeight="300">
-                            <DataGrid.Columns>
-                                <DataGridTextColumn Header="Course" 
-                                                    Binding="{Binding Course.CourseNumber}" 
-                                                    Width="*"/>
-                                <DataGridTextColumn Header="Name" 
-                                                    Binding="{Binding Course.CourseName}" 
-                                                    Width="2*"/>
-                                <DataGridTextColumn Header="Grade" 
-                                                    Binding="{Binding Grade}" 
-                                                    Width="60"/>
-                            </DataGrid.Columns>
-                        </DataGrid>
-                    </Border>
+                                  MaxHeight="300" SelectionChanged="AssignedClassesDataGrid_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Course" 
+                                                        Binding="{Binding Course.CourseNumber}" 
+                                                        Width="*"/>
+                                    <DataGridTextColumn Header="Name" 
+                                                        Binding="{Binding Course.CourseName}" 
+                                                        Width="2*"/>
+                                    <DataGridTextColumn Header="Grade" 
+                                                        Binding="{Binding Grade}" 
+                                                        Width="60"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </Border>
 
-                    <!-- Add/Remove Class Controls -->
-                    <TextBlock Text="Add Course" 
+                        <!-- Add/Remove Class Controls -->
+                        <TextBlock Text="Add Course" 
                                Style="{StaticResource HeaderH3}"
                                Margin="0,16,0,8"/>
 
-                    <ComboBox ItemsSource="{Binding AvailableCourses}"
+                        <!-- Made editable and search-friendly; items are filtered by ViewModel -->
+                        <ComboBox ItemsSource="{Binding AvailableCourses}"
                               SelectedItem="{Binding SelectedAvailableCourse}"
                               DisplayMemberPath="DisplayText"
+                              IsEditable="True"
+                              IsTextSearchEnabled="True"
+                              TextSearch.TextPath="DisplayText"
                               Style="{StaticResource ModernComboBox}"
                               Margin="0,0,0,8"/>
 
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
 
-                        <Button Grid.Column="0"
+                            <Button Grid.Column="0"
                                 Content="Add to Semester" 
                                 Style="{StaticResource PrimaryButton}"
                                 Command="{Binding AddClassToSemesterCommand}"
                                 HorizontalAlignment="Stretch"/>
 
-                        <Button Grid.Column="1"
+                            <Button Grid.Column="1"
                                 Content="Remove Selected" 
                                 Style="{StaticResource DangerButton}"
                                 Command="{Binding RemoveClassFromSemesterCommand}"
                                 Margin="8,0,0,0"/>
-                    </Grid>
-                </StackPanel>
-            </Grid>
-        </Border>
+                        </Grid>
+                    </StackPanel>
+                </Grid>
+            </Border>
         </ScrollViewer>
     </Grid>
 </Page>

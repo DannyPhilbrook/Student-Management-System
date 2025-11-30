@@ -12,6 +12,7 @@ namespace StudentManagementSystem.App.ViewModels
         private readonly IStudentService _studentService;
 
         private int _studentId;
+        private int? _degreePlanId;
         private string _firstName;
         private string _lastName;
         private bool _startingSemester;
@@ -38,6 +39,17 @@ namespace StudentManagementSystem.App.ViewModels
             set
             {
                 _studentId = value;
+                OnPropertyChanged();
+            }
+        }
+
+        // Preserve the DegreePlanID so Update doesn't overwrite it with a default
+        public int? DegreePlanId
+        {
+            get => _degreePlanId;
+            set
+            {
+                _degreePlanId = value;
                 OnPropertyChanged();
             }
         }
@@ -212,7 +224,8 @@ namespace StudentManagementSystem.App.ViewModels
                     StudentStatus,
                     SchoolYear)
                 {
-                    StudentID = StudentId
+                    StudentID = StudentId,
+                    DegreePlanID = DegreePlanId
                 };
 
                 await _studentService.UpdateStudentAsync(student);
@@ -294,6 +307,7 @@ namespace StudentManagementSystem.App.ViewModels
             if (student != null)
             {
                 StudentId = student.StudentID;
+                DegreePlanId = student.DegreePlanID;
                 FirstName = student.FirstName;
                 LastName = student.LastName;
                 StartingSemester = student.StartingSemester;

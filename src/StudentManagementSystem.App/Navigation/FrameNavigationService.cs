@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Controls;
+using System.Windows.Navigation;
 using StudentManagementSystem.App.Views;
 using StudentManagementSystem.App.ViewModels;
 
@@ -101,10 +102,33 @@ namespace StudentManagementSystem.App.Navigation
 
         public void GoBack()
         {
-            if (_frame.CanGoBack)
+            if (!_frame.CanGoBack)
+                return;
+
+            // Subscribe to the Navigated event once so we can detect the destination page
+            // and trigger a refresh if it's SearchStudentsViewModel.
+            NavigatedEventHandler handler = null;
+            handler = (sender, args) =>
             {
-                _frame.GoBack();
-            }
+                try
+                {
+                    if (_frame.Content is Page page && page.DataContext is SearchStudentsViewModel searchVm)
+                    {
+                        // Trigger the view model to reload data
+                        searchVm.RefreshStudents();
+                    }
+                }
+                finally
+                {
+                    // Unsubscribe to avoid memory leaks / multiple calls
+                    _frame.Navigated -= handler;
+                }
+            };
+
+            _frame.Navigated += handler;
+
+            // Perform the actual back navigation
+            _frame.GoBack();
         }
 
         public bool CanGoBack => _frame.CanGoBack;

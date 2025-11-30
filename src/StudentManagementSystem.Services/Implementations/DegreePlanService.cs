@@ -13,6 +13,36 @@ namespace StudentManagementSystem.Services.Implementations
         // Database path relative to executable location (matches WinForms)
         private readonly string _connectionString = StudentService.GetConnectionString();
 
+        // ---- Helper readers: make SQLite type differences safe ----
+        private static int ReadInt(SQLiteDataReader reader, int index)
+        {
+            if (reader.IsDBNull(index)) return 0;
+            var v = reader.GetValue(index);
+            // Handle long (Int64) or other numeric types
+            return Convert.ToInt32(v);
+        }
+
+        private static string ReadString(SQLiteDataReader reader, int index)
+        {
+            if (reader.IsDBNull(index)) return string.Empty;
+            var v = reader.GetValue(index);
+            return v?.ToString() ?? string.Empty;
+        }
+
+        private static bool ReadBool(SQLiteDataReader reader, int index)
+        {
+            if (reader.IsDBNull(index)) return false;
+            var v = reader.GetValue(index);
+            if (v is bool b) return b;
+            if (v is long l) return l != 0;
+            if (v is int i) return i != 0;
+            var s = v?.ToString() ?? string.Empty;
+            return s.Equals("true", StringComparison.OrdinalIgnoreCase)
+                || s.Equals("spring", StringComparison.OrdinalIgnoreCase)
+                || s == "1";
+        }
+        // ------------------------------------------------------------
+
         public async Task<DegreePlan> GetDegreePlanByIdAsync(int degreePlanId)
         {
             return await Task.Run(() =>
@@ -31,8 +61,8 @@ namespace StudentManagementSystem.Services.Implementations
                             {
                                 return new DegreePlan
                                 {
-                                    DegreePlanID = reader.GetInt32(0),
-                                    StudentID = reader.IsDBNull(1) ? 0 : reader.GetInt32(1)
+                                    DegreePlanID = ReadInt(reader, 0),
+                                    StudentID = reader.IsDBNull(1) ? 0 : ReadInt(reader, 1)
                                 };
                             }
                         }
@@ -62,8 +92,8 @@ namespace StudentManagementSystem.Services.Implementations
                             {
                                 degreePlans.Add(new DegreePlan
                                 {
-                                    DegreePlanID = reader.GetInt32(0),
-                                    StudentID = reader.IsDBNull(1) ? 0 : reader.GetInt32(1)
+                                    DegreePlanID = ReadInt(reader, 0),
+                                    StudentID = reader.IsDBNull(1) ? 0 : ReadInt(reader, 1)
                                 });
                             }
                         }
@@ -137,7 +167,7 @@ namespace StudentManagementSystem.Services.Implementations
                         using (var reader = cmd.ExecuteReader())
                         {
                             while (reader.Read())
-                                semesterIds.Add(reader.GetInt32(0));
+                                semesterIds.Add(ReadInt(reader, 0));
                         }
                     }
 
@@ -197,10 +227,10 @@ namespace StudentManagementSystem.Services.Implementations
                             {
                                 semesters.Add(new Semester
                                 {
-                                    SemesterID = reader.GetInt32(0),
-                                    DegreePlanID = reader.GetInt32(1),
-                                    SemesterValue = reader.GetBoolean(2),
-                                    SchoolYear = reader.GetString(3)
+                                    SemesterID = ReadInt(reader, 0),
+                                    DegreePlanID = ReadInt(reader, 1),
+                                    SemesterValue = ReadBool(reader, 2),
+                                    SchoolYear = ReadString(reader, 3)
                                 });
                             }
                         }
@@ -312,19 +342,29 @@ namespace StudentManagementSystem.Services.Implementations
                         {
                             while (reader.Read())
                             {
+                                // Read values defensively
+                                int semClassId = ReadInt(reader, 0);
+                                int semId = ReadInt(reader, 1);
+                                int classId = ReadInt(reader, 2);
+                                string grade = ReadString(reader, 3);
+                                string courseNumber = ReadString(reader, 4);
+                                string courseName = ReadString(reader, 5);
+                                string label = ReadString(reader, 6);
+                                bool semesterValue = ReadBool(reader, 7);
+
                                 semesterClasses.Add(new SemesterClass
                                 {
-                                    SemesterClassID = reader.GetInt32(0),
-                                    SemesterID = reader.GetInt32(1),
-                                    ClassID = reader.GetInt32(2),
-                                    Grade = reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
+                                    SemesterClassID = semClassId,
+                                    SemesterID = semId,
+                                    ClassID = classId,
+                                    Grade = grade,
                                     Course = new Course
                                     {
-                                        ClassID = reader.GetInt32(2),
-                                        CourseNumber = reader.GetString(4),
-                                        CourseName = reader.GetString(5),
-                                        Label = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
-                                        Semester = reader.GetBoolean(7)
+                                        ClassID = classId,
+                                        CourseNumber = courseNumber,
+                                        CourseName = courseName,
+                                        Label = label,
+                                        Semester = semesterValue
                                     }
                                 });
                             }
@@ -362,71 +402,25 @@ namespace StudentManagementSystem.Services.Implementations
                         {
                             while (reader.Read())
                             {
-                                // Handle Grade column - might be stored as different types
-                                string grade = string.Empty;
-                                if (!reader.IsDBNull(3))
-                                {
-                                    try
-                                    {
-                                        grade = reader.GetString(3);
-                                    }
-                                    catch
-                                    {
-                                        grade = reader[3]?.ToString() ?? string.Empty;
-                                    }
-                                }
-
-                                // Handle CourseNumber and ClassName - might be stored as different types
-                                string courseNumber = reader[4]?.ToString() ?? string.Empty;
-                                string courseName = reader[5]?.ToString() ?? string.Empty;
-
-                                // Handle Label column - might be stored as different types
-                                string label = string.Empty;
-                                if (!reader.IsDBNull(6))
-                                {
-                                    try
-                                    {
-                                        label = reader.GetString(6);
-                                    }
-                                    catch
-                                    {
-                                        label = reader[6]?.ToString() ?? string.Empty;
-                                    }
-                                }
-
-                                // Handle Semester column - might be stored as boolean, integer, or string
-                                bool semesterValue = false;
-                                if (!reader.IsDBNull(7))
-                                {
-                                    try
-                                    {
-                                        semesterValue = reader.GetBoolean(7);
-                                    }
-                                    catch
-                                    {
-                                        try
-                                        {
-                                            semesterValue = reader.GetInt32(7) != 0;
-                                        }
-                                        catch
-                                        {
-                                            string semText = reader[7]?.ToString() ?? "false";
-                                            semesterValue = semText.Equals("Spring", StringComparison.OrdinalIgnoreCase) ||
-                                                           semText.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                                                           semText == "1";
-                                        }
-                                    }
-                                }
+                                // Defensive reads
+                                int semClassId = ReadInt(reader, 0);
+                                int semId = ReadInt(reader, 1);
+                                int classId = ReadInt(reader, 2);
+                                string grade = ReadString(reader, 3);
+                                string courseNumber = ReadString(reader, 4);
+                                string courseName = ReadString(reader, 5);
+                                string label = ReadString(reader, 6);
+                                bool semesterValue = ReadBool(reader, 7);
 
                                 semesterClasses.Add(new SemesterClass
                                 {
-                                    SemesterClassID = reader.GetInt32(0),
-                                    SemesterID = reader.GetInt32(1),
-                                    ClassID = reader.GetInt32(2),
+                                    SemesterClassID = semClassId,
+                                    SemesterID = semId,
+                                    ClassID = classId,
                                     Grade = grade,
                                     Course = new Course
                                     {
-                                        ClassID = reader.GetInt32(2),
+                                        ClassID = classId,
                                         CourseNumber = courseNumber,
                                         CourseName = courseName,
                                         Label = label,
@@ -486,44 +480,10 @@ namespace StudentManagementSystem.Services.Implementations
                         {
                             if (reader.Read())
                             {
-                                // Handle Label column - might be stored as different types
-                                string label = string.Empty;
-                                if (!reader.IsDBNull(2))
-                                {
-                                    try
-                                    {
-                                        label = reader.GetString(2);
-                                    }
-                                    catch
-                                    {
-                                        label = reader[2].ToString();
-                                    }
-                                }
-
-                                // Handle Semester column - might be stored as boolean, integer, or string
-                                bool semesterValue = false;
-                                try
-                                {
-                                    semesterValue = reader.GetBoolean(3);
-                                }
-                                catch
-                                {
-                                    try
-                                    {
-                                        semesterValue = reader.GetInt32(3) != 0;
-                                    }
-                                    catch
-                                    {
-                                        string semText = reader.GetString(3);
-                                        semesterValue = semText.Equals("Spring", StringComparison.OrdinalIgnoreCase) ||
-                                                       semText.Equals("true", StringComparison.OrdinalIgnoreCase) ||
-                                                       semText == "1";
-                                    }
-                                }
-
-                                // Handle CourseNumber and ClassName - might be stored as different types
-                                string courseNumber = reader[0]?.ToString() ?? string.Empty;
-                                string courseName = reader[1]?.ToString() ?? string.Empty;
+                                string courseNumber = ReadString(reader, 0);
+                                string courseName = ReadString(reader, 1);
+                                string label = ReadString(reader, 2);
+                                bool semesterValue = ReadBool(reader, 3);
 
                                 return new SemesterClass
                                 {
@@ -602,19 +562,28 @@ namespace StudentManagementSystem.Services.Implementations
                         {
                             if (reader.Read())
                             {
+                                int semClassId = ReadInt(reader, 0);
+                                int semId = ReadInt(reader, 1);
+                                int classId = ReadInt(reader, 2);
+                                string gradeVal = ReadString(reader, 3);
+                                string courseNumber = ReadString(reader, 4);
+                                string courseName = ReadString(reader, 5);
+                                string label = ReadString(reader, 6);
+                                bool semesterValue = ReadBool(reader, 7);
+
                                 return new SemesterClass
                                 {
-                                    SemesterClassID = reader.GetInt32(0),
-                                    SemesterID = reader.GetInt32(1),
-                                    ClassID = reader.GetInt32(2),
-                                    Grade = reader.IsDBNull(3) ? string.Empty : reader.GetString(3),
+                                    SemesterClassID = semClassId,
+                                    SemesterID = semId,
+                                    ClassID = classId,
+                                    Grade = gradeVal,
                                     Course = new Course
                                     {
-                                        ClassID = reader.GetInt32(2),
-                                        CourseNumber = reader.GetString(4),
-                                        CourseName = reader.GetString(5),
-                                        Label = reader.IsDBNull(6) ? string.Empty : reader.GetString(6),
-                                        Semester = reader.GetBoolean(7)
+                                        ClassID = classId,
+                                        CourseNumber = courseNumber,
+                                        CourseName = courseName,
+                                        Label = label,
+                                        Semester = semesterValue
                                     }
                                 };
                             }

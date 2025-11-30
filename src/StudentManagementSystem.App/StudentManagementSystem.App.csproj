@@ -75,6 +75,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\GradeDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainMenuView.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -133,6 +137,9 @@
     </Compile>
     <Compile Include="Views\EditStudentView.xaml.cs">
       <DependentUpon>EditStudentView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\GradeDialog.xaml.cs">
+      <DependentUpon>GradeDialog.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\MainMenuView.xaml.cs">
       <DependentUpon>MainMenuView.xaml</DependentUpon>

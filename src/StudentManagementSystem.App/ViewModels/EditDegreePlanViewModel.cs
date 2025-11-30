@@ -6,6 +6,9 @@ using System.Windows.Input;
 using StudentManagementSystem.App.Navigation;
 using StudentManagementSystem.Domain;
 using StudentManagementSystem.Services.Interfaces;
+using System.Collections.Generic;
+using System.Windows;
+using StudentManagementSystem.App.Views;
 
 namespace StudentManagementSystem.App.ViewModels
 {
@@ -91,13 +94,42 @@ namespace StudentManagementSystem.App.ViewModels
             }
         }
 
+        // When a semester item in the ListBox is selected, update the Year and SemesterType
+        // so the rest of the UI switches to that semester automatically.
         public Semester SelectedSemester
         {
             get => _selectedSemester;
             set
             {
+                if (_selectedSemester == value) return;
+
                 _selectedSemester = value;
                 OnPropertyChanged();
+
+                if (_selectedSemester != null)
+                {
+                    // Derive year and semester text from the selected Semester
+                    string year = _selectedSemester.SchoolYear ?? string.Empty;
+                    string semType = _selectedSemester.SemesterValue ? "Spring" : "Fall";
+
+                    // Update backing fields directly to avoid triggering the full selection-change round-trip.
+                    // Raise property changed notifications so bindings update.
+                    if (_selectedYear != year)
+                    {
+                        _selectedYear = year;
+                        OnPropertyChanged(nameof(SelectedYear));
+                    }
+
+                    if (_selectedSemesterType != semType)
+                    {
+                        _selectedSemesterType = semType;
+                        OnPropertyChanged(nameof(SelectedSemesterType));
+                    }
+
+                    // Refresh classes for this (now selected) semester asynchronously.
+                    // Fire-and-forget is fine here; any exceptions are handled inside UpdateSemesterClassesAsync.
+                    _ = UpdateSemesterClassesAsync();
+                }
             }
         }
 
@@ -350,14 +382,12 @@ namespace StudentManagementSystem.App.ViewModels
             }
         }, () => SelectedSemesterClass != null);
 
+        // UpdateGradeCommand now will show the grade editor (via VM) and persist changes.
         public ICommand UpdateGradeCommand => new RelayCommand<SemesterClass>(async semesterClass =>
         {
             if (semesterClass != null)
             {
-                // TODO: Show dialog to input grade
-                // For now, just a placeholder
-                string grade = "A"; // This should come from a dialog
-                await UpdateGradeAsync(semesterClass, grade);
+                await ShowGradeEditorAsync(semesterClass);
             }
         });
 
@@ -375,7 +405,7 @@ namespace StudentManagementSystem.App.ViewModels
                 StudentName = studentName;
 
                 // Load all semesters
-                var semesters = await _degreePlanService.GetSemestersByDegreePlanIdAsync(degreePlanId);
+                var semesters = await _degreePlan_service_GetSemestersSafe(degreePlanId);
                 Semesters.Clear();
                 foreach (var semester in semesters)
                 {
@@ -410,6 +440,13 @@ namespace StudentManagementSystem.App.ViewModels
                     System.Windows.MessageBoxButton.OK,
                     System.Windows.MessageBoxImage.Error);
             }
+        }
+
+        // small helper to avoid null returns from service
+        private async Task<List<Semester>> _degreePlan_service_GetSemestersSafe(int degreePlanId)
+        {
+            var sems = await _degreePlanService.GetSemestersByDegreePlanIdAsync(degreePlanId);
+            return sems?.ToList() ?? new List<Semester>();
         }
 
         private async Task UpdateSemestersForYearAsync()
@@ -489,10 +526,27 @@ namespace StudentManagementSystem.App.ViewModels
                     SemesterClasses.Add(semesterClass);
                 }
 
-                // Load available courses for this semester type, excluding already assigned
-                var allCourses = await _courseService.GetCoursesBySemesterAsync(isSpring);
-                var assignedClassIds = SemesterClasses.Select(sc => sc.ClassID).ToList();
-                var available = allCourses.Where(c => !assignedClassIds.Contains(c.ClassID)).ToList();
+                // Load available courses for this semester type, excluding already assigned anywhere in the same degree plan
+                var allCourses = (await _courseService.GetCoursesBySemesterAsync(isSpring))?.ToList() ?? new List<Course>();
+
+                // Get all assigned class ids for the current degree plan across all semesters
+                var semesterTasks = Semesters.Select(s => _degreePlanService.GetClassesBySemesterAsync(s.SemesterID)).ToArray();
+                var assignedClassIdsSet = new HashSet<int>();
+                if (semesterTasks.Length > 0)
+                {
+                    var results = await Task.WhenAll(semesterTasks);
+                    foreach (var semClasses in results)
+                    {
+                        if (semClasses == null) continue;
+                        foreach (var sc in semClasses)
+                        {
+                            assignedClassIdsSet.Add(sc.ClassID);
+                        }
+                    }
+                }
+
+                // Filter out any course already assigned in the degree plan
+                var available = allCourses.Where(c => !assignedClassIdsSet.Contains(c.ClassID)).ToList();
 
                 AvailableCourses.Clear();
                 foreach (var course in available)
@@ -559,8 +613,7 @@ namespace StudentManagementSystem.App.ViewModels
             {
                 // Find the semester matching the selected year and type
                 bool isSpring = SelectedSemesterType == "Spring";
-                var semester = Semesters.FirstOrDefault(s => 
-                    s.SchoolYear == SelectedYear && s.SemesterValue == isSpring);
+                var semester = Semesters.FirstOrDefault(s => s.SchoolYear == SelectedYear && s.SemesterValue == isSpring);
 
                 if (semester == null)
                 {
@@ -608,14 +661,43 @@ namespace StudentManagementSystem.App.ViewModels
             }
         }
 
-        private async Task UpdateGradeAsync(SemesterClass semesterClass, string grade)
+        // Public: show a grade editor dialog (VM-level) and persist the selected grade.
+        public async Task ShowGradeEditorAsync(SemesterClass semesterClass)
+        {
+            if (semesterClass == null) return;
+
+            try
+            {
+                // Create and show the GradeDialog (view) from the VM.
+                // This keeps the view-model entry point here so code-behind doesn't need to perform DB work.
+                var dialog = new GradeDialog(semesterClass.Grade);
+                var owner = Application.Current?.Windows.OfType<Window>().FirstOrDefault(w => w.IsActive);
+                if (owner != null) dialog.Owner = owner;
+
+                bool? res = dialog.ShowDialog();
+                if (res == true && !string.IsNullOrWhiteSpace(dialog.SelectedGrade))
+                {
+                    await UpdateGradeAsync(semesterClass, dialog.SelectedGrade);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show(
+                    $"Error editing grade: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
+            }
+        }
+
+        // Public: persist a grade for a semester-class and refresh local collection.
+        public async Task UpdateGradeAsync(SemesterClass semesterClass, string grade)
         {
             try
             {
                 var updated = await _degreePlanService.UpdateGradeAsync(semesterClass.SemesterClassID, grade);
                 if (updated != null)
                 {
-                    // Update the local object
                     int index = SemesterClasses.IndexOf(semesterClass);
                     if (index >= 0)
                     {
@@ -626,6 +708,11 @@ namespace StudentManagementSystem.App.ViewModels
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error updating grade: {ex.Message}");
+                System.Windows.MessageBox.Show(
+                    $"Error updating grade: {ex.Message}",
+                    "Error",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
     }
