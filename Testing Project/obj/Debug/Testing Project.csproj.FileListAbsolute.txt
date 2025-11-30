@@ -91,3 +91,4 @@ C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Proje
 C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.GraderForm.resources
 C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.GraderForm.resources
 C:\Users\oddtr\CardGame\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SemesterForm.resources
+C:\Users\oddtr\OneDrive\Documents\GitHub\Student-Management-System\Testing Project\obj\Debug\Testing_Project.SemesterForm.resources
