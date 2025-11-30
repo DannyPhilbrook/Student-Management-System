@@ -20,9 +20,9 @@ namespace StudentManagementSystem.App.Views
 
         private void SearchStudentsView_Loaded(object sender, RoutedEventArgs e)
         {
-            // Refresh student list when view is loaded (e.g., returning from edit)
-            // Only refresh if we're not on initial load (to avoid double-loading)
-            if (_viewModel != null && !_viewModel.IsInitialLoad)
+            // Always attempt to refresh when the view is loaded, but avoid starting
+            // a refresh while one is already in progress to prevent duplicate work.
+            if (_viewModel != null && !_viewModel.IsLoading)
             {
                 _viewModel.RefreshStudents();
             }
