@@ -40,18 +40,26 @@
                 <StackPanel>
                     <!-- First Name -->
                     <Label Content="First Name" Style="{StaticResource ModernLabel}"/>
-                    <TextBox Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}" 
-                         Style="{StaticResource ModernTextBox}"
-                         Margin="0,0,0,16"/>
+                    <TextBox x:Name="FirstNameTextBox"
+                             Text="{Binding FirstName, UpdateSourceTrigger=PropertyChanged}"
+                             PreviewTextInput="FirstName_PreviewTextInput"
+                             Style="{StaticResource ModernTextBox}"
+                             Margin="0,0,0,16"/>
 
                     <!-- Last Name -->
                     <Label Content="Last Name" Style="{StaticResource ModernLabel}"/>
-                    <TextBox Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}" 
-                         Style="{StaticResource ModernTextBox}"
-                         Margin="0,0,0,16"/>
+                    <TextBox x:Name="LastNameTextBox"
+                             Text="{Binding LastName, UpdateSourceTrigger=PropertyChanged}"
+                             PreviewTextInput="LastName_PreviewTextInput"
+                             Style="{StaticResource ModernTextBox}"
+                             Margin="0,0,0,16"/>
                     <Label Content="School Year" Style="{StaticResource ModernLabel}"/>
-                    <TextBox Text="{Binding SchoolYear, UpdateSourceTrigger=PropertyChanged}" 
-                         Style="{StaticResource ModernTextBox}"/>
+                    <TextBox x:Name="SchoolYearTextBox"
+                             Text="{Binding SchoolYear, UpdateSourceTrigger=PropertyChanged}"
+                             PreviewTextInput="SchoolYear_PreviewTextInput"
+                             Style="{StaticResource ModernTextBox}"
+                             Margin="0,0,0,16"
+                             />
 
                     <!-- Starting Semester (Radio Buttons) -->
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,16"/>

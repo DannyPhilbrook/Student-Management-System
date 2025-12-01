@@ -55,8 +55,10 @@
 
                     <!-- Course Number -->
                     <Label Content="Course Number:" Style="{StaticResource ModernLabel}"/>
-                    <TextBox Text="{Binding CourseNumber, UpdateSourceTrigger=PropertyChanged}" 
+                    <TextBox x:Name="CourseNumberTextBox"
+                             Text="{Binding CourseNumber, UpdateSourceTrigger=PropertyChanged}"
                              Style="{StaticResource ModernTextBox}"
+                             PreviewTextInput="CourseNumber_PreviewTextInput"
                              Margin="0,0,0,16"/>
 
                     <!-- Course Semester -->
