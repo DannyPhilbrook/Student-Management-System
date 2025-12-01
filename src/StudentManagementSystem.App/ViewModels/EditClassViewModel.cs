@@ -17,15 +17,14 @@ namespace StudentManagementSystem.App.ViewModels
         private string _label;
         private bool _semester;
 
-        public EditClassViewModel(INavigationService navigationService, ICourseService courseService)
+        public EditClassViewModel(INavigationService navigationService, ICourseService courseService, Course course = null)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _courseService = courseService ?? throw new ArgumentNullException(nameof(courseService));
 
-            _courseNumber = string.Empty;
-            _courseName = string.Empty;
-            _label = string.Empty;
-            _semester = false;
+            if (course != null)
+                LoadCourse(course);
+
         }
 
         public int ClassId
