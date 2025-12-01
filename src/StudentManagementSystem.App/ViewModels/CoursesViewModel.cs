@@ -68,7 +68,7 @@ namespace StudentManagementSystem.App.ViewModels
 
         public ICommand EditCourseCommand => new RelayCommand<Course>(course =>
         {
-            if (course != null)
+            if (course != null) { 
                 _navigationService.NavigateTo<EditClassViewModel>(course);
             }
         });

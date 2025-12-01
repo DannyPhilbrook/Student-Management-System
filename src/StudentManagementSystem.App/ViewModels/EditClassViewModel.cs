@@ -1,4 +1,6 @@
 using System;
+using System.Collections.ObjectModel;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using StudentManagementSystem.App.Navigation;
 using StudentManagementSystem.Domain;
@@ -17,14 +19,21 @@ namespace StudentManagementSystem.App.ViewModels
         private string _label;
         private bool _semester;
 
+        private bool _isLoading;
+        private ObservableCollection<string> _availableLabels;
+
         public EditClassViewModel(INavigationService navigationService, ICourseService courseService, Course course = null)
         {
             _navigationService = navigationService ?? throw new ArgumentNullException(nameof(navigationService));
             _courseService = courseService ?? throw new ArgumentNullException(nameof(courseService));
 
+            _availableLabels = new ObservableCollection<string>();
+
+            // Load labels for dropdown
+            _ = LoadLabelsAsync();
+
             if (course != null)
                 LoadCourse(course);
-
         }
 
         public int ClassId
@@ -72,6 +81,7 @@ namespace StudentManagementSystem.App.ViewModels
             get => _semester;
             set
             {
+                if (_semester == value) return;
                 _semester = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(IsSpringSemester));
@@ -84,6 +94,7 @@ namespace StudentManagementSystem.App.ViewModels
             get => _semester;
             set
             {
+                if (_semester == value) return;
                 _semester = value;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Semester));
@@ -96,10 +107,50 @@ namespace StudentManagementSystem.App.ViewModels
             get => !_semester;
             set
             {
-                _semester = !value;
+                bool newSemester = !value;
+                if (_semester == newSemester) return;
+                _semester = newSemester;
                 OnPropertyChanged();
                 OnPropertyChanged(nameof(Semester));
                 OnPropertyChanged(nameof(IsSpringSemester));
+            }
+        }
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set
+            {
+                _isLoading = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<string> AvailableLabels
+        {
+            get => _availableLabels;
+            set
+            {
+                _availableLabels = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private async Task LoadLabelsAsync()
+        {
+            try
+            {
+                var labels = await _courseService.GetDistinctLabelsAsync();
+
+                AvailableLabels.Clear();
+                foreach (var label in labels)
+                {
+                    AvailableLabels.Add(label);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"Error loading labels: {ex.Message}");
             }
         }
 
@@ -124,6 +175,8 @@ namespace StudentManagementSystem.App.ViewModels
 
             try
             {
+                IsLoading = true;
+
                 var course = new Course(CourseNumber, CourseName, Label, Semester)
                 {
                     ClassID = ClassId
@@ -135,6 +188,10 @@ namespace StudentManagementSystem.App.ViewModels
             catch (Exception ex)
             {
                 System.Diagnostics.Debug.WriteLine($"Error updating course: {ex.Message}");
+            }
+            finally
+            {
+                IsLoading = false;
             }
         });
 
