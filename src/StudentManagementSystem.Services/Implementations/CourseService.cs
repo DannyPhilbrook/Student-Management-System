@@ -154,7 +154,7 @@ namespace StudentManagementSystem.Services.Implementations
                         var existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
                         if (existingCount > 0)
                         {
-                            throw new InvalidOperationException($"A course with number {course.CourseNumber} already exists.");
+                            return null;
                         }
                     }
 
@@ -193,7 +193,7 @@ namespace StudentManagementSystem.Services.Implementations
                         var dupCount = Convert.ToInt32(dupCheck.ExecuteScalar());
                         if (dupCount > 0)
                         {
-                            throw new InvalidOperationException($"A course with number {course.CourseNumber} already exists.");
+                            return null;
                         }
                     }
 

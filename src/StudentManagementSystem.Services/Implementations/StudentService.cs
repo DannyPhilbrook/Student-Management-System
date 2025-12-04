@@ -174,7 +174,8 @@ namespace StudentManagementSystem.Services.Implementations
                         if (existingCount > 0)
                         {
                             // Service layer raises a clear exception; UI should catch and show a warning popup.
-                                throw new InvalidOperationException($"A student with ID {student.StudentID} already exists.");
+                            // throw new InvalidOperationException($"A student with ID {student.StudentID} already exists.");
+                            return null; // Indicate duplicate found without exception
                         }
                     }
 

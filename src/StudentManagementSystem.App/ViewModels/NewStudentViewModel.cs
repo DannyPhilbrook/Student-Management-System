@@ -182,7 +182,18 @@ namespace StudentManagementSystem.App.ViewModels
                     StudentID = studentIdInt
                 };
 
-                await _studentService.AddStudentAsync(student, SchoolYear);
+                var added = await _studentService.AddStudentAsync(student, SchoolYear);
+
+                if (added == null)
+                {
+                    // Service indicates duplicate ID — show the same warning you previously displayed for the exception
+                    System.Windows.MessageBox.Show(
+                        $"A student with ID {student.StudentID} already exists.",
+                        "Duplicate Student ID",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Warning);
+                    return;
+                }
 
                 System.Windows.MessageBox.Show(
                     $"Student {student.FullName} added successfully!",
@@ -191,27 +202,6 @@ namespace StudentManagementSystem.App.ViewModels
                     System.Windows.MessageBoxImage.Information);
 
                 _navigationService.GoBack();
-            }
-            catch (InvalidOperationException invEx)
-            {
-                // Service currently throws InvalidOperationException for duplicate ID.
-                // Detect that case explicitly and show a warning popup.
-                if (!string.IsNullOrEmpty(invEx.Message) && invEx.Message.IndexOf("already exists", StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    System.Windows.MessageBox.Show(
-                        invEx.Message,
-                        "Duplicate Student ID",
-                        System.Windows.MessageBoxButton.OK,
-                        System.Windows.MessageBoxImage.Warning);
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show(
-                        $"Error adding student: {invEx.Message}",
-                        "Database Error",
-                        System.Windows.MessageBoxButton.OK,
-                        System.Windows.MessageBoxImage.Error);
-                }
             }
             catch (Exception ex)
             {

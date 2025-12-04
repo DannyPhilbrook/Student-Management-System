@@ -157,7 +157,17 @@ namespace StudentManagementSystem.App.ViewModels
                 IsLoading = true;
 
                 var course = new Course(CourseNumber, CourseName, SelectedLabel, IsSpringSemester);
-                await _courseService.AddCourseAsync(course);
+                var confirm = await _courseService.AddCourseAsync(course);
+
+                if (confirm == null)
+                {
+                    System.Windows.MessageBox.Show(
+                        $"A course with ID {course.CourseNumber} already exists.",
+                        "Duplicate Course Number",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Warning);
+                    return;
+                }
 
                 System.Windows.MessageBox.Show(
                     "Course added successfully!",
@@ -166,26 +176,6 @@ namespace StudentManagementSystem.App.ViewModels
                     System.Windows.MessageBoxImage.Information);
 
                 _navigationService.GoBack();
-            }
-            catch (InvalidOperationException invEx)
-            {
-                // Detect duplicate-course error and show warning
-                if (!string.IsNullOrEmpty(invEx.Message) && invEx.Message.IndexOf("already exists", StringComparison.OrdinalIgnoreCase) >= 0)
-                {
-                    System.Windows.MessageBox.Show(
-                        invEx.Message,
-                        "Duplicate Course Number",
-                        System.Windows.MessageBoxButton.OK,
-                        System.Windows.MessageBoxImage.Warning);
-                }
-                else
-                {
-                    System.Windows.MessageBox.Show(
-                        $"Error adding course: {invEx.Message}",
-                        "Database Error",
-                        System.Windows.MessageBoxButton.OK,
-                        System.Windows.MessageBoxImage.Error);
-                }
             }
             catch (Exception ex)
             {

@@ -196,29 +196,19 @@ namespace StudentManagementSystem.App.ViewModels
                 {
                     ClassID = ClassId
                 };
-                await _courseService.UpdateCourseAsync(course);
-
-                _navigationService.GoBack();
-            }
-            catch (InvalidOperationException invEx)
-            {
-                // Duplicate-course detection -> show warning to user
-                if (!string.IsNullOrEmpty(invEx.Message) && invEx.Message.IndexOf("already exists", StringComparison.OrdinalIgnoreCase) >= 0)
+                var confirm = await _courseService.UpdateCourseAsync(course);
+                
+                if (confirm == null)
                 {
                     System.Windows.MessageBox.Show(
-                        invEx.Message,
+                        $"A course with ID {course.CourseNumber} already exists.",
                         "Duplicate Course Number",
                         System.Windows.MessageBoxButton.OK,
                         System.Windows.MessageBoxImage.Warning);
+                    return;
                 }
-                else
-                {
-                    System.Windows.MessageBox.Show(
-                        $"Error updating course: {invEx.Message}",
-                        "Database Error",
-                        System.Windows.MessageBoxButton.OK,
-                        System.Windows.MessageBoxImage.Error);
-                }
+
+                _navigationService.GoBack();
             }
             catch (Exception ex)
             {
