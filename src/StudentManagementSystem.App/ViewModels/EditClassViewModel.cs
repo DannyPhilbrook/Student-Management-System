@@ -73,6 +73,21 @@ namespace StudentManagementSystem.App.ViewModels
             {
                 _label = value;
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(SelectedLabel));
+            }
+        }
+
+        public string SelectedLabel
+        {
+            get => _label;
+            set
+            {
+                if (_label != value)
+                {
+                    _label = value;
+                    OnPropertyChanged();
+                    OnPropertyChanged(nameof(Label));
+                }
             }
         }
 

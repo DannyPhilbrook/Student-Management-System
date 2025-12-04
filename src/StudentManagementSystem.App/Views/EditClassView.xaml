@@ -5,11 +5,11 @@
       Background="{StaticResource Brush.Background}">
 
     <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <Grid Margin="48">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
+    <Grid Margin="48">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
             <!-- Header Section with Back Button -->
             <Grid Grid.Row="0" Margin="0,0,0,32">
@@ -20,49 +20,51 @@
                         VerticalAlignment="Center"
                         Padding="12,6"/>
                 <StackPanel HorizontalAlignment="Center">
-                    <TextBlock Text="Edit Course" 
-                               Style="{StaticResource HeaderH1}"
-                               HorizontalAlignment="Center"/>
-                    <TextBlock Text="Update course information below" 
-                               Style="{StaticResource HeaderH3}"
-                               HorizontalAlignment="Center"
-                               Foreground="{StaticResource Brush.Text.Secondary}"/>
-                </StackPanel>
+            <TextBlock Text="Edit Course" 
+                       Style="{StaticResource HeaderH1}"
+                       HorizontalAlignment="Center"/>
+            <TextBlock Text="Update course information below" 
+                       Style="{StaticResource HeaderH3}"
+                       HorizontalAlignment="Center"
+                       Foreground="{StaticResource Brush.Text.Secondary}"/>
+        </StackPanel>
             </Grid>
 
-            <!-- Form Card -->
-            <Border Grid.Row="1" 
-                    Style="{StaticResource Card}" 
+        <!-- Form Card -->
+        <Border Grid.Row="1" 
+                Style="{StaticResource Card}" 
                     MaxWidth="500" 
-                    HorizontalAlignment="Center"
+                HorizontalAlignment="Center"
                     VerticalAlignment="Top"
                     Margin="0,0,0,48">
-                <StackPanel Margin="32">
+            <StackPanel Margin="32">
 
-                    <!-- Course Name -->
-                    <Label Content="Course Name:" Style="{StaticResource ModernLabel}"/>
-                    <TextBox Text="{Binding CourseName, UpdateSourceTrigger=PropertyChanged}" 
-                             Style="{StaticResource ModernTextBox}"
-                             Margin="0,0,0,16"/>
+                <!-- Course Name -->
+                <Label Content="Course Name:" Style="{StaticResource ModernLabel}"/>
+                <TextBox Text="{Binding CourseName, UpdateSourceTrigger=PropertyChanged}" 
+                         Style="{StaticResource ModernTextBox}"
+                         Margin="0,0,0,16"/>
 
-                    <!-- Course Label -->
-                    <Label Content="Course Label:" Style="{StaticResource ModernLabel}"/>
-                    <ComboBox Text="{Binding SelectedLabel, UpdateSourceTrigger=PropertyChanged}"
-                              ItemsSource="{Binding AvailableLabels}"
-                              Style="{StaticResource ModernComboBox}"
-                              IsEditable="True"
-                              Margin="0,0,0,16"/>
+                <!-- Course Label -->
+                <Label Content="Course Label:" Style="{StaticResource ModernLabel}"/>
+                    <ComboBox x:Name="CourseLabelComboBox"
+                              SelectedItem="{Binding SelectedLabel, UpdateSourceTrigger=PropertyChanged}"
+                          ItemsSource="{Binding AvailableLabels}"
+                              Style="{StaticResource ModernComboBoxNoArrow}"
+                              IsEditable="False"
+                              SelectionChanged="CourseLabel_SelectionChanged"
+                          Margin="0,0,0,16"/>
 
-                    <!-- Course Number -->
-                    <Label Content="Course Number:" Style="{StaticResource ModernLabel}"/>
+                <!-- Course Number -->
+                <Label Content="Course Number:" Style="{StaticResource ModernLabel}"/>
                     <TextBox x:Name="CourseNumberTextBox"
                              Text="{Binding CourseNumber, UpdateSourceTrigger=PropertyChanged}"
-                             Style="{StaticResource ModernTextBox}"
+                         Style="{StaticResource ModernTextBox}"
                              PreviewTextInput="CourseNumber_PreviewTextInput"
-                             Margin="0,0,0,16"/>
+                         Margin="0,0,0,16"/>
 
-                    <!-- Course Semester -->
-                    <Label Content="Course Semester:" Style="{StaticResource ModernLabel}"/>
+                <!-- Course Semester -->
+                <Label Content="Course Semester:" Style="{StaticResource ModernLabel}"/>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,24">
                         <RadioButton Content="Fall" 
                                      IsChecked="{Binding IsFallSemester, UpdateSourceTrigger=PropertyChanged}"
@@ -75,22 +77,22 @@
                                      VerticalAlignment="Center"/>
                     </StackPanel>
 
-                    <!-- Buttons -->
-                    <StackPanel Orientation="Horizontal" 
-                               HorizontalAlignment="Center">
-                        <Button Content="Submit" 
-                                Style="{StaticResource PrimaryButton}"
-                                Command="{Binding SaveCommand}"
-                                Margin="0,0,16,0"
+                <!-- Buttons -->
+                <StackPanel Orientation="Horizontal" 
+                           HorizontalAlignment="Center">
+                    <Button Content="Submit" 
+                            Style="{StaticResource PrimaryButton}"
+                            Command="{Binding SaveCommand}"
+                            Margin="0,0,16,0"
                                 Padding="24,8"/>
-                        <Button Content="Cancel" 
-                                Style="{StaticResource OutlineButton}"
-                                Command="{Binding CancelCommand}"
+                    <Button Content="Cancel" 
+                            Style="{StaticResource OutlineButton}"
+                            Command="{Binding CancelCommand}"
                                 Padding="24,8"/>
-                    </StackPanel>
                 </StackPanel>
-            </Border>
-        </Grid>
+            </StackPanel>
+        </Border>
+    </Grid>
     </ScrollViewer>
 </Page>
 

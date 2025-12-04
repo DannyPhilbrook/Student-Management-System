@@ -29,5 +29,17 @@ namespace StudentManagementSystem.App.Views
                 e.Handled = true;
             }
         }
+
+        private void CourseLabel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (sender is ComboBox comboBox && comboBox.SelectedItem != null)
+            {
+                var viewModel = DataContext as EditClassViewModel;
+                if (viewModel != null)
+                {
+                    viewModel.SelectedLabel = comboBox.SelectedItem.ToString();
+                }
+            }
+        }
     }
 }
