@@ -146,6 +146,18 @@ namespace StudentManagementSystem.Services.Implementations
                 using (var conn = new SQLiteConnection(_connectionString))
                 {
                     conn.Open();
+
+                    // NEW: Prevent duplicate CourseNumber (user-visible ID) being reused.
+                    using (var checkCmd = new SQLiteCommand("SELECT COUNT(1) FROM Classes WHERE CourseNumber = @num;", conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@num", course.CourseNumber);
+                        var existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+                        if (existingCount > 0)
+                        {
+                            throw new InvalidOperationException($"A course with number {course.CourseNumber} already exists.");
+                        }
+                    }
+
                     string insertQuery = @"INSERT INTO Classes (CourseNumber, ClassName, Label, Semester)
                                           VALUES (@CourseNumber, @ClassName, @Label, @Semester);
                                           SELECT last_insert_rowid();";
@@ -172,6 +184,18 @@ namespace StudentManagementSystem.Services.Implementations
                 using (var conn = new SQLiteConnection(_connectionString))
                 {
                     conn.Open();
+
+                    // PREVENT duplicate CourseNumber on update (exclude current record)
+                    using (var dupCheck = new SQLiteCommand("SELECT COUNT(1) FROM Classes WHERE CourseNumber = @num AND ClassID != @id;", conn))
+                    {
+                        dupCheck.Parameters.AddWithValue("@num", course.CourseNumber);
+                        dupCheck.Parameters.AddWithValue("@id", course.ClassID);
+                        var dupCount = Convert.ToInt32(dupCheck.ExecuteScalar());
+                        if (dupCount > 0)
+                        {
+                            throw new InvalidOperationException($"A course with number {course.CourseNumber} already exists.");
+                        }
+                    }
 
                     // Get current semester info to handle semester change
                     int oldSemesterID = -1;

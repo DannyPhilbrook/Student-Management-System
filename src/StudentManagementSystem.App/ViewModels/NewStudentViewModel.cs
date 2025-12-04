@@ -192,10 +192,31 @@ namespace StudentManagementSystem.App.ViewModels
 
                 _navigationService.GoBack();
             }
+            catch (InvalidOperationException invEx)
+            {
+                // Service currently throws InvalidOperationException for duplicate ID.
+                // Detect that case explicitly and show a warning popup.
+                if (!string.IsNullOrEmpty(invEx.Message) && invEx.Message.IndexOf("already exists", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    System.Windows.MessageBox.Show(
+                        invEx.Message,
+                        "Duplicate Student ID",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Warning);
+                }
+                else
+                {
+                    System.Windows.MessageBox.Show(
+                        $"Error adding student: {invEx.Message}",
+                        "Database Error",
+                        System.Windows.MessageBoxButton.OK,
+                        System.Windows.MessageBoxImage.Error);
+                }
+            }
             catch (Exception ex)
             {
                 System.Windows.MessageBox.Show(
-                    $"Error adding student: {ex.Message}",
+                    $"Unexpected error adding student: {ex.Message}",
                     "Database Error",
                     System.Windows.MessageBoxButton.OK,
                     System.Windows.MessageBoxImage.Error);

@@ -165,6 +165,19 @@ namespace StudentManagementSystem.Services.Implementations
                 {
                     conn.Open();
 
+                    // NEW: Check for duplicate StudentID before mutating DB.
+                    // This prevents UNIQUE constraint exceptions and avoids creating orphan DegreePlan/Semester records.
+                    using (var checkCmd = new SQLiteCommand("SELECT COUNT(1) FROM Student WHERE StudentID = @sid;", conn))
+                    {
+                        checkCmd.Parameters.AddWithValue("@sid", student.StudentID);
+                        var existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
+                        if (existingCount > 0)
+                        {
+                            // Service layer raises a clear exception; UI should catch and show a warning popup.
+                                throw new InvalidOperationException($"A student with ID {student.StudentID} already exists.");
+                        }
+                    }
+
                     // Determine boolean value based on starting semester
                     // false = Fall (0), true = Spring (1)
                     bool semesterValue = student.StartingSemester;
