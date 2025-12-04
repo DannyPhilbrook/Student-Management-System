@@ -49,7 +49,7 @@
                     <Label Content="Course Label:" Style="{StaticResource ModernLabel}"/>
                     <ComboBox SelectedItem="{Binding SelectedLabel, UpdateSourceTrigger=PropertyChanged}"
                               ItemsSource="{Binding AvailableLabels}"
-                              Style="{StaticResource ModernComboBox}"
+                              Style="{StaticResource ModernComboBoxNoArrow}"
                               IsEditable="False"
                               SelectionChanged="CourseLabel_SelectionChanged"
                               Margin="0,0,0,16"/>
