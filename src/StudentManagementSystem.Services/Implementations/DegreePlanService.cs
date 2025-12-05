@@ -1,10 +1,9 @@
-﻿using System;
+﻿using StudentManagementSystem.Domain;
+using StudentManagementSystem.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
-using System.Linq;
 using System.Threading.Tasks;
-using StudentManagementSystem.Domain;
-using StudentManagementSystem.Services.Interfaces;
 
 namespace StudentManagementSystem.Services.Implementations
 {
@@ -248,7 +247,7 @@ namespace StudentManagementSystem.Services.Implementations
                 using (var conn = new SQLiteConnection(_connectionString))
                 {
                     conn.Open();
-                    
+
                     // Check for duplicate semester
                     string existsQuery = @"SELECT 1 FROM Semester 
                                          WHERE DegreePlanID = @dpid AND Semester = @sem AND SchoolYear = @year 
@@ -261,7 +260,8 @@ namespace StudentManagementSystem.Services.Implementations
                         var exists = checkCmd.ExecuteScalar();
                         if (exists != null)
                         {
-                            throw new InvalidOperationException("That semester already exists for this degree plan.");
+                            // Return null to indicate the semester already exists.
+                            return null;
                         }
                     }
 

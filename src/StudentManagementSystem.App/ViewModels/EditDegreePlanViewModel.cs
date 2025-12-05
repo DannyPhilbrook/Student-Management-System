@@ -281,6 +281,18 @@ namespace StudentManagementSystem.App.ViewModels
                 {
                     var newSemester = await AddSemesterAsync(IsNewSemesterSpring, NewSemesterYear.Trim());
                     
+                    // DegreePlanService now returns null to indicate a duplicate; show a friendly message here.
+                    if (newSemester == null)
+                    {
+                        System.Windows.MessageBox.Show(
+                            "That semester already exists for this degree plan.",
+                            "Duplicate Semester",
+                            System.Windows.MessageBoxButton.OK,
+                            System.Windows.MessageBoxImage.Warning);
+                        return;
+                    }
+                    
+                    // Only refresh UI when a new semester was actually created
                     if (newSemester != null)
                     {
                         // Refresh years list
@@ -301,15 +313,6 @@ namespace StudentManagementSystem.App.ViewModels
                             System.Windows.MessageBoxButton.OK,
                             System.Windows.MessageBoxImage.Information);
                     }
-                }
-                catch (InvalidOperationException ex)
-                {
-                    // Duplicate semester error
-                    System.Windows.MessageBox.Show(
-                        ex.Message,
-                        "Duplicate Semester",
-                        System.Windows.MessageBoxButton.OK,
-                        System.Windows.MessageBoxImage.Information);
                 }
                 catch (Exception ex)
                 {
