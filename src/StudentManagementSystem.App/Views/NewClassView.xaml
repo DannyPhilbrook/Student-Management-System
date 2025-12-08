@@ -47,17 +47,27 @@
 
                     <!-- Course Label -->
                     <Label Content="Course Label:" Style="{StaticResource ModernLabel}"/>
-                    <ComboBox SelectedItem="{Binding SelectedLabel, UpdateSourceTrigger=PropertyChanged}"
+                    <ComboBox
+                              x:Name="CourseLabelComboBox"
+                              Text="{Binding SelectedLabel, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                               ItemsSource="{Binding AvailableLabels}"
-                              Style="{StaticResource ModernComboBoxNoArrow}"
-                              IsEditable="False"
+                              Style="{StaticResource ModernComboBoxEditable}"
+                              IsEditable="True"
+                              IsTextSearchEnabled="True"
                               SelectionChanged="CourseLabel_SelectionChanged"
+                              PreviewKeyDown="CourseLabel_PreviewKeyDown"
+                              PreviewTextInput="CourseLabel_PreviewTextInput"
+                              DataObject.Pasting="CourseLabel_Pasting"
+                              LostFocus="CourseLabel_LostFocus"
                               Margin="0,0,0,16"/>
 
                     <!-- Course Number -->
                     <Label Content="Course Number:" Style="{StaticResource ModernLabel}"/>
-                    <TextBox Text="{Binding CourseNumber, UpdateSourceTrigger=PropertyChanged}" 
+                    <TextBox x:Name="CourseNumberTextBox"
+                             Text="{Binding CourseNumber, UpdateSourceTrigger=PropertyChanged}" 
                              Style="{StaticResource ModernTextBox}"
+                             PreviewTextInput="CourseNumber_PreviewTextInput"
+                             DataObject.Pasting="CourseNumber_Pasting"
                              Margin="0,0,0,16"/>
 
                     <!-- Course Semester -->
