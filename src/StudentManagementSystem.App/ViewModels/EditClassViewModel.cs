@@ -201,7 +201,7 @@ namespace StudentManagementSystem.App.ViewModels
                 if (confirm == null)
                 {
                     System.Windows.MessageBox.Show(
-                        $"A course with ID {course.CourseNumber} already exists.",
+                        $"A course with ID {course.CourseNumber} and label {course.Label} already exists.",
                         "Duplicate Course Number",
                         System.Windows.MessageBoxButton.OK,
                         System.Windows.MessageBoxImage.Warning);

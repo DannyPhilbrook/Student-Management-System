@@ -148,9 +148,10 @@ namespace StudentManagementSystem.Services.Implementations
                     conn.Open();
 
                     // NEW: Prevent duplicate CourseNumber (user-visible ID) being reused.
-                    using (var checkCmd = new SQLiteCommand("SELECT COUNT(1) FROM Classes WHERE CourseNumber = @num;", conn))
+                    using (var checkCmd = new SQLiteCommand("SELECT COUNT(1) FROM Classes WHERE CourseNumber = @num AND Label = @label;", conn))
                     {
                         checkCmd.Parameters.AddWithValue("@num", course.CourseNumber);
+                        checkCmd.Parameters.AddWithValue("@label", course.Label);
                         var existingCount = Convert.ToInt32(checkCmd.ExecuteScalar());
                         if (existingCount > 0)
                         {
@@ -186,10 +187,11 @@ namespace StudentManagementSystem.Services.Implementations
                     conn.Open();
 
                     // PREVENT duplicate CourseNumber on update (exclude current record)
-                    using (var dupCheck = new SQLiteCommand("SELECT COUNT(1) FROM Classes WHERE CourseNumber = @num AND ClassID != @id;", conn))
+                    using (var dupCheck = new SQLiteCommand("SELECT COUNT(1) FROM Classes WHERE CourseNumber = @num AND ClassID != @id AND Label = @label;", conn))
                     {
                         dupCheck.Parameters.AddWithValue("@num", course.CourseNumber);
                         dupCheck.Parameters.AddWithValue("@id", course.ClassID);
+                        dupCheck.Parameters.AddWithValue("@label", course.Label);
                         var dupCount = Convert.ToInt32(dupCheck.ExecuteScalar());
                         if (dupCount > 0)
                         {
